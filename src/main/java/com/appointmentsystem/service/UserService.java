@@ -1,5 +1,6 @@
 package com.appointmentsystem.service;
 
+import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.User;
 import com.appointmentsystem.persistence.UserRepository;
 
@@ -17,11 +18,38 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
-    
     public void createUser(User user) {
-        if (user == null) return;
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        if (usernameExists(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+        if (!isValidEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+        if (emailExists(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
         userRepository.save(user);
     }
+    
+    private boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+        if (!email.contains("@")) {
+            return false;
+        }
+        if (!email.contains(".")) {
+            return false;
+        }
+        if (email.startsWith("@") || email.endsWith("@")) {
+            return false;
+        }
+        return true;
+    }
+    
     
     public User getUserById(String id) {
         return userRepository.findById(id);
@@ -52,10 +80,22 @@ public class UserService {
     }
     
     
-    
-    public boolean authenticate(String username, String password) {
+    public User authenticate(String username, String password) {
         User user = getUserByUsername(username);
-        return user != null && user.checkPassword(password);
+        if (user == null || !user.checkPassword(password)) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+        if (!user.isActive()) {
+            throw new IllegalStateException("Account is deactivated");
+        }
+        if (user instanceof Company) {
+            Company c = (Company) user;
+            if (!c.isVerified()) {
+                throw new IllegalStateException("Company not approved yet");
+            }
+        }
+
+        return user;
     }
     
     public void login(String username) {

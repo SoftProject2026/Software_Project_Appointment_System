@@ -63,8 +63,6 @@ public abstract class User {
         return Objects.equals(id, user.id);
     }
     
-   
-    
     @Override
     public String toString() {
         return "User{id='" + id + "', name='" + name + "', username='" + username + "', role=" + getRole() + "}";
