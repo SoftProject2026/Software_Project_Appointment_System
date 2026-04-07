@@ -98,13 +98,6 @@ public class UserService {
         return user;
     }
     
-    public void login(String username) {
-        User user = getUserByUsername(username);
-        if (user != null) {
-            user.login();
-            userRepository.update(user);
-        }
-    }
     
     public void logout(String username) {
         User user = getUserByUsername(username);
@@ -113,8 +106,6 @@ public class UserService {
             userRepository.update(user);
         }
     }
-    
-    
     
     public void activateUser(String userId) {
         User user = getUserById(userId);
@@ -144,16 +135,7 @@ public class UserService {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
-    
-    public void changePassword(String userId, String newPassword) {
-        User user = getUserById(userId);
-        if (user != null) {
-            user.setPassword(newPassword);
-            userRepository.update(user);
-        }
-    }
-    
-    
+
     
     public int getTotalUsersCount() {
         return userRepository.count();

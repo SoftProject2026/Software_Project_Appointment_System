@@ -125,6 +125,6 @@ public class Admin extends User {
     
     @Override
     public String toString() {
-        return "Admin{id='" + getId() + "', name='" + getName() + "', username='" + getUsername() + "', level='" + adminLevel + "', permissions=" + permissions.size() + ", managedCompanies=" + managedCompanies.size() + "}";
+        return "Admin{id='" + getId() + "', name='" + getName() + "', username='" + getUsername() + "', permissions=" + permissions.size() + ", managedCompanies=" + managedCompanies.size() + "}";
     }
 }
