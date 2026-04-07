@@ -10,7 +10,6 @@ public abstract class User {
     private String email;
     private String password;
     private String phone;
-    private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
     private boolean isActive;
     
@@ -20,7 +19,6 @@ public abstract class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.createdAt = LocalDateTime.now();
         this.isActive = true;
     }
     
@@ -41,15 +39,13 @@ public abstract class User {
     
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
-    
-    public LocalDateTime getCreatedAt() { return createdAt; }
+
     public LocalDateTime getLastLogin() { return lastLogin; }
     public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
     
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
     
-    public void login() { this.lastLogin = LocalDateTime.now(); }
     public void logout() { }
     public boolean checkPassword(String rawPassword) { return this.password.equals(rawPassword); }
     
@@ -62,8 +58,6 @@ public abstract class User {
         User user = (User) o;
         return Objects.equals(id, user.id);
     }
-    
-   
     
     @Override
     public String toString() {

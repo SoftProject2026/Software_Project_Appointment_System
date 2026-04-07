@@ -7,8 +7,6 @@ import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 public class Visitor extends User {
     private String phone;
     private String preferredLocation;
-    private double minBudget;
-    private double maxBudget;
     private List<String> appointmentIds;
     
     public Visitor(String id, String name, String username, String email, String password, String phone) {
@@ -18,12 +16,10 @@ public class Visitor extends User {
     }
     
     public Visitor(String id, String name, String username, String email, String password,
-                   String phone, String preferredLocation, double minBudget, double maxBudget) {
+                   String phone, String preferredLocation) {
         super(id, name, username, email, password);
         this.phone = phone;
         this.preferredLocation = preferredLocation;
-        this.minBudget = minBudget;
-        this.maxBudget = maxBudget;
         this.appointmentIds = new ArrayList<>();
     }
     
@@ -32,12 +28,6 @@ public class Visitor extends User {
     
     public String getPreferredLocation() { return preferredLocation; }
     public void setPreferredLocation(String preferredLocation) { this.preferredLocation = preferredLocation; }
-    
-    public double getMinBudget() { return minBudget; }
-    public void setMinBudget(double minBudget) { this.minBudget = minBudget; }
-    
-    public double getMaxBudget() { return maxBudget; }
-    public void setMaxBudget(double maxBudget) { this.maxBudget = maxBudget; }
     
     public List<String> getAppointmentIds() { 
         return new ArrayList<>(appointmentIds); 
