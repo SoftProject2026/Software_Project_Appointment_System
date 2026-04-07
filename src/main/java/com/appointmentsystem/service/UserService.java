@@ -34,7 +34,7 @@ public class UserService {
         userRepository.save(user);
     }
     
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         if (email == null || email.isEmpty()) {
             return false;
         }
