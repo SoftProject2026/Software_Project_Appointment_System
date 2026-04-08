@@ -8,16 +8,23 @@ import java.util.Map;
 
 public class AdminRepository {
     
-    private Map<String, Admin> adminStorage = new HashMap<>();
-    private List<String> permissions = new ArrayList<>();
-    private List<String> managedCompanies = new ArrayList<>();
+	private Admin admin;
     
     
     public void save(Admin admin) {
         if (admin == null) return;
-        adminStorage.put(admin.getId(), admin);
+        this.admin = admin;
     }
     
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void update(Admin admin) {
+        if (admin == null) return;
+        this.admin = admin;
+    }
+    /*
     public Admin findById(String id) {
         if (id == null) return null;
         return adminStorage.get(id);
@@ -86,5 +93,5 @@ public class AdminRepository {
     
     public List<String> getAllManagedCompanies() {
         return new ArrayList<>(managedCompanies);
-    }
+    }*/
 }

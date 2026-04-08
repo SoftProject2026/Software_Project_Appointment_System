@@ -59,15 +59,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
     
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() { 
         return userRepository.findAll();
     }
     
-    public List<User> getUsersByRole(String role) {
+    public List<User> getUsersByRole(String role) { 
         return userRepository.findByRole(role);
     }
     
-    public List<User> getAllActiveUsers() {
+    public List<User> getAllActiveUsers() { 
         return userRepository.findAllActive();
     }
     
@@ -98,13 +98,6 @@ public class UserService {
         return user;
     }
     
-    public void login(String username) {
-        User user = getUserByUsername(username);
-        if (user != null) {
-            user.login();
-            userRepository.update(user);
-        }
-    }
     
     public void logout(String username) {
         User user = getUserByUsername(username);
@@ -114,9 +107,7 @@ public class UserService {
         }
     }
     
-    
-    
-    public void activateUser(String userId) {
+   /* public void activateUser(String userId) {
         User user = getUserById(userId);
         if (user != null) {
             user.setActive(true);
@@ -135,7 +126,7 @@ public class UserService {
     public boolean isUserActive(String userId) {
         User user = getUserById(userId);
         return user != null && user.isActive();
-    }
+    }*/
     
     public boolean usernameExists(String username) {
         return userRepository.existsByUsername(username);
@@ -144,26 +135,17 @@ public class UserService {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
+
     
-    public void changePassword(String userId, String newPassword) {
-        User user = getUserById(userId);
-        if (user != null) {
-            user.setPassword(newPassword);
-            userRepository.update(user);
-        }
-    }
-    
-    
-    
-    public int getTotalUsersCount() {
+    /*public int getTotalUsersCount() {
         return userRepository.count();
-    }
+    }*/
     
-    public int getUsersCountByRole(String role) {
-        return getUsersByRole(role).size();
-    }
+    //public int getUsersCountByRole(String role) {
+      //  return getUsersByRole(role).size();
+   // }
     
-    public int getActiveUsersCount() {
+   /* public int getActiveUsersCount() {
         return getAllActiveUsers().size();
-    }
+    }*/
 }

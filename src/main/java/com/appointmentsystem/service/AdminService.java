@@ -1,8 +1,10 @@
 package com.appointmentsystem.service;
 
 import com.appointmentsystem.domain.models.Admin;
+import com.appointmentsystem.domain.models.Appointment;
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.persistence.AdminRepository;
+import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.CompanyRepository;
 
 import java.util.ArrayList;
@@ -13,19 +15,47 @@ public class AdminService {
     
     private AdminRepository adminRepository;
     private CompanyRepository companyRepository;
+    private AppointmentRepository appointmentRepository;
     
-    public AdminService() {
-        this.adminRepository = new AdminRepository();
-        this.companyRepository = new CompanyRepository();
+    public AdminService(AdminRepository adminRepository, AppointmentRepository appointmentRepository) {
+        this.adminRepository = adminRepository;
+        this.appointmentRepository = appointmentRepository;
     }
     
-    public AdminService(AdminRepository adminRepository, CompanyRepository companyRepository) {
+    public void logout() {
+        Admin admin = adminRepository.getAdmin();
+
+        if (admin != null) {
+            admin.logout();
+            adminRepository.update(admin);
+        }
+    }
+    
+    public Admin getAdmin() {
+        return adminRepository.getAdmin();
+    }
+    
+    public List<Appointment> getAllAppointments() {
+        Admin admin = adminRepository.getAdmin();
+
+        if (admin == null) {
+            throw new IllegalStateException("Admin not found");
+        }
+
+        //if (!admin.canViewAllAppointments()) {
+            //throw new IllegalStateException("No permission to view appointments");
+        //}
+
+        return appointmentRepository.findAll();
+    }
+    
+    /*public AdminService(AdminRepository adminRepository, CompanyRepository companyRepository) {
         this.adminRepository = adminRepository;
         this.companyRepository = companyRepository;
-    }
+    }*/
     
-    // ========== Admin CRUD ==========
-    public void createAdmin(Admin admin) {
+    
+    /*public void createAdmin(Admin admin) {
         if (admin == null) return;
         adminRepository.save(admin);
     }
@@ -50,7 +80,7 @@ public class AdminService {
         adminRepository.delete(id);
     }
     
-    // ========== Business Logic for Admin ==========
+    
     
     public List<Company> getManagedCompanies(Admin admin, List<Company> allCompanies) {
         if (admin == null || allCompanies == null) return new ArrayList<>();
@@ -117,5 +147,5 @@ public class AdminService {
     
     public boolean canManageAdmins(Admin admin) {
         return admin != null && admin.canManageAdmins();
-    }
+    }*/
 }
