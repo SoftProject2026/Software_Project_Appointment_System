@@ -23,18 +23,11 @@ public class Admin extends User {
 //////////////////////////////////////////////////////////    
     
     private void initializePermissions() {
-            permissions.addAll(Arrays.asList(
-                "ADD_COMPANY",
-                "REMOVE_COMPANY",
-                "VIEW_ALL_COMPANIES",
-                "VIEW_ALL_APPOINTMENTS",
-                "DEACTIVATE_COMPANY",
-                "ACTIVATE_COMPANY",
-                "GENERATE_REPORTS",
-                "VIEW_LOGS",
-                "MANAGE_ADMINS",
-                "SYSTEM_CONFIG"
-            ));
+        permissions = Arrays.asList(
+            "VIEW_ALL_COMPANIES",
+            "APPROVE_COMPANY",
+            "VIEW_ALL_APPOINTMENTS"
+        );
     }
     
     
@@ -42,7 +35,31 @@ public class Admin extends User {
         return permissions.contains(permission);
     }
     
-    public void addPermission(String permission) {
+    
+    public boolean canApproveCompany() {
+        return hasPermission("APPROVE_COMPANY");
+    }
+    
+    public boolean canViewAllCompanies() {
+        return hasPermission("VIEW_ALL_COMPANIES");
+    }
+    
+    public boolean canViewAllAppointments() {
+        return hasPermission("VIEW_ALL_APPOINTMENTS");
+    }
+    
+    @Override
+    public void logout() {
+    
+        setActive(false);
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{id='" + getId() + "', name='" + getName() + "'}";
+    }
+    
+    /*public void addPermission(String permission) {
         if (!permissions.contains(permission)) {
             permissions.add(permission);
         }
@@ -89,15 +106,10 @@ public class Admin extends User {
     public boolean canRemoveCompany() {
         return hasPermission("REMOVE_COMPANY");
     }
+    */
     
-    public boolean canViewAllCompanies() {
-        return hasPermission("VIEW_ALL_COMPANIES");
-    }
-    
-    public boolean canViewAllAppointments() {
-        return hasPermission("VIEW_ALL_APPOINTMENTS");
-    }
-    
+   
+    /*
     public boolean canDeactivateCompany() {
         return hasPermission("DEACTIVATE_COMPANY");
     }
@@ -121,10 +133,7 @@ public class Admin extends User {
     public boolean canConfigureSystem() {
         return hasPermission("SYSTEM_CONFIG");
     }
+    */
     
     
-    @Override
-    public String toString() {
-        return "Admin{id='" + getId() + "', name='" + getName() + "', username='" + getUsername() + "', permissions=" + permissions.size() + ", managedCompanies=" + managedCompanies.size() + "}";
-    }
 }

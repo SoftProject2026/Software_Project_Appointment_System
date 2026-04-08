@@ -34,7 +34,7 @@ public class UserService {
         userRepository.save(user);
     }
     
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         if (email == null || email.isEmpty()) {
             return false;
         }
@@ -59,15 +59,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
     
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() { 
         return userRepository.findAll();
     }
     
-    public List<User> getUsersByRole(String role) {
+    public List<User> getUsersByRole(String role) { 
         return userRepository.findByRole(role);
     }
     
-    public List<User> getAllActiveUsers() {
+    public List<User> getAllActiveUsers() { 
         return userRepository.findAllActive();
     }
     
@@ -107,7 +107,7 @@ public class UserService {
         }
     }
     
-    public void activateUser(String userId) {
+   /* public void activateUser(String userId) {
         User user = getUserById(userId);
         if (user != null) {
             user.setActive(true);
@@ -126,7 +126,7 @@ public class UserService {
     public boolean isUserActive(String userId) {
         User user = getUserById(userId);
         return user != null && user.isActive();
-    }
+    }*/
     
     public boolean usernameExists(String username) {
         return userRepository.existsByUsername(username);
@@ -137,15 +137,15 @@ public class UserService {
     }
 
     
-    public int getTotalUsersCount() {
+    /*public int getTotalUsersCount() {
         return userRepository.count();
-    }
+    }*/
     
-    public int getUsersCountByRole(String role) {
-        return getUsersByRole(role).size();
-    }
+    //public int getUsersCountByRole(String role) {
+      //  return getUsersByRole(role).size();
+   // }
     
-    public int getActiveUsersCount() {
+   /* public int getActiveUsersCount() {
         return getAllActiveUsers().size();
-    }
+    }*/
 }

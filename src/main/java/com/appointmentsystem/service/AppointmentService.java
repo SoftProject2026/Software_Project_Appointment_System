@@ -56,11 +56,11 @@ public class AppointmentService {
         return appointmentRepository.findByPropertyId(propertyId);
     }
     
-    public List<Appointment> getAppointmentsByStatus(AppointmentStatus status) {
-        return getAllAppointments().stream()
-                .filter(a -> a.getStatus() == status)
-                .collect(Collectors.toList());
-    }
+    //public List<Appointment> getAppointmentsByStatus(AppointmentStatus status) {
+      //  return getAllAppointments().stream()
+       //         .filter(a -> a.getStatus() == status)
+        //        .collect(Collectors.toList());
+    //}
     
     public List<Appointment> getTodayAppointments() {
         return getAllAppointments().stream()
@@ -74,11 +74,11 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
     
-    public List<Appointment> getAppointmentsByDateRange(LocalDateTime start, LocalDateTime end) {
+    /*public List<Appointment> getAppointmentsByDateRange(LocalDateTime start, LocalDateTime end) {
         return getAllAppointments().stream()
                 .filter(a -> a.getStartTime().isAfter(start) && a.getEndTime().isBefore(end))
                 .collect(Collectors.toList());
-    }
+    }*/
     
     
     
@@ -106,7 +106,7 @@ public class AppointmentService {
         }
     }
     
-    public void markVisitorAttendance(String appointmentId, boolean attended) {
+    /*public void markVisitorAttendance(String appointmentId, boolean attended) {
         Appointment appointment = appointmentRepository.findById(appointmentId);
         if (appointment != null) {
             appointment.setVisitorAttended(attended);
@@ -120,7 +120,7 @@ public class AppointmentService {
             appointment.setNotes(notes);
             appointmentRepository.update(appointment);
         }
-    }
+    }*/
     
     public boolean isAppointmentAvailable(String propertyId, LocalDateTime startTime, LocalDateTime endTime) {
         List<Appointment> propertyAppointments = getAppointmentsByProperty(propertyId);
@@ -136,11 +136,11 @@ public class AppointmentService {
         return appointmentRepository.count();
     }
     
-    public int getAppointmentsCountByStatus(AppointmentStatus status) {
+    /*public int getAppointmentsCountByStatus(AppointmentStatus status) {
         return (int) getAppointmentsByStatus(status).size();
     }
     
     public int getTodayAppointmentsCount() {
         return getTodayAppointments().size();
-    }
+    }*/
 }

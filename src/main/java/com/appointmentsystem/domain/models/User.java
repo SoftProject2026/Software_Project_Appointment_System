@@ -46,7 +46,7 @@ public abstract class User {
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
     
-    public void logout() { }
+    public void logout() { }//
     public boolean checkPassword(String rawPassword) { return this.password.equals(rawPassword); }
     
     public abstract String getRole();

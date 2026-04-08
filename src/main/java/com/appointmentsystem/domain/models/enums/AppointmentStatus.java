@@ -7,6 +7,15 @@ public enum AppointmentStatus {
     CANCELLED("Cancelled"),
     NO_SHOW("No Show");
     
+	/*URGENT("urgent"),
+	FOLLOW_UP("follow_up"),
+	ASSESSMENT("assessment"),
+	VIRTUAL("virtual"),
+	IN_PERSON("in-person"),
+	INDIVIDUAL("individual"),
+	GROUP("group")
+   ;*/
+	
     private String displayName;
     
     AppointmentStatus(String displayName) {
