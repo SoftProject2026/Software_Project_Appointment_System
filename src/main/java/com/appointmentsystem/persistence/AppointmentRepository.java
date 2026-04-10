@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class AppointmentRepository {
     
-    private List<Appointment> appointments = new ArrayList<>();
+	private static List<Appointment> appointments = new ArrayList<>();
     
    
     public void save(Appointment appointment) {
@@ -39,14 +39,7 @@ public class AppointmentRepository {
         return new ArrayList<>(appointments);
     }
     
-    // Query methods
-    public List<Appointment> findByCompanyId(String companyId) {
-        if (companyId == null) return new ArrayList<>();
-        return appointments.stream()
-                .filter(a -> companyId.equals(a.getCompanyId()))
-                .collect(Collectors.toList());
-    }
-    
+
     public List<Appointment> findByVisitorId(String visitorId) {
         if (visitorId == null) return new ArrayList<>();
         return appointments.stream()

@@ -10,6 +10,15 @@ public final class TimeSlot {
     private final LocalDateTime endTime;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     
+    private boolean isAvailable = true;
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+    public void setAvailable(boolean available) {
+        this.isAvailable = available;
+    }
+    
     public TimeSlot(LocalDateTime startTime, LocalDateTime endTime) {
         if (startTime == null || endTime == null) {
             throw new IllegalArgumentException("Start and end times cannot be null");
@@ -29,10 +38,6 @@ public final class TimeSlot {
     
     public long getDurationInMinutes() {
         return Duration.between(startTime, endTime).toMinutes();
-    }
-    
-    public double getDurationInHours() {
-        return getDurationInMinutes() / 60.0;
     }
     
     public boolean overlapsWith(TimeSlot other) {
@@ -62,7 +67,7 @@ public final class TimeSlot {
     }
     
     @Override
-    public int hashCode() {
+    public int hashCode() { 
         return Objects.hash(startTime, endTime);
     }
     

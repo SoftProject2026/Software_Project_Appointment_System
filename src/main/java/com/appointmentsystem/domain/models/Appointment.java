@@ -1,6 +1,8 @@
 package com.appointmentsystem.domain.models;
 
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
+import com.appointmentsystem.domain.models.enums.AppointmentType;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -8,76 +10,37 @@ public class Appointment {
     private String id;
     private String propertyId;
     private String visitorId;
-    private String companyId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private AppointmentStatus status;
-    private LocalDateTime createdAt;
-    private String notes;
-    private boolean visitorAttended;
+    private AppointmentType type;
+    private TimeSlot slot;
     
-    public Appointment(String propertyId, String visitorId, String companyId, 
-                       LocalDateTime startTime, LocalDateTime endTime) {
+    public Appointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
         this.id = UUID.randomUUID().toString();
+        //this.id = id;
         this.propertyId = propertyId;
         this.visitorId = visitorId;
-        this.companyId = companyId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = AppointmentStatus.SCHEDULED;
-        this.createdAt = LocalDateTime.now();
-        this.visitorAttended = false;
+        this.slot = slot;
+        this.type = type;
+        this.status = AppointmentStatus.CONFIRMED;
+        //this.slot.setAvailable(false);
     }
     
-    public Appointment(String id, String propertyId, String visitorId, String companyId,
-                       LocalDateTime startTime, LocalDateTime endTime, AppointmentStatus status) {
-        this.id = id;
-        this.propertyId = propertyId;
-        this.visitorId = visitorId;
-        this.companyId = companyId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = status;
-        this.createdAt = LocalDateTime.now();
-        this.visitorAttended = false;
-    }
+    public TimeSlot getSlot() { return slot; }
+    public void setSlot(TimeSlot slot) {this.slot = slot;}
     
     public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
     
     public String getPropertyId() { return propertyId; }
     public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
     
     public String getVisitorId() { return visitorId; }
     public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
-    
-    public String getCompanyId() { return companyId; }
-    public void setCompanyId(String companyId) { this.companyId = companyId; }
-    
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-    
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+
+    public AppointmentType getType() { return type; }
     
     public AppointmentStatus getStatus() { return status; }
     public void setStatus(AppointmentStatus status) { this.status = status; }
     
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
-    
-    public boolean didVisitorAttend() { return visitorAttended; }
-    public void setVisitorAttended(boolean visitorAttended) { this.visitorAttended = visitorAttended; }
-    
-    public boolean isToday() {
-        return startTime.toLocalDate().equals(LocalDateTime.now().toLocalDate());
-    }
-    
-    public boolean isInFuture() {
-        return startTime.isAfter(LocalDateTime.now());
-    }
     
     public void confirm() {
         this.status = AppointmentStatus.CONFIRMED;
@@ -89,6 +52,10 @@ public class Appointment {
     
     public void complete() {
         this.status = AppointmentStatus.COMPLETED;
+    }
+    
+    public boolean isFuture() {
+        return slot.getStartTime().isAfter(java.time.LocalDateTime.now());
     }
     
     @Override
