@@ -2,7 +2,6 @@ package com.appointmentsystem.service;
 
 import com.appointmentsystem.domain.models.Visitor;
 import com.appointmentsystem.domain.models.Appointment;
-import com.appointmentsystem.domain.models.User;
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.persistence.AppointmentRepository;

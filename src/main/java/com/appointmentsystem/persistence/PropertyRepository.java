@@ -48,19 +48,5 @@ public class PropertyRepository {
         if (id == null) return false;
         return propertyStorage.containsKey(id);
     }
-    
-    public int count() {
-        return propertyStorage.size();
-    }
-    
-    public int countByCompanyId(String companyId) {
-        if (companyId == null) return 0;
-        return (int) propertyStorage.values().stream()
-                .filter(p -> companyId.equals(p.getCompanyId()))
-                .count();
-    }
-    
-    public void clear() {
-        propertyStorage.clear();
-    }
+
 }
