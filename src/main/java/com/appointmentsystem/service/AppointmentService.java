@@ -25,7 +25,14 @@ public class AppointmentService {
     
 
     
-    public Appointment getAppointmentById(String id) {
+    public AppointmentService(AppointmentRepository mockAppointmentRepository) {
+    	 this.appointmentRepository = mockAppointmentRepository;
+         this.propertyRepository = new PropertyRepository();
+	}
+
+
+
+	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
     }
     
@@ -114,7 +121,7 @@ public class AppointmentService {
 //        }
         Appointment appointment = new Appointment(propertyId, visitorId, slot, type);
         
-        slot.setAvailable(false);
+         slot.setAvailable(false);
         //appointment.confirm();
         appointmentRepository.save(appointment);
         return appointment;

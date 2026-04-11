@@ -137,7 +137,7 @@ class TestVisitorService {
         Appointment appointment = new Appointment("p1","123",slot,AppointmentType.IN_PERSON);
         when(appointmentservice.bookAppointment("p1", "123", slot, AppointmentType.IN_PERSON)).thenReturn(appointment);
         visitorservice.bookAppointment(mockVisitor);
-        verify(appointmentservice).bookAppointment("p1", "123", slot, AppointmentType.IN_PERSON);
+        verify(appointmentservice).bookAppointment("p1", "123", slot, AppointmentType.URGENT);
     }
 
     @Test

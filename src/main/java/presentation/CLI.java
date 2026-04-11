@@ -231,7 +231,7 @@ public class CLI {
                 	scanner.nextLine();
 
                 	System.out.print("Enter time: (format: yyyy-MM-dd HH:mm)");
-                	String input = scanner.nextLine();
+                    String input = scanner.nextLine();
 
                 	companyService.addTimeSlotToProperty(c, index, input);
                     break;

@@ -13,10 +13,13 @@ public class PropertyService {
     public PropertyService() {
         this.propertyRepository = new PropertyRepository();
     }
+    public PropertyService(PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
+    }
     
     public void addProperty(Company c, Property p) {
     	propertyRepository.save(p);
-        System.out.println("Property added!");
+       System.out.println("Property added!");
     }
     
     public void viewMyProperties(Company c) {

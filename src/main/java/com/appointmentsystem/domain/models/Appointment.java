@@ -25,7 +25,11 @@ public class Appointment {
         //this.slot.setAvailable(false);
     }
     
-    public TimeSlot getSlot() { return slot; }
+    public Appointment() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public TimeSlot getSlot() { return slot; }
     public void setSlot(TimeSlot slot) {this.slot = slot;}
     
     public String getId() { return id; }
