@@ -21,7 +21,12 @@ public class Visitor{
 		this.phone = phone;
     }
     
+    public Visitor() {
+    	
+    }
+    
     public String getId(){ return id; }
+    public String getName(){ return name; }
     
     public String getUsername(){ return username; }
     

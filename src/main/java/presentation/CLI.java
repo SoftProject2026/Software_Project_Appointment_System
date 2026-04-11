@@ -20,6 +20,7 @@ public class CLI {
     
     
     
+    
     public CLI() {
     	initializeAdmin();
     }
@@ -73,7 +74,7 @@ public class CLI {
     	    } 
     	    else if (type == 2) {
     	        Company c = companyService.login(username, password);
-    	        companyMenu(c);
+    	        //companyMenu(c);
     	    } 
     	    else {
     	        Visitor v = visitorService.login(username, password);
@@ -137,9 +138,9 @@ public class CLI {
 
             switch (choice) {
                 case 1: 
-                	viewCompanies(); break;
+                	//viewCompanies(); break;
                 case 2: 
-                	approveCompany(); break;
+                	//approveCompany(); break;
                 case 3:
                     return;
                 default:
@@ -149,7 +150,7 @@ public class CLI {
         }
     }
 
-    private void viewCompanies() {
+    /*private void viewCompanies() {
         for (User user : userService.getAllUsers()) {
             if (user instanceof Company) {
             	Company c = (Company) user;
@@ -177,164 +178,55 @@ public class CLI {
         else {
             System.out.println("Not a company!");
         }    
-    }
+    }*/
     
 //////////////////////////////// Client
     private void visitorMenu(Visitor v) {
     	while(true) {
-	    	System.out.println("1. View Properties");
-	    	System.out.println("2. Book Appointment");
-	    	System.out.println("3. My Appointments");
-	    	System.out.println("4. Cancel Appointment");
-	    	System.out.println("5. Modify Appointment");
-	    	System.out.println("6. Logout");
+	    	System.out.println("1. View Properties And Book Appointment");
+	    	System.out.println("2. My Appointments");
+	    	System.out.println("3. Cancel Appointment");
+	    	System.out.println("4. Modify Appointment");
+	    	System.out.println("5. Logout");
+	    	
 	    	
 	    	int choice = scanner.nextInt();
 	
 	        switch (choice) {
-	//        case 1:
-	//        	viewProperties(v);
-	//            break;
+	        case 1:
+	        	visitorService.bookAppointment(v);
+	            break;
 	        case 2:
-	            bookAppointment(v);
+	        	visitorService.viewMyAppointments(v);
 	            break;
 	
 	        case 3:
-	            viewMyAppointments(v);
+	        	visitorService.cancelAppointment(v);
 	            break;
 	
 	        case 4:
-	            cancelAppointment(v);
+	        	visitorService.modifyAppointment(v);
 	            break;
 	
 	        case 5:
-	            modifyAppointment(v);
-	            break;
+	        	System.out.println("Logging out...");
+	        	visitorService.logout(v);
+	        	return;
+	            
 	
-	        case 6:
-	            return;
+	        default:
+                System.out.println("Invalid choice");
 	        }
     	}
     }
     
-    private  List<Appointment> viewMyAppointments(Visitor visitor) {
-        List<Appointment> apps = appointmentService.getAppointmentsByVisitor(visitor.getId());
-        if (apps.isEmpty()) {
-            System.out.println("No appointments");
-            return apps;
-        }
-        for (int i = 0; i < apps.size(); i++) {
-            System.out.println(i + ". " + apps.get(i));
-        }
+   
+    
 
-        return apps;
-    }
     
     
-    private void bookAppointment(Visitor visitor) {
-        List<Property> properties = propertyService.getAllProperties();
-        if (properties.isEmpty()) {
-            System.out.println("No properties available");
-            return;
-        }
-        System.out.println("Available Properties:");
-        for (int i = 0; i < properties.size(); i++) {
-            System.out.println(i + ". " + properties.get(i));
-        }
-
-        System.out.print("Choose property index: ");
-        int pIndex = scanner.nextInt();
-
-        Property selectedProperty = properties.get(pIndex);
-
-        List<TimeSlot> slots = selectedProperty.getAvailableSlots();
-
-        if (slots.isEmpty()) {
-            System.out.println("No available slots");
-            return;
-        }
-        System.out.println("Available Slots:");
-        for (int i = 0; i < slots.size(); i++) {
-            System.out.println(i + ". " + slots.get(i));
-        }
-
-        System.out.print("Choose slot index: ");
-        int sIndex = scanner.nextInt();
-
-        TimeSlot selectedSlot = slots.get(sIndex);
-
-        AppointmentType type = AppointmentType.IN_PERSON; //needs work
-
-        Appointment appointment = appointmentService.bookAppointment(
-                selectedProperty.getId(),
-                visitor.getId(),
-                selectedSlot,
-                type
-        );
-        System.out.println("Appointment booked successfully!");
-        System.out.println(appointment);
-    }
     
-    private void cancelAppointment(Visitor visitor) {
-    	List<Appointment> apps = viewMyAppointments(visitor);
-    	if (apps.isEmpty()) {
-    	    System.out.println("Nothing to do");
-    	    return;
-    	}
-    	
-        System.out.print("Choose appointment index to cancel: ");
-        int index = scanner.nextInt();
-
-        Appointment selected = apps.get(index);
-
-        try {
-            appointmentService.cancelAppointment(selected.getId());
-            System.out.println("Cancelled successfully!");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    private void modifyAppointment(Visitor visitor) {
-    	List<Appointment> apps = viewMyAppointments(visitor);
-    	if (apps.isEmpty()) {
-    	    System.out.println("Nothing to do");
-    	    return;
-    	}
-
-        System.out.print("Choose appointment index: ");
-        int index = scanner.nextInt();
-
-        Appointment selected = apps.get(index);
-
-        Property property = propertyService.getPropertyById(selected.getPropertyId());
-
-        List<TimeSlot> slots = property.getAvailableSlots();
-
-        if (slots.isEmpty()) {
-            System.out.println("No available slots");
-            return;
-        }
-
-        System.out.println("Available Slots:");
-        for (int i = 0; i < slots.size(); i++) {
-            System.out.println(i + ". " + slots.get(i));
-        }
-
-        System.out.print("Choose new slot: ");
-        int sIndex = scanner.nextInt();
-
-        TimeSlot newSlot = slots.get(sIndex);
-
-        try {
-            appointmentService.modifyAppointment(selected.getId(), newSlot);
-            System.out.println("Modified successfully!");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    
+ /*   
 //////////////////////////////////// Company
     private void companyMenu(Company c) {
         while (true) {
@@ -447,5 +339,5 @@ public class CLI {
             System.out.println("No appointments");
         }
     }
-    
+    */
 }
