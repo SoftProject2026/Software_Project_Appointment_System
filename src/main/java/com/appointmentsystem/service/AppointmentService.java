@@ -1,10 +1,13 @@
 package com.appointmentsystem.service;
 
 import com.appointmentsystem.domain.models.Appointment;
+import com.appointmentsystem.domain.models.Company;
+import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
+import com.appointmentsystem.persistence.PropertyRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,14 +16,14 @@ import java.util.stream.Collectors;
 public class AppointmentService {
     
     private AppointmentRepository appointmentRepository;
+    private PropertyRepository propertyRepository;
     
     public AppointmentService() {
         this.appointmentRepository = new AppointmentRepository();
+        this.propertyRepository = new PropertyRepository();
     }
     
-    public AppointmentService(AppointmentRepository appointmentRepository) {
-        this.appointmentRepository = appointmentRepository;
-    }
+
     
     public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
@@ -32,6 +35,25 @@ public class AppointmentService {
     
     public List<Appointment> getAppointmentsByVisitor(String visitorId) {
         return appointmentRepository.findByVisitorId(visitorId);
+    }
+    
+    public void viewCompanyAppointments(Company c) {
+    	List<Appointment> allAppointments = appointmentRepository.findAll();
+
+        boolean found = false;
+
+        for (Appointment a : allAppointments) {
+        	Property p = propertyRepository.findById(a.getPropertyId());
+
+            if (p != null && p.getCompanyId().equals(c.getId())) {
+                System.out.println(a);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No appointments");
+        }
     }
 
     public List<Appointment> getUpcomingAppointments() {
@@ -87,9 +109,9 @@ public class AppointmentService {
         if (!slot.isAvailable()) {
             throw new IllegalStateException("Slot already booked");
         }
-        if (slot.getDurationInMinutes() > 30) {
-            throw new IllegalStateException("Max duration is 30 minutes");
-        }
+//        if (slot.getDurationInMinutes() > 30) {
+//            throw new IllegalStateException("Max duration is 30 minutes");
+//        }
         Appointment appointment = new Appointment(propertyId, visitorId, slot, type);
         
         slot.setAvailable(false);
@@ -97,11 +119,6 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
         return appointment;
     }
-    
-    
-    
-    public int getTotalAppointmentsCount() {
-        return appointmentRepository.count();
-    }
+
     
 }

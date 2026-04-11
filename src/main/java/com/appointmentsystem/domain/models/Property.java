@@ -33,7 +33,19 @@ public class Property {
         this.address = address;
     }
     
-    public void addTimeSlot(TimeSlot slot) {
+    public Property() {
+    	this.id = "0";
+        this.companyId = "0";
+        this.type = PropertyType.APARTMENT;
+        this.price = 0;
+        this.area = 0;
+        this.roomsNumber = 0;
+        this.address = "address";
+    	    this.timeSlots = new ArrayList<>();
+    	
+	}
+
+	public void addTimeSlot(TimeSlot slot) {
     	if (slot != null) {
             timeSlots.add(slot);
         }
@@ -45,6 +57,10 @@ public class Property {
     
     public List<TimeSlot> getTimeSlots() {
         return new ArrayList<>(timeSlots);
+    }
+    
+    public void setTimeSlots(List<TimeSlot> timeSlots) {
+        this.timeSlots = timeSlots;
     }
     
     

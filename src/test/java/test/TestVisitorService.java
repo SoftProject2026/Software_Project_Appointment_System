@@ -90,6 +90,18 @@ class TestVisitorService {
         visitorservice.signup(mockVisitor);
         verify(mockVisitorRepository, times(1)).save(mockVisitor);
     }
+    
+    @Test
+    void SignupVisitorInvalidEmail() {
+		
+    	when(mockVisitor.getEmail()).thenReturn("invalid-email");
+        when(mockVisitorRepository.findByUsername("Al-Nabaly12")).thenReturn(null);
+  
+        Exception ex = assertThrows(RuntimeException.class,() -> visitorservice.signup(mockVisitor));
+        assertEquals("Invalid Email", ex.getMessage());
+        verify(mockVisitorRepository, never()).save(any());
+    }
+
 
     @Test
     void testLogin() {

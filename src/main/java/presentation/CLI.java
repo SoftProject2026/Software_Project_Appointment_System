@@ -18,17 +18,7 @@ public class CLI {
     private AdminService adminService = new AdminService();
     private CompanyService companyService = new CompanyService();
     
-    
-    
-    
-    public CLI() {
-    	initializeAdmin();
-    }
-    
-    private void initializeAdmin() {
-    	// ?
-    }
-    
+
     public void start() {
         while (true) {
             System.out.println("\n=== Welcome ===");
@@ -74,7 +64,7 @@ public class CLI {
     	    } 
     	    else if (type == 2) {
     	        Company c = companyService.login(username, password);
-    	        //companyMenu(c);
+    	        companyMenu(c);
     	    } 
     	    else {
     	        Visitor v = visitorService.login(username, password);
@@ -110,6 +100,8 @@ public class CLI {
 	            String id = UUID.randomUUID().toString();
 	            Visitor v = new Visitor(id, name, username, email, password, phone);
 	            visitorService.signup(v);
+	            System.out.println("Hello, " + v.getVisitorName() +" Account created!");
+	            visitorMenu(v);
 	        }
 	        else{
 	        	System.out.print("Commercial Register: ");
@@ -117,10 +109,8 @@ public class CLI {
 	            String id = UUID.randomUUID().toString();
 	            Company c = new Company(id, name, username, email, password, cr);
 	            companyService.signup(c);
-	        }
-	        System.out.println("Account created!");
-	        loginMenu();
-	        
+	            System.out.println("\nYour account is pending approval by admin");
+	        }	        
         } catch(Exception e){
         	System.out.println(e.getMessage());
         }
@@ -138,9 +128,14 @@ public class CLI {
 
             switch (choice) {
                 case 1: 
-                	//viewCompanies(); break;
-                case 2: 
-                	//approveCompany(); break;
+
+                	companyService.printAllCompanys(); break;
+                case 2:
+                    System.out.print("Enter company name: ");
+                    String Cname = scanner.next();
+                    companyService.approveCompany(Cname);//approveCompany->approve
+                    break;
+
                 case 3:
                     return;
                 default:
@@ -150,35 +145,10 @@ public class CLI {
         }
     }
 
-    /*private void viewCompanies() {
-        for (User user : userService.getAllUsers()) {
-            if (user instanceof Company) {
-            	Company c = (Company) user;
-            	System.out.println("Name: " + c.getCompanyName() +" | Verified: " + c.isVerified());
-            }
-        }
-    }
 
-    private void approveCompany() {
-        System.out.print("Enter company username: ");
-        String username = scanner.next();
 
-        User user = userService.getUserByUsername(username);
 
-        if (user instanceof Company) {
-            Company c = (Company) user;
-            if (c.isVerified()) {
-                System.out.println("Company already approved!");
-                return;
-            }
-            c.setVerified(true);
-            userService.updateUser(c);
-            System.out.println("Company approved!");
-        }
-        else {
-            System.out.println("Not a company!");
-        }    
-    }*/
+
     
 //////////////////////////////// Client
     private void visitorMenu(Visitor v) {
@@ -226,7 +196,7 @@ public class CLI {
     
     
     
- /*   
+   
 //////////////////////////////////// Company
     private void companyMenu(Company c) {
         while (true) {
@@ -240,17 +210,33 @@ public class CLI {
             int choice = scanner.nextInt();
 
             switch (choice) {
-                case 1:
-                    addProperty(c);
-                    break;
+	            case 1:
+	                System.out.print("Type (APARTMENT/VILLA/COMMERCIAL): ");
+	                String typeStr = scanner.next();
+	
+	                System.out.print("Price in $: ");
+	                double price = scanner.nextDouble();
+	
+	                String id = UUID.randomUUID().toString();
+	
+	                Property p = new Property(id, c.getId(), PropertyType.valueOf(typeStr), price);
+	                propertyService.addProperty(c, p);
+	                break;
                 case 2:
-                    viewCompanyProperties(c);
+                	propertyService.viewMyProperties(c);
                     break;
                 case 3:
-                    addTimeSlotToProperty(c);
+                	System.out.print("Choose property index: ");
+                	int index = scanner.nextInt();
+                	scanner.nextLine();
+
+                	System.out.print("Enter time: (format: yyyy-MM-dd HH:mm)");
+                	String input = scanner.nextLine();
+
+                	companyService.addTimeSlotToProperty(c, index, input);
                     break;
                 case 4:
-                    viewCompanyAppointments(c);
+                	appointmentService.viewCompanyAppointments(c);
                     break;
                 case 5:
                     return;
@@ -261,83 +247,27 @@ public class CLI {
     }
     
     
-    private void addProperty(Company c) {
-        System.out.print("Type (1=APARTMENT, 2=VILLA): ");
-        int typeChoice = scanner.nextInt();
-
-        PropertyType type = (typeChoice == 1) 
-            ? PropertyType.APARTMENT 
-            : PropertyType.VILLA;
-
-        System.out.print("Price: ");
-        double price = scanner.nextDouble();
-
-        String id = UUID.randomUUID().toString();
-
-        Property p = new Property(id, c.getId(), type, price);
-
-        propertyService.createProperty(p);
-
-        System.out.println("Property added!");
-    }
+//    private void addTimeSlotToProperty(Company c) {
+//        System.out.print("Choose property index: ");
+//        int index = scanner.nextInt();
+//
+//        Property selected = properties.get(index);
+//
+//        System.out.print("Start hour (e.g. 14): ");
+//        int hour = scanner.nextInt();
+//
+//        LocalDateTime start = LocalDateTime.now()
+//                .plusDays(1)
+//                .withHour(hour)
+//                .withMinute(0);
+//
+//        TimeSlot slot = TimeSlot.createSlotWithDuration(start, 30);
+//
+//        selected.addTimeSlot(slot);
+//
+//        System.out.println("Time slot added!");
+//    }
     
-    private List<Property> viewCompanyProperties(Company c) {
 
-        List<Property> properties = propertyService.getPropertiesByCompany(c.getId());
 
-        if (properties.isEmpty()) {
-            System.out.println("No properties");
-            return properties;
-        }
-
-        for (int i = 0; i < properties.size(); i++) {
-            System.out.println(i + ". " + properties.get(i));
-        }
-
-        return properties;
-    }
-    
-    private void addTimeSlotToProperty(Company c) {
-        List<Property> properties = viewCompanyProperties(c);
-        if (properties.isEmpty()) return;
-
-        System.out.print("Choose property index: ");
-        int index = scanner.nextInt();
-
-        Property selected = properties.get(index);
-
-        System.out.print("Start hour (e.g. 14): ");
-        int hour = scanner.nextInt();
-
-        LocalDateTime start = LocalDateTime.now()
-                .plusDays(1)
-                .withHour(hour)
-                .withMinute(0);
-
-        TimeSlot slot = TimeSlot.createSlotWithDuration(start, 30);
-
-        selected.addTimeSlot(slot);
-
-        System.out.println("Time slot added!");
-    }
-    
-    private void viewCompanyAppointments(Company c) {
-        List<Appointment> all = appointmentService.getAllAppointments();
-
-        boolean found = false;
-
-        for (Appointment a : all) {
-            Property p = propertyService.getPropertyById(a.getPropertyId());
-
-            if (p != null && p.getCompanyId().equals(c.getId())) {
-                System.out.println(a);
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("No appointments");
-        }
-    }
-    */
 }

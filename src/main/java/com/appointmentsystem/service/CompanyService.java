@@ -2,33 +2,42 @@ package com.appointmentsystem.service;
 
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
+import com.appointmentsystem.domain.models.TimeSlot;
+import com.appointmentsystem.domain.models.enums.PropertyType;
 import com.appointmentsystem.domain.models.Appointment;
 import com.appointmentsystem.persistence.CompanyRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.persistence.AppointmentRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CompanyService {
     
-	private CompanyRepository companyRepository = new CompanyRepository();
-//    private PropertyRepository propertyRepository;
-//    private AppointmentRepository appointmentRepository;
-//    
-//    public CompanyService() {
-//        this.companyRepository = new CompanyRepository();
-//        this.propertyRepository = new PropertyRepository();
-//        this.appointmentRepository = new AppointmentRepository();
-//    }
-//    
+	private CompanyRepository companyRepository;
+    private PropertyRepository propertyRepository;
+
+    public CompanyService() {
+        this.companyRepository = new CompanyRepository();
+        this.propertyRepository = new PropertyRepository();
+    }
+    
 	
-    public void signup(Company c) {
+    public CompanyService(CompanyRepository companyRepository, PropertyRepository propertyRepository) {
+        this.companyRepository = companyRepository;
+        this.propertyRepository = propertyRepository;
+    }
+
+
+	public void signup(Company c) {
         if (companyRepository.findByUsername(c.getUsername()) != null)
             throw new RuntimeException("Username exists");
         if(isValidEmail(c.getEmail()))
         	companyRepository.save(c);
+        else throw new RuntimeException("Invalid Email");
     }
 
     public Company login(String username, String password) {
@@ -56,8 +65,74 @@ public class CompanyService {
         companyRepository.update(c);
     }
 
-    public List<Company> getAll() {
-        return companyRepository.findAll();
+    
+    public String printAllCompanys() {
+    	List<Company> companies = companyRepository.findAll();
+        if (companies.isEmpty()) {
+            return "No companies";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Company c : companies) {
+            sb.append(c.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+    
+    
+    public void approveCompany(String name) {
+        Company c = companyRepository.findByCompanyName(name);
+        if (c == null) {
+            System.out.println("Company not found");
+            return;
+        }
+        if (c.isVerified()) {
+            System.out.println("Company already approved");
+            return;
+        }
+        c.setVerified(true);
+        companyRepository.update(c);
+        
+        System.out.println("Company approved successfully!");
+    }
+    
+    
+    public void addTimeSlotToProperty(Company c, int propertyIndex, String input) {
+        List<Property> properties = propertyRepository.findByCompanyId(c.getId());
+
+        if (properties.isEmpty()) {
+            System.out.println("No properties found");
+            return;
+        }
+        if (propertyIndex < 0 || propertyIndex >= properties.size()) {
+            System.out.println("Invalid property index");
+            return;
+        }
+        Property selected = properties.get(propertyIndex);
+
+        try {
+            java.time.format.DateTimeFormatter formatter =
+                    java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+            LocalDateTime time = LocalDateTime.parse(input, formatter);
+            
+            
+            
+
+            for (TimeSlot s : selected.getTimeSlots()) {
+                if (s.getStartTime().equals(time)) {
+                    System.out.println("This time slot already exists");
+                    return;
+                }
+            }
+
+            TimeSlot slot = new TimeSlot(time);
+            selected.addTimeSlot(slot);
+            propertyRepository.update(selected);
+            System.out.println("Time slot added successfully!");
+
+        } catch (Exception e) {
+            System.out.println("Invalid date format. Use: yyyy-MM-dd HH:mm");
+        }
     }
     
     
@@ -77,11 +152,11 @@ public class CompanyService {
         return true;
     }
     
+    
+
+    
     /////////////////////////////////////////////
-//    public Company getCompanyById(String id) {
-//        return companyRepository.findById(id);
-//    }
-//    
+
 //    public Company getCompanyByUsername(String username) {
 //        return companyRepository.findByUsername(username);
 //    }

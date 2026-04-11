@@ -3,8 +3,7 @@ package com.appointmentsystem.domain.models.enums;
 public enum PropertyType {
     APARTMENT("Apartment"),
     VILLA("Villa"),
-    COMMERCIAL("Commercial"),
-    LAND("Land");
+    COMMERCIAL("Commercial");
     
     private String displayName;
     

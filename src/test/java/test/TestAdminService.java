@@ -2,10 +2,7 @@ package test;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -14,18 +11,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.appointmentsystem.domain.models.Admin;
-import com.appointmentsystem.domain.models.Appointment;
-import com.appointmentsystem.domain.models.enums.AppointmentStatus;
-import com.appointmentsystem.persistence.AdminRepository;
-import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.service.AdminService;
 
 class TestAdminService {
 	
 	private AdminService adminService;
-    private AdminRepository adminRepository;
-    private AppointmentRepository appointmentRepository;
-    private Admin mockAdmin;
+    //private AdminRepository adminRepository;
+    //private AppointmentRepository appointmentRepository;
+    //private Admin mockAdmin;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -38,15 +31,52 @@ class TestAdminService {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		adminRepository = mock(AdminRepository.class);
-		appointmentRepository = mock(AppointmentRepository.class);
+		
+		/*appointmentRepository = mock(AppointmentRepository.class);
 		mockAdmin =mock(Admin.class);
-		adminService = new AdminService(adminRepository, appointmentRepository);
+		when(mockAdmin.getId()).thenReturn("123");
+        when(mockAdmin.getUsername()).thenReturn("Alaa12");
+        when(mockAdmin.getPassword()).thenReturn("1111");*/
+		adminService = new AdminService();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 	}
+	
+	@Test
+	void testLogin() {
+		Admin loggedInAdmin = adminService.login("admin", "1234");
+		assertNotNull(loggedInAdmin);
+        assertEquals("admin", loggedInAdmin.getUsername());
+        assertEquals("1", loggedInAdmin.getId());
+		
+		
+	}
+	
+	@Test
+	void testLoginWrongPassword() {
+		RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            adminService.login("admin", "wrongPassword");
+        });
+        
+        assertEquals("Invalid admin login", exception.getMessage());
+		
+		
+	}
+	
+	@Test
+	void testLoginWrongUsername() {
+		RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            adminService.login("wrongUsername", "1234");
+        });
+        
+        assertEquals("Invalid admin login", exception.getMessage());
+		
+		
+	}
+	
+	/*
 
 	@Test
 	void testLogout() {
@@ -125,5 +155,5 @@ class TestAdminService {
 		
 	}
 	
-
+*/
 }
