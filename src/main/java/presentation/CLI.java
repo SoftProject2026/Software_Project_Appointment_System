@@ -127,7 +127,8 @@ public class CLI {
             System.out.println("\n=== Admin Menu ===");
             System.out.println("1. View Companies");
             System.out.println("2. Approve Company");
-            System.out.println("3. Logout");
+            System.out.println("3. View All Appointment");
+            System.out.println("4. Logout");
             // more to be added
             
             int choice = scanner.nextInt();
@@ -143,6 +144,8 @@ public class CLI {
                     break;
 
                 case 3:
+                	appointmentService.getAllAppointments();
+                case 4:
                     return;
                 default:
                     System.out.println("Invalid choice");    
