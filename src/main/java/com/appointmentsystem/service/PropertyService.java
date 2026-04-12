@@ -24,14 +24,15 @@ public class PropertyService {
     }
     
     public void addProperty(Company c, Property p) {
+    	p.setCompanyId(c.getId());
     	propertyRepository.save(p);
-       System.out.println("Property added!");
+    	System.out.println("Property added!");
     }
     
     public void viewMyProperties(Company c) {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
         if (properties.isEmpty()) {
-            System.out.println("No properties");
+            System.out.println("\nNo properties");
             return;
         }
         for (int i = 0; i < properties.size(); i++) {

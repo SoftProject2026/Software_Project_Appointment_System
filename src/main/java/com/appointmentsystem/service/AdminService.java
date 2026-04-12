@@ -19,7 +19,7 @@ public class AdminService {
 
     public Admin login(String username, String password) {
         if (!admin.getUsername().equals(username) || !admin.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid admin login");
+        	throw new RuntimeException("Invalid admin login");
         }
 
         return admin;

@@ -35,19 +35,6 @@ public final class TimeSlot {
         this.isAvailable = available;
     }
     
-    // public int getDuration() {
-     //   return (int) java.time.Duration.between(startTime, endTime).toMinutes();
-      //}
-    
-//    public boolean overlapsWith(TimeSlot other) {
-//        if (other == null) return false;
-//        return !(this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime));
-//    }
-    
-//    public boolean contains(LocalDateTime dateTime) {
-//        return (dateTime.isEqual(startTime) || dateTime.isAfter(startTime)) && dateTime.isBefore(endTime);
-//    }
-    
     public boolean isInFuture() {
         return startTime.isAfter(LocalDateTime.now());
     }
@@ -55,6 +42,14 @@ public final class TimeSlot {
     public boolean isWithin24Hours() {
         LocalDateTime now = LocalDateTime.now();
         return startTime.isAfter(now) && startTime.isBefore(now.plusHours(24));
+    }
+    
+    @Override
+    public String toString() {
+        java.time.format.DateTimeFormatter formatter =
+                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return startTime.format(formatter);
     }
     
 //    @Override

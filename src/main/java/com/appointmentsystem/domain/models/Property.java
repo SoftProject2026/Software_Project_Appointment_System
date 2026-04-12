@@ -93,6 +93,6 @@ public class Property {
 
     @Override
     public String toString() {
-        return "Property{id='" + id + "', companyId='" + companyId + "',Type ='" + type + "', price=" + price + "', area=" + area +"', Rooms Number='" + roomsNumber+"', Address='" + address+"}";
+        return "Property{ Type ='" + type + "', price=" + price + "', area=" + area +"', Rooms Number='" + roomsNumber+"', Address='" + address+"}";
     }
 }

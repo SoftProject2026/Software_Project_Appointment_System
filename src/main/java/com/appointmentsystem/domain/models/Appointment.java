@@ -3,7 +3,6 @@ package com.appointmentsystem.domain.models;
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 /**
  * Represents an appointment booked by a visitor for a specific property.
@@ -18,6 +17,7 @@ public class Appointment {
     private String id;
     private String propertyId;
     private String visitorId;
+    //private String companyId;
     private AppointmentStatus status;
     private AppointmentType type;
     private TimeSlot slot;
@@ -28,15 +28,14 @@ public class Appointment {
      * @param slot the time slot for the appointment
      * @param type the type of appointment (determines duration)
      */
-    public Appointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
+    public Appointment(String propertyId, String visitorId,TimeSlot slot, AppointmentType type) {
         this.id = UUID.randomUUID().toString();
-        //this.id = id;
         this.propertyId = propertyId;
         this.visitorId = visitorId;
+        //this.companyId= companyId;
         this.slot = slot;
         this.type = type;
         this.status = AppointmentStatus.CONFIRMED;
-        //this.slot.setAvailable(false);
     }
     /**
      *  Default constructor for frameworks that require no-arg constructor.
@@ -77,6 +76,8 @@ public class Appointment {
      * @return the visitor ID
      */
     public String getVisitorId() { return visitorId; }
+    
+    //public String getCompanyId() { return companyId; }
     
     /**
      * Sets the visitor ID for this appointment.
@@ -143,6 +144,6 @@ public class Appointment {
      */
     @Override
     public String toString() {
-        return "Appointment{ propertyId=" + propertyId + ", visitorId='" + visitorId + "', status=" + status + "}";
+        return "Appointment{Id=" + id + "', status=" + status + "}";
     }
 }

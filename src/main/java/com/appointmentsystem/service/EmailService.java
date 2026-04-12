@@ -1,7 +1,7 @@
 package com.appointmentsystem.service;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
 import java.util.Properties;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -15,7 +15,6 @@ import jakarta.mail.internet.*;
  * @version 1.0
  */
 public class EmailService {
-
     private final String username;
     private final String password;
 
@@ -52,62 +51,14 @@ public class EmailService {
             // Send email
             Transport.send(message);
 
-            System.out.println("Email sent successfully to " + to);
+            System.out.println("\nEmail sent successfully to " + to);
 
         } catch (MessagingException e) {
             e.printStackTrace();
-            throw new RuntimeException(" Failed to send email", e);
+            throw new RuntimeException("\nFailed to send email", e);
         }
     }
     
-    
-    static void  run() {
-    	
 
-    	Dotenv dotenv = Dotenv.load();  
-    	
-    	String username = dotenv.get("EMAIL_USERNAME");
-    	String password = dotenv.get("EMAIL_PASSWORD");
-		
-    	
-    	EmailService emailService=new EmailService(username,password );
-    	
-    	String subject = "Appointment";
-        String body = "Dear user, Your Appointment is comming soon. Best regards";
-       
-        
-    	emailService.sendEmail("s12323849@stu.najah.edu", subject, body);
-    	//emailService.sendEmail("mohammadnihad224@gmail.com", subject, body);
-    
-    	
-    }
-    
-    
-    public static void main(String []s) {
-    	run();
-    }
-    
-    
-    /*Generate and Use an App Password
-    1�Turn on 2-Step Verification
 
-    You must enable 2-step verification (2FA) for your Google account before you can create an app password.
-
-    Go to https://myaccount.google.com/security
-
-    Under Signing in to Google, click 2-Step Verification and complete the setup.
-
-    2Create an App Password
-
-    After enabling 2FA, go back to the Security page.
-
-    Under Signing in to Googleclick App passwords.
-
-    Choose:
-
-    App: Mail
-
-    Device: Other (Custom name)type something like JavaMailApp
-
-    Google will generate a 16-character password.*/
 }

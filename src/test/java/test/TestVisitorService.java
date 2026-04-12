@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import com.appointmentsystem.domain.models.*;
 import com.appointmentsystem.domain.models.enums.*;
+import com.appointmentsystem.persistence.CompanyRepository;
 import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.service.*;
 /**
@@ -25,6 +26,7 @@ import com.appointmentsystem.service.*;
 class TestVisitorService {
 
     private VisitorRepository mockVisitorRepository;
+    private CompanyRepository mockCompanyRepository;
     private VisitorService visitorservice;
     private PropertyService propertyservice;
     private AppointmentService appointmentservice;
@@ -39,10 +41,10 @@ class TestVisitorService {
 
     @BeforeEach
     void setUp() {
-
         mockVisitorRepository = mock(VisitorRepository.class);
         propertyservice = mock(PropertyService.class);
         appointmentservice = mock(AppointmentService.class);
+        mockCompanyRepository = mock(CompanyRepository.class);
         scanner = mock(Scanner.class);
         when(scanner.nextInt()).thenReturn(0);
 
@@ -50,6 +52,7 @@ class TestVisitorService {
                 mockVisitorRepository,
                 propertyservice,
                 appointmentservice,
+                mockCompanyRepository,
                 scanner
         );
 

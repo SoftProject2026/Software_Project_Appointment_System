@@ -3,6 +3,7 @@ package com.appointmentsystem.service;
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
+import com.appointmentsystem.domain.models.Visitor;
 import com.appointmentsystem.domain.models.enums.PropertyType;
 import com.appointmentsystem.domain.models.Appointment;
 import com.appointmentsystem.persistence.CompanyRepository;
@@ -50,10 +51,10 @@ public class CompanyService {
         Company c = companyRepository.findByUsername(username);
 
         if (c == null || !c.getPassword().equals(password))
-            throw new RuntimeException("Invalid credentials");
+            throw new RuntimeException("\nInvalid credentials");
 
         if (!c.isVerified())
-            throw new RuntimeException("Company not approved");
+            throw new RuntimeException("\nCompany not approved");
 
         return c;
     }
@@ -62,10 +63,10 @@ public class CompanyService {
         Company c = companyRepository.findByUsername(username);
 
         if (c == null)
-            throw new RuntimeException("Not found");
+            throw new RuntimeException("\nNot found");
 
         if (c.isVerified())
-            throw new RuntimeException("Already approved");
+            throw new RuntimeException("\nAlready approved");
 
         c.setVerified(true);
         companyRepository.update(c);
@@ -88,34 +89,32 @@ public class CompanyService {
     public void approveCompany(String name) {
         Company c = companyRepository.findByCompanyName(name);
         if (c == null) {
-            System.out.println("Company not found");
+            System.out.println("\nCompany not found");
             return;
         }
         if (c.isVerified()) {
-            System.out.println("Company already approved");
+            System.out.println("\nCompany already approved");
             return;
         }
         c.setVerified(true);
         companyRepository.update(c);
         
-        System.out.println("Company approved successfully!");
+        System.out.println("\nCompany approved successfully!");
     }
-    
+
     
     public void addTimeSlotToProperty(Company c, int propertyIndex, String startInput) {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
 
         if (properties.isEmpty()) {
-            System.out.println("No properties found");
+            System.out.println("\nNo properties found");
             return;
         }
-        
-        
-        
         if (propertyIndex < 0 || propertyIndex >= properties.size()) {
-            System.out.println("Invalid property index");
+            System.out.println("\nInvalid property index");
             return;
         }
+        
         Property selected = properties.get(propertyIndex);
 
         try {
@@ -127,30 +126,24 @@ public class CompanyService {
             
             LocalDateTime now = LocalDateTime.now();
             if (startTime.isBefore(now)) {
-                System.out.println("Cannot add time slot in the past. Please choose a future date and time.");
+                System.out.println("\nCannot add time slot in the past. Please choose a future date and time.");
                 return;
             }
-            
-            
-            
-            
-            
 
             for (TimeSlot s : selected.getTimeSlots()) {
                 if (s.getStartTime().equals(startTime)) {
-                    System.out.println("This time slot already exists");
+                    System.out.println("\nThis time slot already exists");
                     return;
                 }
             }
             
-            
             TimeSlot slot = new TimeSlot(startTime);
             selected.addTimeSlot(slot);
             propertyRepository.update(selected);
-            System.out.println("Time slot added successfully!");
+            System.out.println("\nTime slot added successfully!");
 
         } catch (Exception e) {
-            System.out.println("Invalid date format. Use: yyyy-MM-dd HH:mm");
+            System.out.println("\nInvalid date format. Use: yyyy-MM-dd HH:mm");
         }
     }
     
@@ -270,9 +263,7 @@ public class CompanyService {
 //                .collect(Collectors.toList());
 //    }
 //    
-//    public List<String> validateCompany(Company company) {
-//        return company != null ? company.validate() : List.of("Company is null");
-//    }
+
     
 
 }

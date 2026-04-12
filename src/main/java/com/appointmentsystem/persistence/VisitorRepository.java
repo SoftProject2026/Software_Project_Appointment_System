@@ -64,11 +64,5 @@ public class VisitorRepository {
                 .anyMatch(u -> email.equals(u.getEmail()));
     }
     
-    public int count() {
-        return visitorStorage.size();
-    }
-    
-    public void clear() {
-    	visitorStorage.clear();
-    }
+
 }

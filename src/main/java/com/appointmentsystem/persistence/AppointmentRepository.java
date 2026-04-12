@@ -60,6 +60,13 @@ public class AppointmentRepository {
                 .collect(Collectors.toList());
     }
     
+//    public List<Appointment> findByCompanyId(String companyId) {
+//        if (companyId == null) return new ArrayList<>();
+//        return appointments.stream()
+//                .filter(a -> companyId.equals(a.getCompanyId()))
+//                .collect(Collectors.toList());
+//    }
+    
     public void update(Appointment appointment) {
         if (appointment == null) return;
         deleteById(appointment.getId());

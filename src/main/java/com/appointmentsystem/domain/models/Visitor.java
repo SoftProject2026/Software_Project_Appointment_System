@@ -78,7 +78,7 @@ public class Visitor{
     
     @Override
     public String toString() {
-        return "Visitor{id='" + getId() + "', name='" + getVisitorName() + "', phone='" + phone + "}";
+        return "Visitor{ name='" + getVisitorName() + "', phone='" + phone + "}";
     }
 }
 

@@ -20,6 +20,7 @@ public class CLI {
     private Scanner scanner = new Scanner(System.in);
     private PropertyService propertyService = new PropertyService();
     private AppointmentService appointmentService = new AppointmentService();
+    
     private VisitorService visitorService = new VisitorService();
     private AdminService adminService = new AdminService();
     private CompanyService companyService = new CompanyService();
@@ -43,7 +44,7 @@ public class CLI {
                     System.out.println("Bye!");
                     return;
                 default:
-                    System.out.println("Invalid choice");
+                    System.out.println("\nInvalid choice");
                 
             }
         }
@@ -106,7 +107,7 @@ public class CLI {
 	            String id = UUID.randomUUID().toString();
 	            Visitor v = new Visitor(id, name, username, email, password, phone);
 	            visitorService.signup(v);
-	            System.out.println("Hello, " + v.getVisitorName() +" Account created!");
+	            System.out.println("\nHello " + v.getVisitorName() +". Account created!");
 	            visitorMenu(v);
 	        }
 	        else{
@@ -127,33 +128,30 @@ public class CLI {
             System.out.println("\n=== Admin Menu ===");
             System.out.println("1. View Companies");
             System.out.println("2. Approve Company");
-            System.out.println("3. Logout");
+            System.out.println("3. View all appointments");
+            System.out.println("4. Logout");
             // more to be added
             
             int choice = scanner.nextInt();
 
             switch (choice) {
                 case 1: 
-
-                	companyService.printAllCompanys(); break;
+                	System.out.println(companyService.printAllCompanys()); break;
                 case 2:
                     System.out.print("Enter company name: ");
                     String Cname = scanner.next();
                     companyService.approveCompany(Cname);//approveCompany->approve
                     break;
-
                 case 3:
+                	appointmentService.getAllAppointments();
+                case 4:
                     return;
                 default:
-                    System.out.println("Invalid choice");    
+                    System.out.println("\nInvalid choice");    
                     
             }
         }
     }
-
-
-
-
 
     
 //////////////////////////////// Client
@@ -165,9 +163,7 @@ public class CLI {
 	    	System.out.println("4. Modify Appointment");
 	    	System.out.println("5. Logout");
 	    	
-	    	
 	    	int choice = scanner.nextInt();
-	
 	        switch (choice) {
 	        case 1:
 	        	visitorService.bookAppointment(v);
@@ -185,11 +181,9 @@ public class CLI {
 	            break;
 	
 	        case 5:
-	        	System.out.println("Logging out...");
+	        	System.out.println("\nLogging out...");
 	        	visitorService.logout(v);
-	        	return;
-	            
-	
+	        	return;	
 	        default:
                 System.out.println("Invalid choice");
 	        }
@@ -197,12 +191,7 @@ public class CLI {
     }
     
    
-    
-
-    
-    
-    
-   
+      
 //////////////////////////////////// Company
     private void companyMenu(Company c) {
         while (true) {
@@ -211,14 +200,13 @@ public class CLI {
             System.out.println("2. View Properties");
             System.out.println("3. Add Time Slot");
             System.out.println("4. View Appointments");
-            System.out.println("5. Logout");
+            System.out.println("5. Cancel Appointment");
+            System.out.println("6. Logout");
 
             int choice = scanner.nextInt();
 
             switch (choice) {
 	            case 1:
-	                //System.out.print("Type (APARTMENT/VILLA/COMMERCIAL): ");
-	                
 	            	System.out.println("Select property type:");
 	            	System.out.println("1. APARTMENT");
 	            	System.out.println("2. VILLA");
@@ -226,7 +214,6 @@ public class CLI {
 	            	
 	            	int typeNum = scanner.nextInt();
 	            	String typeStr = "";
-
 	            	switch (typeNum) {
 	            	    case 1:
 	            	        typeStr = "APARTMENT";
@@ -244,7 +231,6 @@ public class CLI {
 	            	
 	                System.out.print("Price in $: ");
 	                double price = scanner.nextDouble();
-	               
 	                
 	                System.out.print("Area in m2: ");
 	                double area = scanner.nextDouble();
@@ -277,6 +263,17 @@ public class CLI {
                 	appointmentService.viewCompanyAppointments(c);
                     break;
                 case 5:
+//                	appointmentService.viewCompanyAppointments(c);
+//                	System.out.print("Choose appointment index: ");
+//                    int index2 = scanner.nextInt();
+//
+//                    Appointment selected = appointmentService.getAppointmentById(index2);
+//                    
+//                    appointmentService.cancelAppointment(selected.getId(), c.getId());
+//                    System.out.println("Cancelled!");
+                    break;
+                case 6:
+                	System.out.println("Logging out...");
                     return;
                 default:
                     System.out.println("Invalid choice");
