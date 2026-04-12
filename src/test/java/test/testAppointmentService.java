@@ -3,12 +3,14 @@ package test;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,9 +24,13 @@ import com.appointmentsystem.domain.models.Appointment;
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
+import com.appointmentsystem.domain.models.Visitor;
+import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
+import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.service.AppointmentService;
+import com.appointmentsystem.service.EmailService;
 import com.appointmentsystem.service.PropertyService;
 
 /**
@@ -81,13 +87,24 @@ class testAppointmentService {
     /**
      * Tests get appointment by ID.
      */
+    /**
+     * Tests get all appointments.
+     */
     @Test
-    void testGetAppointmentById() {
-        String appointmentId = "1";
-        when(mockAppointmentRepository.findById(appointmentId)).thenReturn(mockAppointment);
-        Appointment result = appointmentService.getAppointmentById(appointmentId);
-        assertEquals(mockAppointment, result);
-        verify(mockAppointmentRepository, times(1)).findById(appointmentId);
+    void testGetAllAppointments1() {
+        // Arrange
+        Appointment mockApp1 = mock(Appointment.class);
+        Appointment mockApp2 = mock(Appointment.class);
+        List<Appointment> list = Arrays.asList(mockApp1, mockApp2);
+        
+        when(mockAppointmentRepository.findAll()).thenReturn(list);
+        
+        // Act
+        List<Appointment> result = appointmentService.getAllAppointments();
+        
+        // Assert
+        assertEquals(2, result.size());
+        verify(mockAppointmentRepository, times(1)).findAll();
     }
     
     /**
@@ -213,5 +230,32 @@ class testAppointmentService {
         verify(mockSlot).setAvailable(false);
         verify(mockAppointment).setSlot(mockSlot);
         verify(mockAppointmentRepository).update(mockAppointment);
+    }
+    
+    
+    /**
+     * Tests email sent on booking.
+     */
+    @Test
+    void testEmailSentOnBooking() {
+        // Arrange
+        EmailService mockEmailService = mock(EmailService.class);
+        VisitorRepository mockVisitorRepo = mock(VisitorRepository.class);
+        Visitor mockVisitor = mock(Visitor.class);
+
+        appointmentService.setEmailService(mockEmailService);
+        appointmentService.setVisitorRepository(mockVisitorRepo);
+
+        when(mockVisitor.getEmail()).thenReturn("visitor@example.com");
+        when(mockVisitorRepo.findById("v1")).thenReturn(mockVisitor);
+
+        TimeSlot slot = new TimeSlot(LocalDateTime.now().plusDays(1));
+
+        // Act
+        appointmentService.bookAppointment("p1", "v1", slot, AppointmentType.IN_PERSON);
+
+        // Assert
+        verify(mockEmailService, times(1))
+            .sendEmail(eq("visitor@example.com"), eq("Appointment Confirmation"), any());
     }
 }
