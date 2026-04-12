@@ -7,7 +7,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.appointmentsystem.domain.models.Visitor;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class VisitorRepository {
 
     private static Map<String, Visitor> visitorStorage = new HashMap<>();

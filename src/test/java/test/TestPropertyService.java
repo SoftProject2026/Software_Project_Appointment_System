@@ -22,7 +22,13 @@ import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.service.PropertyService;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 class TestPropertyService {
 	
 	private PropertyRepository mockPropertyRepository;

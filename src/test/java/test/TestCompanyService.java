@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +35,13 @@ import com.appointmentsystem.service.AppointmentService;
 import com.appointmentsystem.service.CompanyService;
 import com.appointmentsystem.service.PropertyService;
 import com.appointmentsystem.service.VisitorService;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 class TestCompanyService {
 	
 	private CompanyRepository mockCompanyRepository;
@@ -44,7 +52,7 @@ class TestCompanyService {
 
     private Company mockCompany;
     private Property mockProperty;
-    
+    private DateTimeFormatter formatter;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -75,6 +83,8 @@ class TestCompanyService {
         when(mockCompany.isVerified()).thenReturn(false);
         
         when(mockProperty.getTimeSlots()).thenReturn(new ArrayList<>());
+        
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		
 	}
 
@@ -194,17 +204,31 @@ class TestCompanyService {
 	@Test
     void testaddTimeSlotToPropertyNullPropertyy() {
 		when(mockPropertyRepository.findByCompanyId(mockCompany.getId())).thenReturn(new ArrayList<>());
-        companyservice.addTimeSlotToProperty(mockCompany, 0, "2025-01-01 10:00");
+        companyservice.addTimeSlotToProperty(mockCompany, 0, "2027-01-01 10:00");
 
         verify(mockPropertyRepository, never()).update(any());
     }
+	
+	@Test
+    void testaddTimeSlotToPropertyPastDate() {
+		String pastDate = LocalDateTime.now().minusDays(1).format(formatter);
+		List<Property> properties = Arrays.asList(mockProperty);
+	    when(mockPropertyRepository.findByCompanyId(mockCompany.getId())).thenReturn(properties);
+	    
+		
+        companyservice.addTimeSlotToProperty(mockCompany, 0, pastDate);
+
+        verify(mockPropertyRepository, never()).update(any());
+    }
+	
+	 
 	
 	@Test
     void testaddTimeSlotToPropertyInvalidIndex() {
 		List<Property> properties = Arrays.asList(mockProperty);
 	    when(mockPropertyRepository.findByCompanyId(mockCompany.getId())).thenReturn(properties);
 	    
-	    companyservice.addTimeSlotToProperty(mockCompany, -1, "2025-01-01 10:00");
+	    companyservice.addTimeSlotToProperty(mockCompany, -1, "2027-01-01 10:00");
 	    
 	    verify(mockPropertyRepository, never()).update(any());
     }

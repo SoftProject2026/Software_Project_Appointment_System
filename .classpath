@@ -37,5 +37,23 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/dell/.m2/repository/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1.jar" sourcepath="C:/Users/dell/.m2/repository/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="com.sun.mail"/>
+			<attribute name="maven.artifactId" value="jakarta.mail"/>
+			<attribute name="maven.version" value="2.0.1"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/dell/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/java-dotenv-5.2.2.jar" sourcepath="C:/Users/dell/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/java-dotenv-5.2.2-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="io.github.cdimascio"/>
+			<attribute name="maven.artifactId" value="java-dotenv"/>
+			<attribute name="maven.version" value="5.2.2"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

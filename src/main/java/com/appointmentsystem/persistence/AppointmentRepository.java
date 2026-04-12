@@ -4,7 +4,13 @@ import com.appointmentsystem.domain.models.Appointment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class AppointmentRepository {
     
 	private static List<Appointment> appointments = new ArrayList<>();

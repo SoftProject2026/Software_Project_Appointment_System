@@ -2,7 +2,13 @@ package com.appointmentsystem.domain.models;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class Company{
 	private String id;
     private String companyName;

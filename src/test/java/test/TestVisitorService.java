@@ -15,7 +15,13 @@ import com.appointmentsystem.domain.models.*;
 import com.appointmentsystem.domain.models.enums.*;
 import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.service.*;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 class TestVisitorService {
 
     private VisitorRepository mockVisitorRepository;

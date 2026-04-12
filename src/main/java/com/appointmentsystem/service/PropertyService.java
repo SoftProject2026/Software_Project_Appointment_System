@@ -5,7 +5,13 @@ import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.persistence.PropertyRepository;
 
 import java.util.List;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class PropertyService {
     
     private PropertyRepository propertyRepository;

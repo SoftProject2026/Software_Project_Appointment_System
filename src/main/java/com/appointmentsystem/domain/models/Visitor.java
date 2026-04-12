@@ -3,7 +3,13 @@ package com.appointmentsystem.domain.models;
 import java.util.ArrayList;
 import java.util.List;
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class Visitor{
     private String id;
     private String name;
