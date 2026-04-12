@@ -2,6 +2,7 @@ package com.appointmentsystem.domain.models;
 
 
 /**
+ * 
  * @author Tala Khraim
  * @author Sara Sawalha
  * @author Masar Jabr

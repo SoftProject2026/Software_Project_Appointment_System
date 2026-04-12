@@ -14,7 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class CompanyService {
     
 	private CompanyRepository companyRepository;
