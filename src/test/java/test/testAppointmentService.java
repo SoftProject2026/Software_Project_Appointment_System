@@ -26,7 +26,13 @@ import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.service.AppointmentService;
 import com.appointmentsystem.service.PropertyService;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 class testAppointmentService {
 
 	private AppointmentRepository mockAppointmentRepository;

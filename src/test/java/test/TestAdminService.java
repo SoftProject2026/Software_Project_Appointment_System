@@ -12,7 +12,13 @@ import org.junit.jupiter.api.Test;
 
 import com.appointmentsystem.domain.models.Admin;
 import com.appointmentsystem.service.AdminService;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 class TestAdminService {
 	
 	private AdminService adminService;

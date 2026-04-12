@@ -5,7 +5,15 @@ import com.appointmentsystem.domain.models.enums.AppointmentType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+/**
+ * Represents an appointment booked by a visitor for a specific property.
+ * 
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class Appointment {
     private String id;
     private String propertyId;
@@ -13,7 +21,13 @@ public class Appointment {
     private AppointmentStatus status;
     private AppointmentType type;
     private TimeSlot slot;
-    
+    /**
+     * 
+     * @param propertyId the ID of the property being booked
+     * @param visitorId the ID of the visitor making the booking
+     * @param slot the time slot for the appointment
+     * @param type the type of appointment (determines duration)
+     */
     public Appointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
         this.id = UUID.randomUUID().toString();
         //this.id = id;
@@ -24,46 +38,111 @@ public class Appointment {
         this.status = AppointmentStatus.CONFIRMED;
         //this.slot.setAvailable(false);
     }
-    
+    /**
+     *  Default constructor for frameworks that require no-arg constructor.
+     */
     public Appointment() {
 		// TODO Auto-generated constructor stub
 	}
-
+/**
+ * Returns the time slot of the appointment.
+ * @return the TimeSlot object containing start time and availability
+ */
 	public TimeSlot getSlot() { return slot; }
+	/**
+	 * Sets the time slot for the appointment.
+	 * @param slot the new TimeSlot for the appointment
+	 */
     public void setSlot(TimeSlot slot) {this.slot = slot;}
     
+    /**
+     * Returns the unique identifier of the appointment.
+     * @return the appointment ID (UUID format)
+     */
     public String getId() { return id; }
-    
+    /**
+     * Returns the property ID associated with this appointment.
+     * @return the property ID
+     */
     public String getPropertyId() { return propertyId; }
+    
+    /**
+     * Sets the property ID for this appointment.
+     * @param propertyId the new property ID
+     */
     public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
     
+    /**
+     * Returns the visitor ID who booked this appointment.
+     * @return the visitor ID
+     */
     public String getVisitorId() { return visitorId; }
+    
+    /**
+     * Sets the visitor ID for this appointment.
+     * @param visitorId the new visitor ID
+     */
     public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
-
+    
+/**
+ * Returns the type of this appointment.
+ * @return the AppointmentType (URGENT, FOLLOW_UP, VIRTUAL, IN_PERSON, GROUP)
+ */
     public AppointmentType getType() { return type; }
     
+    /**
+     * Returns the current status of the appointment.
+     * 
+     * @return the AppointmentStatus (CONFIRMED, CANCELLED, COMPLETED)
+     */
     public AppointmentStatus getStatus() { return status; }
+    
+    /**
+     * Sets the status of the appointment.
+     * 
+     * @param status the new AppointmentStatus
+     */
     public void setStatus(AppointmentStatus status) { this.status = status; }
     
-    
+    /**
+     * Confirms the appointment by setting its status to CONFIRMED.
+     */
     public void confirm() {
         this.status = AppointmentStatus.CONFIRMED;
     }
     
+    /**
+     * Cancels the appointment by setting its status to CANCELLED.
+     */
     public void cancel() {
         this.status = AppointmentStatus.CANCELLED;
     }
     
+    /**
+     * Marks the appointment as completed by setting its status to COMPLETED.
+     */
     public void complete() {
         this.status = AppointmentStatus.COMPLETED;
     }
     
+    /**
+     *Checks if the appointment is scheduled for a future time.
+     * 
+     * @return true if the appointment's start time is after the current time,
+     *         false otherwise
+     */
     public boolean isFuture() {
         return slot.getStartTime().isAfter(java.time.LocalDateTime.now());
     }
     
+    /**
+     * Returns a string representation of the appointment.
+     * The format includes propertyId, visitorId, and status.
+     * 
+     * @return a formatted string containing appointment information
+     */
     @Override
     public String toString() {
-        return "Appointment{id='" + id + "', propertyId='" + propertyId + "', visitorId='" + visitorId + "', status=" + status + "}";
+        return "Appointment{ propertyId=" + propertyId + ", visitorId='" + visitorId + "', status=" + status + "}";
     }
 }

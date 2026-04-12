@@ -11,9 +11,16 @@ import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.persistence.AppointmentRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class VisitorService {
 
     //private AppointmentRepository appointmentRepository;
@@ -82,7 +89,7 @@ this.scanner = scanner;
         int pIndex = scanner.nextInt();
 
         Property selectedProperty = properties.get(pIndex);
-
+        
         List<TimeSlot> slots = selectedProperty.getAvailableSlots();
 
         if (slots.isEmpty()) {
@@ -91,21 +98,28 @@ this.scanner = scanner;
         }
         System.out.println("Available Slots:");
         for (int i = 0; i < slots.size(); i++) {
-            System.out.println(i + ". " + slots.get(i));
+        	System.out.println(i + ". " + slots.get(i).getStartTime());
         }
 
         System.out.print("Choose slot index: ");
         int sIndex = scanner.nextInt();
 
         TimeSlot selectedSlot = slots.get(sIndex);
-
+        LocalDateTime startTime = selectedSlot.getStartTime();
+        
+        
         AppointmentType type ;//= AppointmentType.IN_PERSON; //needs work
         
         System.out.println("Appointment Type:");
+        
+        
         AppointmentType[] types = AppointmentType.values();
         for (int i = 0; i < types.length; i++) {
-            System.out.println(i + ". " + types[i]);
+           // System.out.println(i + ". " + types[i]);
+        	System.out.printf("%d. %s (%d minutes)%n", 
+                    i, types[i], types[i].getDurationMinutes());
         }
+            
         System.out.print("Choose type: ");
         int typeIndex = scanner.nextInt();
 
@@ -116,12 +130,18 @@ this.scanner = scanner;
             type = types[typeIndex];
         }
         
+        int duration=type.getDurationMinutes();
+        LocalDateTime endTime = startTime.plusMinutes(duration);
+        
+        
         Appointment appointment = appointmentService.bookAppointment(
                 selectedProperty.getId(),
                 visitor.getId(),
                 selectedSlot,
                 type
         );
+        selectedSlot.setAvailable(false);
+        
         System.out.println("Appointment booked successfully!");
         System.out.println(appointment);
     }

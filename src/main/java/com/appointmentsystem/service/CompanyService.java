@@ -14,7 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class CompanyService {
     
 	private CompanyRepository companyRepository;
@@ -96,13 +102,16 @@ public class CompanyService {
     }
     
     
-    public void addTimeSlotToProperty(Company c, int propertyIndex, String input) {
+    public void addTimeSlotToProperty(Company c, int propertyIndex, String startInput) {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
 
         if (properties.isEmpty()) {
             System.out.println("No properties found");
             return;
         }
+        
+        
+        
         if (propertyIndex < 0 || propertyIndex >= properties.size()) {
             System.out.println("Invalid property index");
             return;
@@ -113,19 +122,29 @@ public class CompanyService {
             java.time.format.DateTimeFormatter formatter =
                     java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-            LocalDateTime time = LocalDateTime.parse(input, formatter);
+            LocalDateTime startTime = LocalDateTime.parse(startInput, formatter);
+            // LocalDateTime endTime = LocalDateTime.parse(endInput, formatter);
+            
+            LocalDateTime now = LocalDateTime.now();
+            if (startTime.isBefore(now)) {
+                System.out.println("Cannot add time slot in the past. Please choose a future date and time.");
+                return;
+            }
+            
+            
             
             
             
 
             for (TimeSlot s : selected.getTimeSlots()) {
-                if (s.getStartTime().equals(time)) {
+                if (s.getStartTime().equals(startTime)) {
                     System.out.println("This time slot already exists");
                     return;
                 }
             }
-
-            TimeSlot slot = new TimeSlot(time);
+            
+            
+            TimeSlot slot = new TimeSlot(startTime);
             selected.addTimeSlot(slot);
             propertyRepository.update(selected);
             System.out.println("Time slot added successfully!");

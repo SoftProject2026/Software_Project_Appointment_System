@@ -9,7 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class CLI {
     private Scanner scanner = new Scanner(System.in);
     private PropertyService propertyService = new PropertyService();
@@ -211,15 +217,47 @@ public class CLI {
 
             switch (choice) {
 	            case 1:
-	                System.out.print("Type (APARTMENT/VILLA/COMMERCIAL): ");
-	                String typeStr = scanner.next();
-	
+	                //System.out.print("Type (APARTMENT/VILLA/COMMERCIAL): ");
+	                
+	            	System.out.println("Select property type:");
+	            	System.out.println("1. APARTMENT");
+	            	System.out.println("2. VILLA");
+	            	System.out.println("3. COMMERCIAL");
+	            	
+	            	int typeNum = scanner.nextInt();
+	            	String typeStr = "";
+
+	            	switch (typeNum) {
+	            	    case 1:
+	            	        typeStr = "APARTMENT";
+	            	        break;
+	            	    case 2:
+	            	        typeStr = "VILLA";
+	            	        break;
+	            	    case 3:
+	            	        typeStr = "COMMERCIAL";
+	            	        break;
+	            	    default:
+	            	        System.out.println("Invalid choice.");
+	            	        break;
+	            	}
+	            	
 	                System.out.print("Price in $: ");
 	                double price = scanner.nextDouble();
-	
+	               
+	                
+	                System.out.print("Area in m2: ");
+	                double area = scanner.nextDouble();
+	                
+	                System.out.print("Rooms Number: ");
+	                int roomsNumber = scanner.nextInt();
+	                
+	                System.out.print("Address: ");
+	                String Address = scanner.next();
+	                
 	                String id = UUID.randomUUID().toString();
 	
-	                Property p = new Property(id, c.getId(), PropertyType.valueOf(typeStr), price);
+	                Property p = new Property(id, c.getId(), PropertyType.valueOf(typeStr), price,area,roomsNumber,Address);
 	                propertyService.addProperty(c, p);
 	                break;
                 case 2:

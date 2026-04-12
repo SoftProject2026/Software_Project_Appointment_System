@@ -3,7 +3,13 @@ package com.appointmentsystem.domain.models;
 import com.appointmentsystem.domain.models.enums.PropertyType;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class Property {
     private String id;
     private String companyId;
@@ -87,6 +93,6 @@ public class Property {
 
     @Override
     public String toString() {
-        return "Property{id='" + id + "', companyId='" + companyId + "', price=" + price + "}";
+        return "Property{id='" + id + "', companyId='" + companyId + "',Type ='" + type + "', price=" + price + "', area=" + area +"', Rooms Number='" + roomsNumber+"', Address='" + address+"}";
     }
 }
