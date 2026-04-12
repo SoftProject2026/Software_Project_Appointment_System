@@ -1,21 +1,16 @@
 package com.appointmentsystem.domain.models.enums;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public enum AppointmentStatus {
-    SCHEDULED("Scheduled"),
     CONFIRMED("Confirmed"),
     COMPLETED("Completed"),
-    CANCELLED("Cancelled"),
-    NO_SHOW("No Show");
+    CANCELLED("Cancelled");
     
-	/*URGENT("urgent"),
-	FOLLOW_UP("follow_up"),
-	ASSESSMENT("assessment"),
-	VIRTUAL("virtual"),
-	IN_PERSON("in-person"),
-	INDIVIDUAL("individual"),
-	GROUP("group")
-   ;*/
-	
     private String displayName;
     
     AppointmentStatus(String displayName) {

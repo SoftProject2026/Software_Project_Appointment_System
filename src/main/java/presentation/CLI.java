@@ -1,26 +1,30 @@
 package presentation;
 
-import com.appointmentsystem.service.UserService;
+import com.appointmentsystem.service.*;
 import com.appointmentsystem.domain.models.*;
+import com.appointmentsystem.domain.models.enums.AppointmentType;
+import com.appointmentsystem.domain.models.enums.PropertyType;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class CLI {
     private Scanner scanner = new Scanner(System.in);
-    private UserService userService = new UserService();
+    private PropertyService propertyService = new PropertyService();
+    private AppointmentService appointmentService = new AppointmentService();
+    private VisitorService visitorService = new VisitorService();
+    private AdminService adminService = new AdminService();
+    private CompanyService companyService = new CompanyService();
     
-    public CLI() {
-    	initializeAdmin();
-    }
-    
-    private void initializeAdmin() {
-        if (!userService.usernameExists("admin")) {
-            Admin admin = new Admin("1", "Admin", "admin", "admin@mail.com", "1234");
-            userService.createUser(admin);
-        }
-    }
-    
+
     public void start() {
         while (true) {
             System.out.println("\n=== Welcome ===");
@@ -46,23 +50,35 @@ public class CLI {
     }
 
     private void loginMenu() {
-        System.out.print("Username: ");
-        String username = scanner.next();
+    	System.out.println("Login as:");
+    	System.out.println("1. Admin");
+    	System.out.println("2. Company");
+    	System.out.println("3. Visitor");
 
-        System.out.print("Password: ");
-        String password = scanner.next();
+    	int type = scanner.nextInt();
 
-        try {
-            User user = userService.authenticate(username, password);
-            if (user instanceof Admin)
-                adminMenu((Admin) user);
-            else if (user instanceof Company)
-                companyMenu((Company) user);
-        	else
-                visitorMenu((Visitor) user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    	System.out.print("Username: ");
+    	String username = scanner.next();
+
+    	System.out.print("Password: ");
+    	String password = scanner.next();
+
+    	try {
+    	    if (type == 1) {
+    	        Admin admin = adminService.login(username, password);
+    	        adminMenu(admin);
+    	    } 
+    	    else if (type == 2) {
+    	        Company c = companyService.login(username, password);
+    	        companyMenu(c);
+    	    } 
+    	    else {
+    	        Visitor v = visitorService.login(username, password);
+    	        visitorMenu(v);
+    	    }
+    	} catch (Exception e) {
+    	    System.out.println(e.getMessage());
+    	}
     }
 
     private void signupMenu() {
@@ -73,7 +89,7 @@ public class CLI {
         int choice = scanner.nextInt();
 
         System.out.print("Name: ");
-        String name = scanner.nextLine();
+        String name = scanner.next();
 
         System.out.print("Username: ");
         String username = scanner.next();
@@ -89,18 +105,18 @@ public class CLI {
 	            String phone = scanner.next();
 	            String id = UUID.randomUUID().toString();
 	            Visitor v = new Visitor(id, name, username, email, password, phone);
-	            userService.createUser(v);
+	            visitorService.signup(v);
+	            System.out.println("Hello, " + v.getVisitorName() +" Account created!");
+	            visitorMenu(v);
 	        }
 	        else{
 	        	System.out.print("Commercial Register: ");
 	            String cr = scanner.next();
 	            String id = UUID.randomUUID().toString();
 	            Company c = new Company(id, name, username, email, password, cr);
-	            userService.createUser(c);
-	        }
-	        System.out.println("Account created!");
-	        loginMenu();
-	        
+	            companyService.signup(c);
+	            System.out.println("\nYour account is pending approval by admin");
+	        }	        
         } catch(Exception e){
         	System.out.println(e.getMessage());
         }
@@ -118,9 +134,14 @@ public class CLI {
 
             switch (choice) {
                 case 1: 
-                	viewCompanies(); break;
-                case 2: 
-                	approveCompany(); break;
+
+                	companyService.printAllCompanys(); break;
+                case 2:
+                    System.out.print("Enter company name: ");
+                    String Cname = scanner.next();
+                    companyService.approveCompany(Cname);//approveCompany->approve
+                    break;
+
                 case 3:
                     return;
                 default:
@@ -130,41 +151,161 @@ public class CLI {
         }
     }
 
-    private void viewCompanies() {
-        for (User user : userService.getAllUsers()) {
-            if (user instanceof Company) {
-            	Company c = (Company) user;
-            	System.out.println("Name: " + c.getCompanyName() +" | Verified: " + c.isVerified());
-            }
-        }
-    }
 
-    private void approveCompany() {
-        System.out.print("Enter company username: ");
-        String username = scanner.next();
 
-        User user = userService.getUserByUsername(username);
 
-        if (user instanceof Company) {
-            Company c = (Company) user;
-            if (c.isVerified()) {
-                System.out.println("Company already approved!");
-                return;
-            }
-            c.setVerified(true);
-            userService.updateUser(c);
-            System.out.println("Company approved!");
-        }
-        else {
-            System.out.println("Not a company!");
-        }    
-    }
 
+    
+//////////////////////////////// Client
     private void visitorMenu(Visitor v) {
-        ///////////////////
+    	while(true) {
+	    	System.out.println("1. View Properties And Book Appointment");
+	    	System.out.println("2. My Appointments");
+	    	System.out.println("3. Cancel Appointment");
+	    	System.out.println("4. Modify Appointment");
+	    	System.out.println("5. Logout");
+	    	
+	    	
+	    	int choice = scanner.nextInt();
+	
+	        switch (choice) {
+	        case 1:
+	        	visitorService.bookAppointment(v);
+	            break;
+	        case 2:
+	        	visitorService.viewMyAppointments(v);
+	            break;
+	
+	        case 3:
+	        	visitorService.cancelAppointment(v);
+	            break;
+	
+	        case 4:
+	        	visitorService.modifyAppointment(v);
+	            break;
+	
+	        case 5:
+	        	System.out.println("Logging out...");
+	        	visitorService.logout(v);
+	        	return;
+	            
+	
+	        default:
+                System.out.println("Invalid choice");
+	        }
+    	}
     }
+    
+   
+    
 
+    
+    
+    
+   
+//////////////////////////////////// Company
     private void companyMenu(Company c) {
-        //////////////////////////
+        while (true) {
+            System.out.println("\n=== Company Menu ===");
+            System.out.println("1. Add Property");
+            System.out.println("2. View Properties");
+            System.out.println("3. Add Time Slot");
+            System.out.println("4. View Appointments");
+            System.out.println("5. Logout");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+	            case 1:
+	                //System.out.print("Type (APARTMENT/VILLA/COMMERCIAL): ");
+	                
+	            	System.out.println("Select property type:");
+	            	System.out.println("1. APARTMENT");
+	            	System.out.println("2. VILLA");
+	            	System.out.println("3. COMMERCIAL");
+	            	
+	            	int typeNum = scanner.nextInt();
+	            	String typeStr = "";
+
+	            	switch (typeNum) {
+	            	    case 1:
+	            	        typeStr = "APARTMENT";
+	            	        break;
+	            	    case 2:
+	            	        typeStr = "VILLA";
+	            	        break;
+	            	    case 3:
+	            	        typeStr = "COMMERCIAL";
+	            	        break;
+	            	    default:
+	            	        System.out.println("Invalid choice.");
+	            	        break;
+	            	}
+	            	
+	                System.out.print("Price in $: ");
+	                double price = scanner.nextDouble();
+	               
+	                
+	                System.out.print("Area in m2: ");
+	                double area = scanner.nextDouble();
+	                
+	                System.out.print("Rooms Number: ");
+	                int roomsNumber = scanner.nextInt();
+	                
+	                System.out.print("Address: ");
+	                String Address = scanner.next();
+	                
+	                String id = UUID.randomUUID().toString();
+	
+	                Property p = new Property(id, c.getId(), PropertyType.valueOf(typeStr), price,area,roomsNumber,Address);
+	                propertyService.addProperty(c, p);
+	                break;
+                case 2:
+                	propertyService.viewMyProperties(c);
+                    break;
+                case 3:
+                	System.out.print("Choose property index: ");
+                	int index = scanner.nextInt();
+                	scanner.nextLine();
+
+                	System.out.print("Enter time: (format: yyyy-MM-dd HH:mm)");
+                    String input = scanner.nextLine();
+
+                	companyService.addTimeSlotToProperty(c, index, input);
+                    break;
+                case 4:
+                	appointmentService.viewCompanyAppointments(c);
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
     }
+    
+    
+//    private void addTimeSlotToProperty(Company c) {
+//        System.out.print("Choose property index: ");
+//        int index = scanner.nextInt();
+//
+//        Property selected = properties.get(index);
+//
+//        System.out.print("Start hour (e.g. 14): ");
+//        int hour = scanner.nextInt();
+//
+//        LocalDateTime start = LocalDateTime.now()
+//                .plusDays(1)
+//                .withHour(hour)
+//                .withMinute(0);
+//
+//        TimeSlot slot = TimeSlot.createSlotWithDuration(start, 30);
+//
+//        selected.addTimeSlot(slot);
+//
+//        System.out.println("Time slot added!");
+//    }
+    
+
+
 }

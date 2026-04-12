@@ -1,3 +1,4 @@
+/*
 package test;
 
 import com.appointmentsystem.domain.models.User;
@@ -13,4 +14,4 @@ public class TestUser extends User {
     public String getRole() {
         return "TEST"; 
     }
-}
+}*/

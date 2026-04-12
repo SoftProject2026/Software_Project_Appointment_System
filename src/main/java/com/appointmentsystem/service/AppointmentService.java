@@ -1,146 +1,137 @@
 package com.appointmentsystem.service;
 
 import com.appointmentsystem.domain.models.Appointment;
+import com.appointmentsystem.domain.models.Company;
+import com.appointmentsystem.domain.models.Property;
+import com.appointmentsystem.domain.models.TimeSlot;
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
+import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
+import com.appointmentsystem.persistence.PropertyRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class AppointmentService {
     
     private AppointmentRepository appointmentRepository;
+    private PropertyRepository propertyRepository;
     
     public AppointmentService() {
         this.appointmentRepository = new AppointmentRepository();
+        this.propertyRepository = new PropertyRepository();
     }
     
-    public AppointmentService(AppointmentRepository appointmentRepository) {
-        this.appointmentRepository = appointmentRepository;
-    }
+
     
-    
-    public void createAppointment(Appointment appointment) {
-        if (appointment == null) return;
-        appointmentRepository.save(appointment);
-    }
-    
-    public Appointment getAppointmentById(String id) {
+    public AppointmentService(AppointmentRepository mockAppointmentRepository) {
+    	 this.appointmentRepository = mockAppointmentRepository;
+         this.propertyRepository = new PropertyRepository();
+	}
+
+
+
+	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
     }
     
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
-    }
-    
-    public void updateAppointment(Appointment appointment) {
-        appointmentRepository.update(appointment);
-    }
-    
-    public void deleteAppointment(String id) {
-        appointmentRepository.deleteById(id);
-    }
-    
-    
-    
-    public List<Appointment> getAppointmentsByCompany(String companyId) {
-        return appointmentRepository.findByCompanyId(companyId);
-    }
+    }    
     
     public List<Appointment> getAppointmentsByVisitor(String visitorId) {
         return appointmentRepository.findByVisitorId(visitorId);
     }
     
-    public List<Appointment> getAppointmentsByProperty(String propertyId) {
-        return appointmentRepository.findByPropertyId(propertyId);
-    }
-    
-    //public List<Appointment> getAppointmentsByStatus(AppointmentStatus status) {
-      //  return getAllAppointments().stream()
-       //         .filter(a -> a.getStatus() == status)
-        //        .collect(Collectors.toList());
-    //}
-    
-    public List<Appointment> getTodayAppointments() {
-        return getAllAppointments().stream()
-                .filter(Appointment::isToday)
-                .collect(Collectors.toList());
-    }
-    
-    public List<Appointment> getUpcomingAppointments() {
-        return getAllAppointments().stream()
-                .filter(a -> a.isInFuture() && a.getStatus() == AppointmentStatus.SCHEDULED)
-                .collect(Collectors.toList());
-    }
-    
-    /*public List<Appointment> getAppointmentsByDateRange(LocalDateTime start, LocalDateTime end) {
-        return getAllAppointments().stream()
-                .filter(a -> a.getStartTime().isAfter(start) && a.getEndTime().isBefore(end))
-                .collect(Collectors.toList());
-    }*/
-    
-    
-    
-    public void confirmAppointment(String appointmentId) {
-        Appointment appointment = appointmentRepository.findById(appointmentId);
-        if (appointment != null) {
-            appointment.confirm();
-            appointmentRepository.update(appointment);
+    public void viewCompanyAppointments(Company c) {
+    	List<Appointment> allAppointments = appointmentRepository.findAll();
+
+        boolean found = false;
+
+        for (Appointment a : allAppointments) {
+        	Property p = propertyRepository.findById(a.getPropertyId());
+
+            if (p != null && p.getCompanyId().equals(c.getId())) {
+                System.out.println(a);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No appointments");
         }
     }
+
+    public List<Appointment> getUpcomingAppointments() {
+        return getAllAppointments().stream()
+                .filter(a -> a.isFuture() && a.getStatus() == AppointmentStatus.CONFIRMED)
+                .collect(Collectors.toList());
+    }
+    
+//    public void completeAppointment(String appointmentId) {
+//        Appointment appointment = appointmentRepository.findById(appointmentId);
+//        if (appointment != null) {
+//            appointment.complete();
+//            appointmentRepository.update(appointment);
+//        }
+//    }
+    
     
     public void cancelAppointment(String appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId);
-        if (appointment != null) {
-            appointment.cancel();
-            appointmentRepository.update(appointment);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Appointment not found");
         }
-    }
-    
-    public void completeAppointment(String appointmentId) {
-        Appointment appointment = appointmentRepository.findById(appointmentId);
-        if (appointment != null) {
-            appointment.complete();
-            appointmentRepository.update(appointment);
+        if (!appointment.isFuture()) {
+            throw new IllegalStateException("Cannot cancel past appointment");
         }
+        appointment.cancel();
+        appointment.getSlot().setAvailable(true);
+        appointmentRepository.update(appointment);
     }
     
-    /*public void markVisitorAttendance(String appointmentId, boolean attended) {
-        Appointment appointment = appointmentRepository.findById(appointmentId);
-        if (appointment != null) {
-            appointment.setVisitorAttended(attended);
-            appointmentRepository.update(appointment);
+    public void modifyAppointment(String appointmentId, TimeSlot newSlot) {
+        Appointment app = appointmentRepository.findById(appointmentId);
+        if (app == null) {
+            throw new RuntimeException("Appointment not found");
         }
-    }
-    
-    public void addNotes(String appointmentId, String notes) {
-        Appointment appointment = appointmentRepository.findById(appointmentId);
-        if (appointment != null) {
-            appointment.setNotes(notes);
-            appointmentRepository.update(appointment);
+        if (!app.isFuture()) {
+            throw new RuntimeException("Past appointment");
         }
-    }*/
-    
-    public boolean isAppointmentAvailable(String propertyId, LocalDateTime startTime, LocalDateTime endTime) {
-        List<Appointment> propertyAppointments = getAppointmentsByProperty(propertyId);
-        return propertyAppointments.stream().noneMatch(a -> 
-            a.getStatus() != AppointmentStatus.CANCELLED &&
-            (startTime.isBefore(a.getEndTime()) && endTime.isAfter(a.getStartTime()))
-        );
+        if (!newSlot.isAvailable()) {
+            throw new RuntimeException("Slot taken");
+        }
+        app.getSlot().setAvailable(true);
+        app.setSlot(newSlot);
+        newSlot.setAvailable(false);
+        appointmentRepository.update(app);
     }
     
     
-    
-    public int getTotalAppointmentsCount() {
-        return appointmentRepository.count();
+    public Appointment bookAppointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
+        if (slot == null) {
+            throw new IllegalArgumentException("Invalid slot");
+        }
+        if (!slot.isAvailable()) {
+            throw new IllegalStateException("Slot already booked");
+        }
+//        if (slot.getDurationInMinutes() > 30) {
+//            throw new IllegalStateException("Max duration is 30 minutes");
+//        }
+        Appointment appointment = new Appointment(propertyId, visitorId, slot, type);
+        
+         slot.setAvailable(false);
+        //appointment.confirm();
+        appointmentRepository.save(appointment);
+        return appointment;
     }
+
     
-    /*public int getAppointmentsCountByStatus(AppointmentStatus status) {
-        return (int) getAppointmentsByStatus(status).size();
-    }
-    
-    public int getTodayAppointmentsCount() {
-        return getTodayAppointments().size();
-    }*/
 }

@@ -6,11 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class CompanyRepository {
     
-    private Map<String, Company> companyStorage = new HashMap<>();
-    
+	private static Map<String, Company> companyStorage = new HashMap<>();
     
     public void save(Company company) {
         if (company == null) return;
@@ -42,11 +47,6 @@ public class CompanyRepository {
         return new ArrayList<>(companyStorage.values());
     }
     
-    public List<Company> findAllActive() {
-        return companyStorage.values().stream()
-                .filter(Company::isActive)
-                .collect(Collectors.toList());
-    }
     
     public List<Company> findAllVerified() {
         return companyStorage.values().stream()

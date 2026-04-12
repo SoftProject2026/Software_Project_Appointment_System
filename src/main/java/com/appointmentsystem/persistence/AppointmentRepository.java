@@ -4,10 +4,16 @@ import com.appointmentsystem.domain.models.Appointment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class AppointmentRepository {
     
-    private List<Appointment> appointments = new ArrayList<>();
+	private static List<Appointment> appointments = new ArrayList<>();
     
    
     public void save(Appointment appointment) {
@@ -39,14 +45,7 @@ public class AppointmentRepository {
         return new ArrayList<>(appointments);
     }
     
-    // Query methods
-    public List<Appointment> findByCompanyId(String companyId) {
-        if (companyId == null) return new ArrayList<>();
-        return appointments.stream()
-                .filter(a -> companyId.equals(a.getCompanyId()))
-                .collect(Collectors.toList());
-    }
-    
+
     public List<Appointment> findByVisitorId(String visitorId) {
         if (visitorId == null) return new ArrayList<>();
         return appointments.stream()

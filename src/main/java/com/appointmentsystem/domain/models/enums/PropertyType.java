@@ -1,10 +1,15 @@
 package com.appointmentsystem.domain.models.enums;
-
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public enum PropertyType {
     APARTMENT("Apartment"),
     VILLA("Villa"),
-    COMMERCIAL("Commercial"),
-    LAND("Land");
+    COMMERCIAL("Commercial");
     
     private String displayName;
     

@@ -1,98 +1,148 @@
 package com.appointmentsystem.domain.models;
 
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
+import com.appointmentsystem.domain.models.enums.AppointmentType;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+/**
+ * Represents an appointment booked by a visitor for a specific property.
+ * 
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class Appointment {
     private String id;
     private String propertyId;
     private String visitorId;
-    private String companyId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private AppointmentStatus status;
-    private LocalDateTime createdAt;
-    private String notes;
-    private boolean visitorAttended;
-    
-    public Appointment(String propertyId, String visitorId, String companyId, 
-                       LocalDateTime startTime, LocalDateTime endTime) {
+    private AppointmentType type;
+    private TimeSlot slot;
+    /**
+     * 
+     * @param propertyId the ID of the property being booked
+     * @param visitorId the ID of the visitor making the booking
+     * @param slot the time slot for the appointment
+     * @param type the type of appointment (determines duration)
+     */
+    public Appointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
         this.id = UUID.randomUUID().toString();
+        //this.id = id;
         this.propertyId = propertyId;
         this.visitorId = visitorId;
-        this.companyId = companyId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = AppointmentStatus.SCHEDULED;
-        this.createdAt = LocalDateTime.now();
-        this.visitorAttended = false;
+        this.slot = slot;
+        this.type = type;
+        this.status = AppointmentStatus.CONFIRMED;
+        //this.slot.setAvailable(false);
     }
+    /**
+     *  Default constructor for frameworks that require no-arg constructor.
+     */
+    public Appointment() {
+		// TODO Auto-generated constructor stub
+	}
+/**
+ * Returns the time slot of the appointment.
+ * @return the TimeSlot object containing start time and availability
+ */
+	public TimeSlot getSlot() { return slot; }
+	/**
+	 * Sets the time slot for the appointment.
+	 * @param slot the new TimeSlot for the appointment
+	 */
+    public void setSlot(TimeSlot slot) {this.slot = slot;}
     
-    public Appointment(String id, String propertyId, String visitorId, String companyId,
-                       LocalDateTime startTime, LocalDateTime endTime, AppointmentStatus status) {
-        this.id = id;
-        this.propertyId = propertyId;
-        this.visitorId = visitorId;
-        this.companyId = companyId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = status;
-        this.createdAt = LocalDateTime.now();
-        this.visitorAttended = false;
-    }
-    
+    /**
+     * Returns the unique identifier of the appointment.
+     * @return the appointment ID (UUID format)
+     */
     public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    
+    /**
+     * Returns the property ID associated with this appointment.
+     * @return the property ID
+     */
     public String getPropertyId() { return propertyId; }
+    
+    /**
+     * Sets the property ID for this appointment.
+     * @param propertyId the new property ID
+     */
     public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
     
+    /**
+     * Returns the visitor ID who booked this appointment.
+     * @return the visitor ID
+     */
     public String getVisitorId() { return visitorId; }
+    
+    /**
+     * Sets the visitor ID for this appointment.
+     * @param visitorId the new visitor ID
+     */
     public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
     
-    public String getCompanyId() { return companyId; }
-    public void setCompanyId(String companyId) { this.companyId = companyId; }
+/**
+ * Returns the type of this appointment.
+ * @return the AppointmentType (URGENT, FOLLOW_UP, VIRTUAL, IN_PERSON, GROUP)
+ */
+    public AppointmentType getType() { return type; }
     
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-    
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
-    
+    /**
+     * Returns the current status of the appointment.
+     * 
+     * @return the AppointmentStatus (CONFIRMED, CANCELLED, COMPLETED)
+     */
     public AppointmentStatus getStatus() { return status; }
+    
+    /**
+     * Sets the status of the appointment.
+     * 
+     * @param status the new AppointmentStatus
+     */
     public void setStatus(AppointmentStatus status) { this.status = status; }
     
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
-    
-    public boolean didVisitorAttend() { return visitorAttended; }
-    public void setVisitorAttended(boolean visitorAttended) { this.visitorAttended = visitorAttended; }
-    
-    public boolean isToday() {
-        return startTime.toLocalDate().equals(LocalDateTime.now().toLocalDate());
-    }
-    
-    public boolean isInFuture() {
-        return startTime.isAfter(LocalDateTime.now());
-    }
-    
+    /**
+     * Confirms the appointment by setting its status to CONFIRMED.
+     */
     public void confirm() {
         this.status = AppointmentStatus.CONFIRMED;
     }
     
+    /**
+     * Cancels the appointment by setting its status to CANCELLED.
+     */
     public void cancel() {
         this.status = AppointmentStatus.CANCELLED;
     }
     
+    /**
+     * Marks the appointment as completed by setting its status to COMPLETED.
+     */
     public void complete() {
         this.status = AppointmentStatus.COMPLETED;
     }
     
+    /**
+     *Checks if the appointment is scheduled for a future time.
+     * 
+     * @return true if the appointment's start time is after the current time,
+     *         false otherwise
+     */
+    public boolean isFuture() {
+        return slot.getStartTime().isAfter(java.time.LocalDateTime.now());
+    }
+    
+    /**
+     * Returns a string representation of the appointment.
+     * The format includes propertyId, visitorId, and status.
+     * 
+     * @return a formatted string containing appointment information
+     */
     @Override
     public String toString() {
-        return "Appointment{id='" + id + "', propertyId='" + propertyId + "', visitorId='" + visitorId + "', status=" + status + "}";
+        return "Appointment{ propertyId=" + propertyId + ", visitorId='" + visitorId + "', status=" + status + "}";
     }
 }
