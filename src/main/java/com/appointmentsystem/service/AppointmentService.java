@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
+ * Service for appointment management.
+ * 
  * @author Tala Khraim
  * @author Sara Sawalha
  * @author Masar Jabr
- * 
  * @version 1.0
  */
 public class AppointmentService {
@@ -29,46 +30,55 @@ public class AppointmentService {
         this.propertyRepository = new PropertyRepository();
     }
     
-
-    
     public AppointmentService(AppointmentRepository mockAppointmentRepository) {
-    	 this.appointmentRepository = mockAppointmentRepository;
-         this.propertyRepository = new PropertyRepository();
-	}
+        this.appointmentRepository = mockAppointmentRepository;
+        this.propertyRepository = new PropertyRepository();
+    }
 
-
-
+    /**
+     * @param id the appointment ID
+     * @return the appointment if found
+     */
 	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
     }
     
+	/**
+     * @return all appointments
+     */
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
-    }    
+    }
     
+    /**
+     * @param visitorId the visitor ID
+     * @return appointments for the visitor
+     */
     public List<Appointment> getAppointmentsByVisitor(String visitorId) {
         return appointmentRepository.findByVisitorId(visitorId);
     }
     
+    /**
+     * @param c the company
+     */
     public void viewCompanyAppointments(Company c) {
-    	List<Appointment> allAppointments = appointmentRepository.findAll();
-
+        List<Appointment> allAppointments = appointmentRepository.findAll();
         boolean found = false;
-
         for (Appointment a : allAppointments) {
-        	Property p = propertyRepository.findById(a.getPropertyId());
-
+            Property p = propertyRepository.findById(a.getPropertyId());
             if (p != null && p.getCompanyId().equals(c.getId())) {
                 System.out.println(a);
                 found = true;
             }
         }
-
         if (!found) {
             System.out.println("No appointments");
         }
     }
 
+    /**
+     * @return upcoming confirmed appointments
+     */
     public List<Appointment> getUpcomingAppointments() {
         return getAllAppointments().stream()
                 .filter(a -> a.isFuture() && a.getStatus() == AppointmentStatus.CONFIRMED)
@@ -83,7 +93,11 @@ public class AppointmentService {
 //        }
 //    }
     
-    
+    /**
+     * @param appointmentId the appointment ID
+     * @throws IllegalArgumentException if not found
+     * @throws IllegalStateException if past appointment
+     */
     public void cancelAppointment(String appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId);
         if (appointment == null) {
@@ -96,7 +110,11 @@ public class AppointmentService {
         appointment.getSlot().setAvailable(true);
         appointmentRepository.update(appointment);
     }
-    
+    /**
+     * @param appointmentId the appointment ID
+     * @param newSlot the new time slot
+     * @throws RuntimeException if appointment not found, past, or slot taken
+     */
     public void modifyAppointment(String appointmentId, TimeSlot newSlot) {
         Appointment app = appointmentRepository.findById(appointmentId);
         if (app == null) {
@@ -114,7 +132,15 @@ public class AppointmentService {
         appointmentRepository.update(app);
     }
     
-    
+    /**
+     * @param propertyId the property ID
+     * @param visitorId the visitor ID
+     * @param slot the time slot
+     * @param type the appointment type
+     * @return the created appointment
+     * @throws IllegalArgumentException if slot invalid
+     * @throws IllegalStateException if slot booked
+     */
     public Appointment bookAppointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
         if (slot == null) {
             throw new IllegalArgumentException("Invalid slot");

@@ -15,6 +15,7 @@ import com.appointmentsystem.domain.models.*;
 import com.appointmentsystem.domain.models.enums.*;
 import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.service.*;
+
 /**
  * @author Tala Khraim
  * @author Sara Sawalha
@@ -77,11 +78,11 @@ class TestVisitorService {
 
         when(appointmentservice.getAppointmentsByVisitor("123"))
                 .thenReturn(List.of(app));
-
-        
     }
 
-
+    /**
+     * @param mockVisitor the visitor to sign up
+     */
     @Test
     void testSignupVisitorNotNull() {
         when(mockVisitorRepository.findByUsername("Alaa12")).thenReturn(mockVisitor);
@@ -90,6 +91,9 @@ class TestVisitorService {
         verify(mockVisitorRepository, never()).save(any());
     }
 
+    /**
+     * @param mockVisitor the visitor to sign up
+     */
     @Test
     void testSignupVisitorNull() {
         when(mockVisitorRepository.findByUsername("Alaa12")).thenReturn(null);
@@ -97,6 +101,9 @@ class TestVisitorService {
         verify(mockVisitorRepository, times(1)).save(mockVisitor);
     }
     
+    /**
+     * @param mockVisitor the visitor to sign up
+     */
     @Test
     void SignupVisitorInvalidEmail() {
 		
@@ -108,7 +115,11 @@ class TestVisitorService {
         verify(mockVisitorRepository, never()).save(any());
     }
 
-
+    /**
+     * @param username the username for login
+     * @param password the password for login
+     * @return the logged in visitor
+     */
     @Test
     void testLogin() {
         when(mockVisitorRepository.findByUsername("Alaa12")).thenReturn(mockVisitor);
@@ -121,6 +132,10 @@ class TestVisitorService {
         assertEquals("Alaa12", result.getUsername());
     }
 
+    /**
+     * @param username the username for login
+     * @param password the wrong password
+     */
     @Test
     void testLoginWrongPassword() {
         when(mockVisitorRepository.findByUsername("Alaa12")).thenReturn(mockVisitor);
@@ -129,6 +144,10 @@ class TestVisitorService {
         assertEquals("Invalid credentials", ex.getMessage());
     }
 
+    /**
+     * @param username the username for login
+     * @param password the password for login
+     */
     @Test
     void testLoginNullVisitor() {
         when(mockVisitorRepository.findByUsername("Alaa12")).thenReturn(null);
@@ -136,7 +155,9 @@ class TestVisitorService {
         assertEquals("Invalid credentials", ex.getMessage());
     }
 
-
+    /**
+     * @param mockVisitor the visitor booking the appointment
+     */
     @Test
     void testBookAppointment() {
 
@@ -146,6 +167,9 @@ class TestVisitorService {
         verify(appointmentservice).bookAppointment("p1", "123", slot, AppointmentType.URGENT);
     }
 
+    /**
+     * @param mockVisitor the visitor booking the appointment
+     */
     @Test
     void testBookAppointmentNullProperty() {
         when(propertyservice.getAllProperties()).thenReturn(List.of());
@@ -153,6 +177,9 @@ class TestVisitorService {
         verify(appointmentservice, never()).bookAppointment(any(), any(), any(), any());
     }
 
+    /**
+     * @param mockVisitor the visitor booking the appointment
+     */
     @Test
     void testBookAppointmentNoSlot() {
         when(property.getAvailableSlots()).thenReturn(List.of());
@@ -161,27 +188,37 @@ class TestVisitorService {
         verify(appointmentservice, never()).bookAppointment(any(), any(), any(), any());
     }
 
-
+    /**
+     * @param mockVisitor the visitor viewing appointments
+     * @return list of appointments
+     */
     @Test
     void testViewMyAppointmentsNull() {
 
         when(appointmentservice.getAppointmentsByVisitor("123")).thenReturn(List.of());
-        List<Appointment> result =visitorservice.viewMyAppointments(mockVisitor);
+        List<Appointment> result = visitorservice.viewMyAppointments(mockVisitor);
         assertTrue(result.isEmpty());
         verify(appointmentservice).getAppointmentsByVisitor("123");
     }
 
+    /**
+     * @param mockVisitor the visitor viewing appointments
+     * @return list of appointments
+     */
     @Test
     void testViewMyAppointments() {
 
         Appointment a1 = mock(Appointment.class);
         Appointment a2 = mock(Appointment.class);
         when(appointmentservice.getAppointmentsByVisitor("123")).thenReturn(List.of(a1, a2));
-        List<Appointment> result =visitorservice.viewMyAppointments(mockVisitor);
+        List<Appointment> result = visitorservice.viewMyAppointments(mockVisitor);
         assertEquals(2, result.size());
         verify(appointmentservice).getAppointmentsByVisitor("123");
     }
 
+    /**
+     * @param mockVisitor the visitor cancelling the appointment
+     */
     @Test
     void testCancelAppointmentNull() {
 
@@ -190,13 +227,18 @@ class TestVisitorService {
         verify(appointmentservice, never()).cancelAppointment(any());
     }
 
+    /**
+     * @param mockVisitor the visitor cancelling the appointment
+     */
     @Test
     void testCancelAppointment() {
         visitorservice.cancelAppointment(mockVisitor);
         verify(appointmentservice).cancelAppointment("a1");
     }
 
-
+    /**
+     * @param mockVisitor the visitor modifying the appointment
+     */
     @Test
     void testModifyAppointmentNullApp() {
         when(appointmentservice.getAppointmentsByVisitor("123")).thenReturn(List.of());
@@ -204,6 +246,9 @@ class TestVisitorService {
         verify(appointmentservice, never()).modifyAppointment(any(), any());
     }
 
+    /**
+     * @param mockVisitor the visitor modifying the appointment
+     */
     @Test
     void testModifyAppointment() {
 
@@ -218,6 +263,9 @@ class TestVisitorService {
         verify(appointmentservice).modifyAppointment("a1", newSlot);
     }
 
+    /**
+     * @param mockVisitor the visitor modifying the appointment
+     */
     @Test
     void testModifyAppointmentNoSlot() {
         when(appointmentservice.getAppointmentsByVisitor("123")).thenReturn(List.of(app));
