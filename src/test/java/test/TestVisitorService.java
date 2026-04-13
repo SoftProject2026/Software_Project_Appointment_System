@@ -160,11 +160,22 @@ class TestVisitorService {
      */
     @Test
     void testBookAppointment() {
-
-        Appointment appointment = new Appointment("p1","123",slot,AppointmentType.IN_PERSON);
-        when(appointmentservice.bookAppointment("p1", "123", slot, AppointmentType.IN_PERSON)).thenReturn(appointment);
+        
+        when(scanner.nextInt())
+            .thenReturn(0)  
+            .thenReturn(0)
+            .thenReturn(0); 
+        
+       
         visitorservice.bookAppointment(mockVisitor);
-        verify(appointmentservice).bookAppointment("p1", "123", slot, AppointmentType.URGENT);
+        
+       
+        verify(appointmentservice).bookAppointment(
+            eq("p1"),           
+            eq("123"),
+            eq(slot),
+            eq(AppointmentType.URGENT)
+        );
     }
 
     /**
@@ -226,7 +237,7 @@ class TestVisitorService {
         visitorservice.cancelAppointment(mockVisitor);
         verify(appointmentservice, never()).cancelAppointment(any());
     }
-
+    
     /**
      * @param mockVisitor the visitor cancelling the appointment
      */

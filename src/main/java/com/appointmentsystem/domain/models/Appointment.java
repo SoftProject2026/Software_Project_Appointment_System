@@ -44,6 +44,8 @@ public class Appointment {
     public Appointment() {
 		// TODO Auto-generated constructor stub
 	}
+    
+    
 /**
  * Returns the time slot of the appointment.
  * @return the TimeSlot object containing start time and availability

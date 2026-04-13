@@ -45,6 +45,29 @@ public class AppointmentService {
         this.emailService = new EmailService(username, password);
     }
     
+    public AppointmentService(AppointmentRepository appointmentRepository, PropertyRepository propertyRepository) {
+        this.appointmentRepository = appointmentRepository;
+        this.propertyRepository = propertyRepository;
+        this.visitorRepository = new VisitorRepository();
+        
+        Dotenv dotenv = Dotenv.load();
+        String username = dotenv.get("EMAIL_USERNAME");
+        String password = dotenv.get("EMAIL_PASSWORD");
+        
+        this.emailService = new EmailService(username, password);
+    }
+    
+    
+    public AppointmentService(AppointmentRepository appointmentRepository, 
+            PropertyRepository propertyRepository, 
+            VisitorRepository visitorRepository,
+            EmailService emailService) {
+this.appointmentRepository = appointmentRepository;
+this.propertyRepository = propertyRepository;
+this.visitorRepository = visitorRepository;
+this.emailService = emailService;
+}
+    
 	public AppointmentService(AppointmentRepository appointmentRepository) {
 		this.appointmentRepository = appointmentRepository;
 
@@ -163,6 +186,15 @@ public class AppointmentService {
     
     public void setVisitorRepository(VisitorRepository visitorRepository) {
         this.visitorRepository = visitorRepository;
+    }
+    
+ 
+    public void setAppointmentRepository(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
+    }
+
+    public void setPropertyRepository(PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
     }
 
     
