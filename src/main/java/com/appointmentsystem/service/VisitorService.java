@@ -23,9 +23,9 @@ import java.util.Scanner;
 public class VisitorService {
 
     private Scanner scanner;
-    private AppointmentService appointmentService = new AppointmentService();
-    private VisitorRepository visitorRepository = new VisitorRepository();
-    private PropertyService propertyService = new PropertyService();
+    private AppointmentService appointmentService;
+    private VisitorRepository visitorRepository;
+    private PropertyService propertyService;
     
     /**
      * @param visitorRepository the visitor repository
@@ -90,7 +90,57 @@ public class VisitorService {
      * @param visitor the visitor booking the appointment
      */
     public void bookAppointment(Visitor visitor) {
-        // ... existing code ...
+        
+        List<Property> properties = propertyService.getAllProperties();
+        if (properties.isEmpty()) {
+            System.out.println("No properties available");
+            return;
+        }
+        
+       
+        System.out.println("Available Properties:");
+        for (int i = 0; i < properties.size(); i++) {
+            System.out.println(i + ". " + properties.get(i));
+        }
+        System.out.print("Choose property index: ");
+        int propIndex = scanner.nextInt();
+        Property selectedProperty = properties.get(propIndex);
+        
+        
+        List<TimeSlot> availableSlots = selectedProperty.getAvailableSlots();
+        if (availableSlots.isEmpty()) {
+            System.out.println("No available slots for this property");
+            return;
+        }
+        
+        System.out.println("Available Slots:");
+        for (int i = 0; i < availableSlots.size(); i++) {
+            System.out.println(i + ". " + availableSlots.get(i));
+        }
+        System.out.print("Choose slot index: ");
+        int slotIndex = scanner.nextInt();
+        TimeSlot selectedSlot = availableSlots.get(slotIndex);
+        
+        
+        System.out.println("Appointment Types:");
+        System.out.println("0. URGENT");
+        System.out.println("1. IN_PERSON");
+        System.out.print("Choose type: ");
+        int typeIndex = scanner.nextInt();
+        AppointmentType type = (typeIndex == 0) ? AppointmentType.URGENT : AppointmentType.IN_PERSON;
+        
+        
+        try {
+            Appointment appointment = appointmentService.bookAppointment(
+                selectedProperty.getId(),
+                visitor.getId(),
+                selectedSlot,
+                type
+            );
+            System.out.println("Appointment booked successfully! ID: " + appointment.getId());
+        } catch (Exception e) {
+            System.out.println("Failed to book appointment: " + e.getMessage());
+        }
     }
     
     /**
