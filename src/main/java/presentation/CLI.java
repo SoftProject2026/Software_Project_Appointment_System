@@ -144,7 +144,7 @@ public class CLI {
                     break;
 
                 case 3:
-                	appointmentService.getAllAppointments();
+                 appointmentService.getAllAppointments();
                 case 4:
                     return;
                 default:
