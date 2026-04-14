@@ -54,10 +54,10 @@ public class VisitorService {
 
 	public void signup(Visitor v) {
         if (visitorRepository.findByUsername(v.getUsername()) != null)
-            throw new RuntimeException("\nUsername exists");
+            throw new RuntimeException("Username exists");
         if(isValidEmail(v.getEmail()))
         	visitorRepository.save(v);
-        else throw new RuntimeException("\nInvalid Email");
+        else throw new RuntimeException("Invalid Email");
     }
     
 
@@ -65,14 +65,14 @@ public class VisitorService {
         Visitor v = visitorRepository.findByUsername(username);
 
         if (v == null || !v.getPassword().equals(password))
-            throw new RuntimeException("\nInvalid credentials");
+            throw new RuntimeException("Invalid credentials");
 
         return v;
     }
     
     public void logout(Visitor visitor) {
         if (visitor == null) {
-            System.out.println("\nNo user is currently logged in.");
+            System.out.println("No user is currently logged in.");
             return;
         }
         System.out.println("\nGoodbye, " + visitor.getName() + "! You have been logged out successfully.");
@@ -81,15 +81,15 @@ public class VisitorService {
     public void bookAppointment(Visitor visitor) {
         List<Property> properties = propertyService.getAllProperties();
         if (properties.isEmpty()) {
-            System.out.println("\nNo properties available");
+            System.out.println("No properties available");
             return;
         }
-        System.out.println("\nAvailable Properties:");
+        System.out.println("Available Properties:");
         for (int i = 0; i < properties.size(); i++) {
             System.out.println(i + ". " + properties.get(i));
         }
 
-        System.out.print("\nChoose property index: ");
+        System.out.print("Choose property index: ");
         int pIndex = scanner.nextInt();
 
         Property selectedProperty = properties.get(pIndex);
@@ -97,7 +97,7 @@ public class VisitorService {
         List<TimeSlot> slots = selectedProperty.getAvailableSlots();
 
         if (slots.isEmpty()) {
-            System.out.println("\nNo available slots");
+            System.out.println("No available slots");
             return;
         }
         System.out.println("Available Slots:");
@@ -105,7 +105,7 @@ public class VisitorService {
         	System.out.println(i + ". " + slots.get(i).getStartTime());
         }
 
-        System.out.print("\nChoose slot index: ");
+        System.out.print("Choose slot index: ");
         int sIndex = scanner.nextInt();
 
         TimeSlot selectedSlot = slots.get(sIndex);
@@ -119,26 +119,23 @@ public class VisitorService {
                     i, types[i], types[i].getDurationMinutes());
         }
             
-        System.out.print("\nChoose type: ");
+        System.out.print("Choose type: ");
         int typeIndex = scanner.nextInt();
 
         if (typeIndex < 0 || typeIndex >= types.length) {
-            System.out.println("\nInvalid choice, defaulting to IN_PERSON");
+            System.out.println("Invalid choice, defaulting to IN_PERSON");
             type = AppointmentType.IN_PERSON;
         } else {
             type = types[typeIndex];
         }
-        
-        int duration=type.getDurationMinutes();
-        LocalDateTime endTime = startTime.plusMinutes(duration);
-        
+                
         Appointment appointment = appointmentService.bookAppointment(
                 selectedProperty.getId(),
                 visitor.getId(),
                 selectedSlot,
                 type
         );        
-        System.out.println("/nAppointment booked successfully! Status: " + appointment.getStatus());
+        System.out.println("Appointment booked successfully! Status: " + appointment.getStatus());
     }
     
  ///////////// edited   
@@ -152,12 +149,15 @@ public class VisitorService {
             Appointment a = apps.get(i);
 
             Property p = propertyService.getPropertyById(a.getPropertyId());
+            if(p==null) continue;
             Company company = companyRepository.findById(p.getCompanyId());
             Visitor v = visitorRepository.findById(a.getVisitorId());
-
-            System.out.println(i + ". Company: " + company.getCompanyName()
+            if(company != null) {
+                System.out.println(i + ". Company: " + company.getCompanyName()
                 + " | Visitor: " + v.getName()
                 + " | Status: " + a.getStatus());
+            }
+
         }
         return apps;
     }
@@ -214,7 +214,7 @@ public class VisitorService {
 
         try {
             appointmentService.modifyAppointment(selected.getId(), newSlot);
-            System.out.println("\nModified successfully!");
+            System.out.println("Modified successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

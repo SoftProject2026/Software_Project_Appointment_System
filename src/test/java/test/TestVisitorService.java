@@ -143,8 +143,8 @@ class TestVisitorService {
     @Test
     void testBookAppointment() {
 
-        Appointment appointment = new Appointment("p1","123",slot,AppointmentType.IN_PERSON);
-        when(appointmentservice.bookAppointment("p1", "123", slot, AppointmentType.IN_PERSON)).thenReturn(appointment);
+        Appointment appointment = new Appointment("p1","123",slot,AppointmentType.URGENT);
+        when(appointmentservice.bookAppointment("p1", "123", slot, AppointmentType.URGENT)).thenReturn(appointment);
         visitorservice.bookAppointment(mockVisitor);
         verify(appointmentservice).bookAppointment("p1", "123", slot, AppointmentType.URGENT);
     }

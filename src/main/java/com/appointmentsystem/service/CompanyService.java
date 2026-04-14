@@ -51,10 +51,10 @@ public class CompanyService {
         Company c = companyRepository.findByUsername(username);
 
         if (c == null || !c.getPassword().equals(password))
-            throw new RuntimeException("\nInvalid credentials");
+            throw new RuntimeException("Invalid credentials");
 
         if (!c.isVerified())
-            throw new RuntimeException("\nCompany not approved");
+            throw new RuntimeException("Company not approved");
 
         return c;
     }
@@ -63,10 +63,10 @@ public class CompanyService {
         Company c = companyRepository.findByUsername(username);
 
         if (c == null)
-            throw new RuntimeException("\nNot found");
+            throw new RuntimeException("Not found");
 
         if (c.isVerified())
-            throw new RuntimeException("\nAlready approved");
+            throw new RuntimeException("Already approved");
 
         c.setVerified(true);
         companyRepository.update(c);
@@ -89,17 +89,17 @@ public class CompanyService {
     public void approveCompany(String name) {
         Company c = companyRepository.findByCompanyName(name);
         if (c == null) {
-            System.out.println("\nCompany not found");
+            System.out.println("Company not found");
             return;
         }
         if (c.isVerified()) {
-            System.out.println("\nCompany already approved");
+            System.out.println("Company already approved");
             return;
         }
         c.setVerified(true);
         companyRepository.update(c);
         
-        System.out.println("\nCompany approved successfully!");
+        System.out.println("Company approved successfully!");
     }
 
     
@@ -107,11 +107,11 @@ public class CompanyService {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
 
         if (properties.isEmpty()) {
-            System.out.println("\nNo properties found");
+            System.out.println("No properties found");
             return;
         }
         if (propertyIndex < 0 || propertyIndex >= properties.size()) {
-            System.out.println("\nInvalid property index");
+            System.out.println("Invalid property index");
             return;
         }
         
@@ -126,13 +126,13 @@ public class CompanyService {
             
             LocalDateTime now = LocalDateTime.now();
             if (startTime.isBefore(now)) {
-                System.out.println("\nCannot add time slot in the past. Please choose a future date and time.");
+                System.out.println("Cannot add time slot in the past. Please choose a future date and time.");
                 return;
             }
 
             for (TimeSlot s : selected.getTimeSlots()) {
                 if (s.getStartTime().equals(startTime)) {
-                    System.out.println("\nThis time slot already exists");
+                    System.out.println("This time slot already exists");
                     return;
                 }
             }
@@ -140,10 +140,10 @@ public class CompanyService {
             TimeSlot slot = new TimeSlot(startTime);
             selected.addTimeSlot(slot);
             propertyRepository.update(selected);
-            System.out.println("\nTime slot added successfully!");
+            System.out.println("Time slot added successfully!");
 
         } catch (Exception e) {
-            System.out.println("\nInvalid date format. Use: yyyy-MM-dd HH:mm");
+            System.out.println("Invalid date format. Use: yyyy-MM-dd HH:mm");
         }
     }
     

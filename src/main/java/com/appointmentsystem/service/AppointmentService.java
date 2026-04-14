@@ -44,6 +44,30 @@ public class AppointmentService {
         this.emailService = new EmailService(username, password);
     }
     
+    public AppointmentService(AppointmentRepository appointmentRepository, PropertyRepository propertyRepository) {
+        this.appointmentRepository = appointmentRepository;
+        this.propertyRepository = propertyRepository;
+        this.visitorRepository = new VisitorRepository();
+        
+        Dotenv dotenv = Dotenv.load();
+        String username = dotenv.get("EMAIL_USERNAME");
+        String password = dotenv.get("EMAIL_PASSWORD");
+        
+        this.emailService = new EmailService(username, password);
+    }
+    
+    
+    public AppointmentService(AppointmentRepository appointmentRepository, 
+            PropertyRepository propertyRepository, 
+            VisitorRepository visitorRepository,
+            EmailService emailService) {
+			this.appointmentRepository = appointmentRepository;
+			this.propertyRepository = propertyRepository;
+			this.visitorRepository = visitorRepository;
+			this.emailService = emailService;
+    }
+    
+    
 	public AppointmentService(AppointmentRepository appointmentRepository) {
 		this.appointmentRepository = appointmentRepository;
 
@@ -81,6 +105,23 @@ public class AppointmentService {
         if (!found) {
             System.out.println("No appointments");
         }
+//    	
+//        List<Appointment> all = appointmentRepository.findAll();
+//        int i = 0;
+//        for (Appointment a : all) {
+//            Property p = propertyRepository.findById(a.getPropertyId());
+//            if (p != null && p.getCompanyId().equals(c.getId())) {
+//                Visitor v = visitorRepository.findById(a.getVisitorId());
+//                System.out.println(i + ". Visitor: " + v.getName()
+//                    + " | Date: " + a.getSlot()
+//                    + " | Type: " + a.getType()
+//                    + " | Status: " + a.getStatus());
+//                i++;
+//            }
+//        }
+//        if (i == 0) {
+//            System.out.println("No appointments");
+//        }
     }
 
 
@@ -162,6 +203,21 @@ public class AppointmentService {
     
     public void setVisitorRepository(VisitorRepository visitorRepository) {
         this.visitorRepository = visitorRepository;
+    }
+    
+    
+    
+    public void viewAllAppointments() {
+        List<Appointment> apps = appointmentRepository.findAll();
+
+        if (apps.isEmpty()) {
+            System.out.println("No appointments");
+            return;
+        }
+
+        for (int i = 0; i < apps.size(); i++) {
+            System.out.println(i + ". " + apps.get(i));
+        }
     }
 
     

@@ -130,7 +130,6 @@ public class CLI {
             System.out.println("2. Approve Company");
             System.out.println("3. View all appointments");
             System.out.println("4. Logout");
-            // more to be added
             
             int choice = scanner.nextInt();
 
@@ -140,10 +139,11 @@ public class CLI {
                 case 2:
                     System.out.print("Enter company name: ");
                     String Cname = scanner.next();
-                    companyService.approveCompany(Cname);//approveCompany->approve
+                    companyService.approveCompany(Cname);
                     break;
                 case 3:
-                	appointmentService.getAllAppointments();
+                	appointmentService.viewAllAppointments();
+                    break;
                 case 4:
                     return;
                 default:
@@ -200,7 +200,7 @@ public class CLI {
             System.out.println("2. View Properties");
             System.out.println("3. Add Time Slot");
             System.out.println("4. View Appointments");
-            System.out.println("5. Cancel Appointment");
+            //System.out.println("5. Cancel Appointment");
             System.out.println("6. Logout");
 
             int choice = scanner.nextInt();
@@ -262,7 +262,7 @@ public class CLI {
                 case 4:
                 	appointmentService.viewCompanyAppointments(c);
                     break;
-                case 5:
+//                case 5:
 //                	appointmentService.viewCompanyAppointments(c);
 //                	System.out.print("Choose appointment index: ");
 //                    int index2 = scanner.nextInt();
@@ -271,7 +271,7 @@ public class CLI {
 //                    
 //                    appointmentService.cancelAppointment(selected.getId(), c.getId());
 //                    System.out.println("Cancelled!");
-                    break;
+//                    break;
                 case 6:
                 	System.out.println("Logging out...");
                     return;
@@ -281,28 +281,5 @@ public class CLI {
         }
     }
     
-    
-//    private void addTimeSlotToProperty(Company c) {
-//        System.out.print("Choose property index: ");
-//        int index = scanner.nextInt();
-//
-//        Property selected = properties.get(index);
-//
-//        System.out.print("Start hour (e.g. 14): ");
-//        int hour = scanner.nextInt();
-//
-//        LocalDateTime start = LocalDateTime.now()
-//                .plusDays(1)
-//                .withHour(hour)
-//                .withMinute(0);
-//
-//        TimeSlot slot = TimeSlot.createSlotWithDuration(start, 30);
-//
-//        selected.addTimeSlot(slot);
-//
-//        System.out.println("Time slot added!");
-//    }
-    
-
 
 }

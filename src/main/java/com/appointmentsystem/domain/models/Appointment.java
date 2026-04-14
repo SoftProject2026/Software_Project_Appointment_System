@@ -144,6 +144,6 @@ public class Appointment {
      */
     @Override
     public String toString() {
-        return "Appointment{Id=" + id + "', status=" + status + "}";
+        return "Date: " + slot +" | Type: " + type +" | Status: " + status;
     }
 }
