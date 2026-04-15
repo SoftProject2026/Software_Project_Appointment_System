@@ -17,7 +17,6 @@ public class Appointment {
     private String id;
     private String propertyId;
     private String visitorId;
-    //private String companyId;
     private AppointmentStatus status;
     private AppointmentType type;
     private TimeSlot slot;
@@ -32,7 +31,6 @@ public class Appointment {
         this.id = UUID.randomUUID().toString();
         this.propertyId = propertyId;
         this.visitorId = visitorId;
-        //this.companyId= companyId;
         this.slot = slot;
         this.type = type;
         this.status = AppointmentStatus.CONFIRMED;
@@ -43,6 +41,8 @@ public class Appointment {
     public Appointment() {
 		// TODO Auto-generated constructor stub
 	}
+    
+    
 /**
  * Returns the time slot of the appointment.
  * @return the TimeSlot object containing start time and availability
@@ -65,11 +65,7 @@ public class Appointment {
      */
     public String getPropertyId() { return propertyId; }
     
-    /**
-     * Sets the property ID for this appointment.
-     * @param propertyId the new property ID
-     */
-    public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
+   
     
     /**
      * Returns the visitor ID who booked this appointment.
@@ -77,13 +73,7 @@ public class Appointment {
      */
     public String getVisitorId() { return visitorId; }
     
-    //public String getCompanyId() { return companyId; }
     
-    /**
-     * Sets the visitor ID for this appointment.
-     * @param visitorId the new visitor ID
-     */
-    public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
     
 /**
  * Returns the type of this appointment.
@@ -98,12 +88,6 @@ public class Appointment {
      */
     public AppointmentStatus getStatus() { return status; }
     
-    /**
-     * Sets the status of the appointment.
-     * 
-     * @param status the new AppointmentStatus
-     */
-    public void setStatus(AppointmentStatus status) { this.status = status; }
     
     /**
      * Confirms the appointment by setting its status to CONFIRMED.

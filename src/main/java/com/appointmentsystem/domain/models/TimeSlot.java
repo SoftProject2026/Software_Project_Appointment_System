@@ -5,18 +5,31 @@ import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 /**
+ * Represents a time slot for appointments in the system.
  * @author Tala Khraim
  * @author Sara Sawalha
  * @author Masar Jabr
  * 
  * @version 1.0
  */
+
 public final class TimeSlot {
-    private  LocalDateTime startTime;
-    private  LocalDateTime endTime;
     
+    /** Formatter for date and time display */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    
+    /** The start time of the time slot */
+    private LocalDateTime startTime;
+    
+    /** Indicates whether this time slot is available for booking */
     private boolean isAvailable = true;
     
+    /**
+     * Constructs a new TimeSlot with the specified start time.
+     * 
+     * @param startTime the start time of the time slot (must be in the future)
+     * @throws IllegalArgumentException if the start time is in the past
+     */
     public TimeSlot(LocalDateTime startTime) {
         if (startTime.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Cannot create a time slot in the past");
@@ -25,56 +38,40 @@ public final class TimeSlot {
         this.isAvailable = true;
     }
     
+
     public LocalDateTime getStartTime() { return startTime; }
-    //public LocalDateTime getEndTime() { return endTime; }
     
+
+    
+    /**
+     * Checks if this time slot is available for booking.
+     * 
+     * @return true if available, false if booked
+     */
     public boolean isAvailable() {
         return isAvailable;
     }
+    
+    /**
+     * Sets the availability status of this time slot.
+     * 
+     * @param available true to mark as available, false to mark as booked
+     */
     public void setAvailable(boolean available) {
         this.isAvailable = available;
     }
     
-    public boolean isInFuture() {
-        return startTime.isAfter(LocalDateTime.now());
-    }
+
     
-    public boolean isWithin24Hours() {
-        LocalDateTime now = LocalDateTime.now();
-        return startTime.isAfter(now) && startTime.isBefore(now.plusHours(24));
-    }
-    
+
     @Override
     public String toString() {
         java.time.format.DateTimeFormatter formatter =
                 java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return startTime.format(formatter);
+
     }
     
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        TimeSlot timeSlot = (TimeSlot) o;
-//        return Objects.equals(startTime, timeSlot.startTime) && Objects.equals(endTime, timeSlot.endTime);
-//    }
-    
-//    @Override
-//    public int hashCode() { 
-//        return Objects.hash(startTime, endTime);
-//    }
-    
-//    @Override
-//    public String toString() {
-//        return String.format("%s - %s", startTime.format(FORMATTER), endTime.format(FORMATTER));
-//    }
-    
-//    public static TimeSlot createOneHourSlot(LocalDateTime start) {
-//        return new TimeSlot(start, start.plusHours(1));
-//    }
-//    
-//    public static TimeSlot createSlotWithDuration(LocalDateTime start, int minutes) {
-//        return new TimeSlot(start, start.plusMinutes(minutes));
-//    }
+
 }
