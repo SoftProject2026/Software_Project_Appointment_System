@@ -1,56 +1,64 @@
 package com.appointmentsystem.service;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
 import java.util.Properties;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+/**
+ * @author Tala Khraim
+ * @author Sara Sawalha
+ * @author Masar Jabr
+ * 
+ * @version 1.0
+ */
 public class EmailService {
     private final String username;
     private final String password;
-    private Transport transport;
 
     public EmailService(String username, String password) {
         this.username = username;
         this.password = password;
     }
-    
-   
-    public EmailService(String username, String password, Transport transport) {
-        this.username = username;
-        this.password = password;
-        this.transport = transport;
-    }
 
     public void sendEmail(String to, String subject, String body) {
+    	
+        // SMTP configuration
+        Properties props = new Properties();
+        
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com"); // e.g., Gmail SMTP
+        props.put("mail.smtp.port", "587");
+
+        // Create a session with authentication
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
         try {
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-
-            Session session = Session.getInstance(props, new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, password);
-                }
-            });
-
+            // Build email message
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
             message.setText(body);
 
-            if (transport != null) {
-                transport.sendMessage(message, message.getAllRecipients());
-            } else {
-                Transport.send(message);
-            }
-            
-            System.out.println("Email sent successfully to " + to);
+            // Send email
+            Transport.send(message);
+
+            System.out.println("\nEmail sent successfully to " + to);
 
         } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send email", e);
+            e.printStackTrace();
+            throw new RuntimeException("\nFailed to send email", e);
         }
     }
+    
+
+
 }

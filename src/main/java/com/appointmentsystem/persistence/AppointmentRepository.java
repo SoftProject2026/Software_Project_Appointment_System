@@ -72,16 +72,7 @@ public class AppointmentRepository {
                 .collect(Collectors.toList());
     }
     
-    /**
-     * @param propertyId the property ID
-     * @return appointments for the property
-     */
-    public List<Appointment> findByPropertyId(String propertyId) {
-        if (propertyId == null) return new ArrayList<>();
-        return appointments.stream()
-                .filter(a -> propertyId.equals(a.getPropertyId()))
-                .collect(Collectors.toList());
-    }
+
     
     /**
      * @param appointment the appointment to update
@@ -92,24 +83,12 @@ public class AppointmentRepository {
         save(appointment);
     }
     
-    /**
-     * @param id the appointment ID
-     * @return true if exists
-     */
-    public boolean exists(String id) {
-        if (id == null) return false;
-        return appointments.stream().anyMatch(a -> id.equals(a.getId()));
-    }
+
     
     /** Clears all appointments (for testing). */
     public void clear() {
         appointments.clear();
     }
     
-    /**
-     * @return number of appointments
-     */
-    public int count() {
-        return appointments.size();
-    }
+
 }

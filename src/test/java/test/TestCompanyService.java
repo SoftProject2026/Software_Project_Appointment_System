@@ -358,4 +358,47 @@ class TestCompanyService {
 	    
 	    verify(mockPropertyRepository, times(1)).update(property);
 	}
+
+	
+	@Test
+    void testApproveCompany_NotFound() {
+        when(mockCompanyRepository.findByCompanyName("ABC"))
+                .thenReturn(null);
+
+        companyservice.approveCompany("ABC");
+
+        verify(mockCompanyRepository, never()).update(any());
+    }
+
+
+    @Test
+    void testApproveCompany_AlreadyApproved() {
+        Company company = new Company();
+        company.setVerified(true);
+
+        when(mockCompanyRepository.findByCompanyName("ABC"))
+                .thenReturn(company);
+
+        companyservice.approveCompany("ABC");
+
+        verify(mockCompanyRepository, never()).update(any());
+    }
+
+    @Test
+    void testApproveCompany_Success() {
+        Company company = new Company();
+        company.setVerified(false);
+
+        when(mockCompanyRepository.findByCompanyName("ABC"))
+                .thenReturn(company);
+
+        companyservice.approveCompany("ABC");
+
+        assertTrue(company.isVerified());
+
+        verify(mockCompanyRepository).update(company);
+    }
+	
+	   
 }
+

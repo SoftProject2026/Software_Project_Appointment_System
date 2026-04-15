@@ -49,12 +49,7 @@ public class VisitorRepository {
                 .orElse(null);
     }
     
-    /**
-     * @return all visitors
-     */
-    public List<Visitor> findAll() {
-        return new ArrayList<>(visitorStorage.values());
-    }
+
     
     /**
      * @param user the visitor to update
@@ -72,35 +67,11 @@ public class VisitorRepository {
         visitorStorage.remove(id);
     }
     
-    /**
-     * @param username the username
-     * @return true if exists
-     */
-    public boolean existsByUsername(String username) {
-        if (username == null) return false;
-        return visitorStorage.values().stream()
-                .anyMatch(u -> username.equals(u.getUsername()));
-    }
+
     
-    /**
-     * @param email the email
-     * @return true if exists
-     */
-    public boolean existsByEmail(String email) {
-        if (email == null) return false;
-        return visitorStorage.values().stream()
-                .anyMatch(u -> email.equals(u.getEmail()));
-    }
+
     
-    /**
-     * @return number of visitors
-     */
-    public int count() {
-        return visitorStorage.size();
-    }
-    
-    /** Clears all visitors (for testing). */
-    public void clear() {
-        visitorStorage.clear();
-    }
+
+
 }
+

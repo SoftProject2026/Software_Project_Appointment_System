@@ -93,32 +93,7 @@ public class CompanyRepository {
         companyStorage.remove(id);
     }
     
-    /**
-     * @param username the username
-     * @return true if exists
-     */
-    public boolean existsByUsername(String username) {
-        if (username == null) return false;
-        return companyStorage.values().stream()
-                .anyMatch(c -> username.equals(c.getUsername()));
-    }
-    
-    /**
-     * @param companyName the company name
-     * @return true if exists
-     */
-    public boolean existsByCompanyName(String companyName) {
-        if (companyName == null) return false;
-        return companyStorage.values().stream()
-                .anyMatch(c -> companyName.equalsIgnoreCase(c.getCompanyName()));
-    }
-    
-    /**
-     * @return number of companies
-     */
-    public int count() {
-        return companyStorage.size();
-    }
+
     
     /** Clears all companies (for testing). */
     public void clear() {

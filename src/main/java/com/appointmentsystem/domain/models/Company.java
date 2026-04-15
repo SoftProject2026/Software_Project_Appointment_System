@@ -56,12 +56,13 @@ public class Company{
 		this.isVerified = false;
     }
     
-    /**
-     * Returns the unique identifier of the company.
-     * 
-     * @return the company ID
-     */
-    public String getId() { return id; }
+
+    public Company() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getId() { return id; }
+
     
     /**
      * Returns the username of the company.
@@ -107,15 +108,6 @@ public class Company{
      */
     public String getCommercialRegister() { 
         return commercialRegister; 
-    }
-    
-    /**
-     * Sets the commercial register number of the company.
-     * 
-     * @param commercialRegister the new commercial register number
-     */
-    public void setCommercialRegister(String commercialRegister) { 
-        this.commercialRegister = commercialRegister; 
     }
 
 

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class PropertyRepository {
     
     private static Map<String, Property> propertyStorage = new HashMap<>();
-    
+  
     /**
      * @param property the property to save
      */
@@ -70,12 +70,5 @@ public class PropertyRepository {
         propertyStorage.remove(id);
     }
     
-    /**
-     * @param id the property ID
-     * @return true if exists
-     */
-    public boolean exists(String id) {
-        if (id == null) return false;
-        return propertyStorage.containsKey(id);
-    }
+
 }

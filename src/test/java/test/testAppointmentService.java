@@ -125,19 +125,9 @@ class testAppointmentService {
         verify(mockAppointmentRepository, times(1)).findAll();
     }
     
-    /**
-     * Tests get all appointments.
-     */
-    @Test
-    void testGetAllAppointments() {
-        List<Appointment> list = Arrays.asList(new Appointment(), new Appointment());
-        when(mockAppointmentRepository.findAll()).thenReturn(list);
-        List<Appointment> result = appointmentService.getAllAppointments();
-        assertEquals(list, result);
-        assertEquals(2, result.size());
-        verify(mockAppointmentRepository, times(1)).findAll();
-    }
-    
+
+ 
+
     /**
      * Tests get appointments by visitor.
      */

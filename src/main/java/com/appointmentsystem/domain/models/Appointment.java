@@ -3,7 +3,6 @@ package com.appointmentsystem.domain.models;
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 /**
  * Represents an appointment booked by a visitor for a specific property.
@@ -28,15 +27,13 @@ public class Appointment {
      * @param slot the time slot for the appointment
      * @param type the type of appointment (determines duration)
      */
-    public Appointment(String propertyId, String visitorId, TimeSlot slot, AppointmentType type) {
+    public Appointment(String propertyId, String visitorId,TimeSlot slot, AppointmentType type) {
         this.id = UUID.randomUUID().toString();
-        //this.id = id;
         this.propertyId = propertyId;
         this.visitorId = visitorId;
         this.slot = slot;
         this.type = type;
         this.status = AppointmentStatus.CONFIRMED;
-        //this.slot.setAvailable(false);
     }
     /**
      *  Default constructor for frameworks that require no-arg constructor.
@@ -68,11 +65,7 @@ public class Appointment {
      */
     public String getPropertyId() { return propertyId; }
     
-    /**
-     * Sets the property ID for this appointment.
-     * @param propertyId the new property ID
-     */
-    public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
+   
     
     /**
      * Returns the visitor ID who booked this appointment.
@@ -80,11 +73,7 @@ public class Appointment {
      */
     public String getVisitorId() { return visitorId; }
     
-    /**
-     * Sets the visitor ID for this appointment.
-     * @param visitorId the new visitor ID
-     */
-    public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
+    
     
 /**
  * Returns the type of this appointment.
@@ -99,12 +88,6 @@ public class Appointment {
      */
     public AppointmentStatus getStatus() { return status; }
     
-    /**
-     * Sets the status of the appointment.
-     * 
-     * @param status the new AppointmentStatus
-     */
-    public void setStatus(AppointmentStatus status) { this.status = status; }
     
     /**
      * Confirms the appointment by setting its status to CONFIRMED.
@@ -145,6 +128,6 @@ public class Appointment {
      */
     @Override
     public String toString() {
-        return "Appointment{ propertyId=" + propertyId + ", visitorId='" + visitorId + "', status=" + status + "}";
+        return "Date: " + slot +" | Type: " + type +" | Status: " + status;
     }
 }

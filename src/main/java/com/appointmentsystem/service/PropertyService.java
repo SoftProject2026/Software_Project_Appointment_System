@@ -34,8 +34,11 @@ public class PropertyService {
      * @param p the property to add
      */
     public void addProperty(Company c, Property p) {
-        propertyRepository.save(p);
-        System.out.println("Property added!");
+
+    	p.setCompanyId(c.getId());
+    	propertyRepository.save(p);
+    	System.out.println("Property added!");
+
     }
     
     /**
@@ -44,7 +47,7 @@ public class PropertyService {
     public void viewMyProperties(Company c) {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
         if (properties.isEmpty()) {
-            System.out.println("No properties");
+            System.out.println("\nNo properties");
             return;
         }
         for (int i = 0; i < properties.size(); i++) {

@@ -38,14 +38,10 @@ public final class TimeSlot {
         this.isAvailable = true;
     }
     
-    /**
-     * Returns the start time of the time slot.
-     * 
-     * @return the start time
-     */
-    public LocalDateTime getStartTime() { 
-        return startTime; 
-    }
+
+    public LocalDateTime getStartTime() { return startTime; }
+    
+
     
     /**
      * Checks if this time slot is available for booking.
@@ -65,42 +61,17 @@ public final class TimeSlot {
         this.isAvailable = available;
     }
     
-    /**
-     * Calculates the end time based on appointment type duration.
-     * 
-     * @param durationMinutes the duration of the appointment in minutes
-     * @return the calculated end time
-     */
-    public LocalDateTime calculateEndTime(int durationMinutes) {
-        return startTime.plusMinutes(durationMinutes);
-    }
+
     
-    /**
-     * Checks if this time slot is scheduled for a future date and time.
-     * 
-     * @return true if the start time is after the current time, false otherwise
-     */
-    public boolean isInFuture() {
-        return startTime.isAfter(LocalDateTime.now());
-    }
-    
-    /**
-     * Checks if this time slot is within the next 24 hours.
-     * 
-     * @return true if the start time is between now and 24 hours from now, false otherwise
-     */
-    public boolean isWithin24Hours() {
-        LocalDateTime now = LocalDateTime.now();
-        return startTime.isAfter(now) && startTime.isBefore(now.plusHours(24));
-    }
-    
-    /**
-     * Returns a string representation of the time slot.
-     * 
-     * @return formatted string containing the start time
-     */
+
     @Override
     public String toString() {
-        return startTime.format(FORMATTER);
+        java.time.format.DateTimeFormatter formatter =
+                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return startTime.format(formatter);
+
     }
+    
+
 }

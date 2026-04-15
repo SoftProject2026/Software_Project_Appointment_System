@@ -4,6 +4,10 @@ import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
 
+import com.appointmentsystem.domain.models.Visitor;
+import com.appointmentsystem.domain.models.enums.PropertyType;
+import com.appointmentsystem.domain.models.Appointment;
+
 import com.appointmentsystem.persistence.CompanyRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
 
@@ -139,14 +143,7 @@ public class CompanyService {
         
         System.out.println("Company approved successfully!");
     }
-    
-    /**
-     * Adds a time slot to a specific property.
-     * 
-     * @param c the company adding the time slot
-     * @param propertyIndex the index of the property
-     * @param startInput the start time in format "yyyy-MM-dd HH:mm"
-     */
+
     public void addTimeSlotToProperty(Company c, int propertyIndex, String startInput) {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
 
@@ -154,13 +151,11 @@ public class CompanyService {
             System.out.println("No properties found");
             return;
         }
-        
-        
-        
         if (propertyIndex < 0 || propertyIndex >= properties.size()) {
             System.out.println("Invalid property index");
             return;
         }
+        
         Property selected = properties.get(propertyIndex);
 
         try {
@@ -175,11 +170,6 @@ public class CompanyService {
                 System.out.println("Cannot add time slot in the past. Please choose a future date and time.");
                 return;
             }
-            
-            
-            
-            
-            
 
             for (TimeSlot s : selected.getTimeSlots()) {
                 if (s.getStartTime().equals(startTime)) {
@@ -187,7 +177,6 @@ public class CompanyService {
                     return;
                 }
             }
-            
             
             TimeSlot slot = new TimeSlot(startTime);
             selected.addTimeSlot(slot);
@@ -320,9 +309,7 @@ public class CompanyService {
 //                .collect(Collectors.toList());
 //    }
 //    
-//    public List<String> validateCompany(Company company) {
-//        return company != null ? company.validate() : List.of("Company is null");
-//    }
+
     
 
 }

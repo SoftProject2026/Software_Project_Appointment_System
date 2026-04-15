@@ -51,12 +51,11 @@ public class Visitor {
         this.phone = phone;
     }
     
-    /**
-     * Default constructor for testing.
-     */
-    public Visitor() {
-        // Default constructor
-    }
+
+    /*public Visitor() {
+    	
+    }*/
+
     
     /**
      * @return the visitor ID
@@ -88,27 +87,11 @@ public class Visitor {
      */
     public String getVisitorName() { return name; }
     
-    /**
-     * @param companyName the new visitor name
-     */
-    public void setVisitorName(String companyName) { 
-        this.name = companyName; 
-    }
-    
-    /**
-     * @return the visitor phone number
-     */
-    public String getPhone() { return phone; }
-    
-    /**
-     * @param phone the new phone number
-     */
-    public void setPhone(String phone) { 
-        this.phone = phone; 
-    }
-    
+
     @Override
     public String toString() {
-        return "Visitor{id='" + getId() + "', name='" + getVisitorName() + "', phone='" + phone + "'}";
+
+        return "Visitor{ name='" + getVisitorName() + "', phone='" + phone + "}";
+
     }
 }
