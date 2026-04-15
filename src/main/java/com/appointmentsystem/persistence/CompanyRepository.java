@@ -64,21 +64,7 @@ public class CompanyRepository {
         companyStorage.remove(id);
     }
     
-    /*public boolean existsByUsername(String username) {
-        if (username == null) return false;
-        return companyStorage.values().stream()
-                .anyMatch(c -> username.equals(c.getUsername()));
-    }
-    
-    public boolean existsByCompanyName(String companyName) {
-        if (companyName == null) return false;
-        return companyStorage.values().stream()
-                .anyMatch(c -> companyName.equalsIgnoreCase(c.getCompanyName()));
-    }
-    
-    public int count() {
-        return companyStorage.size();
-    }*/
+ 
     
     public void clear() {
         companyStorage.clear();

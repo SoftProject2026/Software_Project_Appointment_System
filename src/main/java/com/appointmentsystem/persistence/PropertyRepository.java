@@ -50,9 +50,6 @@ public class PropertyRepository {
         propertyStorage.remove(id);
     }
     
-    /*public boolean exists(String id) {
-        if (id == null) return false;
-        return propertyStorage.containsKey(id);
-    }*/
+    
 
 }

@@ -47,35 +47,7 @@ public class Visitor{
     public void setPhone(String phone) { this.phone = phone; }
     
  
-//    public List<String> getAppointmentIds() { 
-//        return new ArrayList<>(appointmentIds); 
-//    }
-//    
-//    public void addAppointmentId(String appointmentId) {
-//        if (!appointmentIds.contains(appointmentId)) {
-//            appointmentIds.add(appointmentId);
-//        }
-//    }
-//    
-//    public boolean removeAppointmentId(String appointmentId) {
-//        return appointmentIds.removeIf(id -> id.equals(appointmentId));
-//    }
-//    
-//    public boolean hasAppointment(String appointmentId) {
-//        return appointmentIds.contains(appointmentId);
-//    }
-//    
-//    public int getTotalAppointmentsCount() {
-//        return appointmentIds.size();
-//    }
-//    
-//    // Business logic methods that don't need full Appointment objects
-//    public boolean hasUpcomingAppointments() {
-//        // This will be checked in Service layer with actual appointments
-//        return !appointmentIds.isEmpty();
-//    }
-//    
-    
+
     @Override
     public String toString() {
         return "Visitor{ name='" + getVisitorName() + "', phone='" + phone + "}";

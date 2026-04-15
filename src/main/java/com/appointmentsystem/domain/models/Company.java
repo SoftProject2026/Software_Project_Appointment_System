@@ -28,7 +28,11 @@ public class Company{
 		this.isVerified = false;
     }
     
-    public String getId() { return id; }
+    public Company() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getId() { return id; }
     
     public String getUsername(){ return username; }
     
@@ -44,10 +48,7 @@ public class Company{
     public String getCommercialRegister() { 
         return commercialRegister; 
     }
-    //public void setCommercialRegister(String commercialRegister) { 
-       // this.commercialRegister = commercialRegister; 
-    //}
-
+   
 
     public boolean isVerified() { 
         return isVerified; 

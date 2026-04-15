@@ -68,10 +68,7 @@ public class AppointmentService {
     }
     
     
-	//public AppointmentService(AppointmentRepository appointmentRepository) {
-	//	this.appointmentRepository = appointmentRepository;
-
-	//}
+	
 
 	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
@@ -86,11 +83,8 @@ public class AppointmentService {
     }
     
     
-///////////new function to test   
-//    public List<Appointment> getAppointmentsByCompany(String companyId) {
-//        return appointmentRepository.findByCompanyId(companyId);
-//    }
-////////////////
+
+
 
     public void viewCompanyAppointments(Company c) {
     	List<Appointment> allAppointments = appointmentRepository.findAll();
@@ -105,23 +99,7 @@ public class AppointmentService {
         if (!found) {
             System.out.println("No appointments");
         }
-//    	
-//        List<Appointment> all = appointmentRepository.findAll();
-//        int i = 0;
-//        for (Appointment a : all) {
-//            Property p = propertyRepository.findById(a.getPropertyId());
-//            if (p != null && p.getCompanyId().equals(c.getId())) {
-//                Visitor v = visitorRepository.findById(a.getVisitorId());
-//                System.out.println(i + ". Visitor: " + v.getName()
-//                    + " | Date: " + a.getSlot()
-//                    + " | Type: " + a.getType()
-//                    + " | Status: " + a.getStatus());
-//                i++;
-//            }
-//        }
-//        if (i == 0) {
-//            System.out.println("No appointments");
-//        }
+
     }
 
 
@@ -146,13 +124,7 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
     
-//    public void completeAppointment(String appointmentId) {
-//        Appointment appointment = appointmentRepository.findById(appointmentId);
-//        if (appointment != null) {
-//            appointment.complete();
-//            appointmentRepository.update(appointment);
-//        }
-//    }
+
     
     
     public void modifyAppointment(String appointmentId, TimeSlot newSlot) {

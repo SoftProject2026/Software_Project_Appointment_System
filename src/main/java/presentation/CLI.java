@@ -200,8 +200,7 @@ public class CLI {
             System.out.println("2. View Properties");
             System.out.println("3. Add Time Slot");
             System.out.println("4. View Appointments");
-            //System.out.println("5. Cancel Appointment");
-            System.out.println("6. Logout");
+            System.out.println("5. Logout");
 
             int choice = scanner.nextInt();
 
@@ -262,17 +261,8 @@ public class CLI {
                 case 4:
                 	appointmentService.viewCompanyAppointments(c);
                     break;
-//                case 5:
-//                	appointmentService.viewCompanyAppointments(c);
-//                	System.out.print("Choose appointment index: ");
-//                    int index2 = scanner.nextInt();
-//
-//                    Appointment selected = appointmentService.getAppointmentById(index2);
-//                    
-//                    appointmentService.cancelAppointment(selected.getId(), c.getId());
-//                    System.out.println("Cancelled!");
-//                    break;
-                case 6:
+
+                case 5:
                     System.out.println("Logging out...");
                     return;
                 default:

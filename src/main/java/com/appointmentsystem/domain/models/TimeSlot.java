@@ -26,7 +26,7 @@ public final class TimeSlot {
     }
     
     public LocalDateTime getStartTime() { return startTime; }
-    //public LocalDateTime getEndTime() { return endTime; }
+    
     
     public boolean isAvailable() {
         return isAvailable;
@@ -35,14 +35,7 @@ public final class TimeSlot {
         this.isAvailable = available;
     }
     
-    /*public boolean isInFuture() {
-        return startTime.isAfter(LocalDateTime.now());
-    }
-    
-    public boolean isWithin24Hours() {
-        LocalDateTime now = LocalDateTime.now();
-        return startTime.isAfter(now) && startTime.isBefore(now.plusHours(24));
-    }*/
+   
     
     @Override
     public String toString() {
@@ -52,29 +45,5 @@ public final class TimeSlot {
         return startTime.format(formatter);
     }
     
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        TimeSlot timeSlot = (TimeSlot) o;
-//        return Objects.equals(startTime, timeSlot.startTime) && Objects.equals(endTime, timeSlot.endTime);
-//    }
-    
-//    @Override
-//    public int hashCode() { 
-//        return Objects.hash(startTime, endTime);
-//    }
-    
-//    @Override
-//    public String toString() {
-//        return String.format("%s - %s", startTime.format(FORMATTER), endTime.format(FORMATTER));
-//    }
-    
-//    public static TimeSlot createOneHourSlot(LocalDateTime start) {
-//        return new TimeSlot(start, start.plusHours(1));
-//    }
-//    
-//    public static TimeSlot createSlotWithDuration(LocalDateTime start, int minutes) {
-//        return new TimeSlot(start, start.plusMinutes(minutes));
-//    }
+
 }

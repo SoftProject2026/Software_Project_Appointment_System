@@ -21,12 +21,7 @@ public class Property {
     
     private List<TimeSlot> timeSlots = new ArrayList<>();
     
-    /*public Property(String id, String companyId, PropertyType type, double price) {
-        this.id = id;
-        this.companyId = companyId;
-        this.type = type;
-        this.price = price;
-    }*/
+ 
     
     public Property(String id, String companyId, PropertyType type, 
                     double price, double area, int roomsNumber, String address) {
@@ -64,11 +59,7 @@ public class Property {
     public List<TimeSlot> getTimeSlots() {
         return new ArrayList<>(timeSlots);
     }
-    
-    /*public void setTimeSlots(List<TimeSlot> timeSlots) {
-        this.timeSlots = timeSlots;
-    }*/
-    
+  
     
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -79,16 +70,7 @@ public class Property {
     public PropertyType getType() { return type; }
     public void setType(PropertyType type) { this.type = type; }
     
-    //public double getPrice() { return price; }
-    //public void setPrice(double price) { this.price = price; }
-    
-    //public double getArea() { return area; }
-    //public void setArea(double area) { this.area = area; }
-    
-    //public int getRoomsNumber() { return roomsNumber; }
-    //public void setRoomsNumber(int bedrooms) { this.roomsNumber = bedrooms; }
-    
-    //public String getAddress() { return address; }
+   
     public void setAddress(String address) { this.address = address; }
 
     @Override
