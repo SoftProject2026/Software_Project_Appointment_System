@@ -68,7 +68,10 @@ public class AppointmentService {
     }
     
     
-	
+	public AppointmentService(AppointmentRepository appointmentRepository) {
+		this.appointmentRepository = appointmentRepository;
+
+	}
 
 	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
@@ -82,9 +85,6 @@ public class AppointmentService {
         return appointmentRepository.findByVisitorId(visitorId);
     }
     
-    
-
-
 
     public void viewCompanyAppointments(Company c) {
     	List<Appointment> allAppointments = appointmentRepository.findAll();
@@ -99,7 +99,6 @@ public class AppointmentService {
         if (!found) {
             System.out.println("No appointments");
         }
-
     }
 
 
@@ -124,7 +123,6 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
     
-
     
     
     public void modifyAppointment(String appointmentId, TimeSlot newSlot) {

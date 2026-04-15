@@ -1,5 +1,7 @@
 package com.appointmentsystem.domain.models.enums;
 /**
+ * Appointment types with fixed durations.
+ * 
  * @author Tala Khraim
  * @author Sara Sawalha
  * @author Masar Jabr
@@ -14,19 +16,19 @@ public enum AppointmentType {
     GROUP(60);
 	
 	int durationMinutes;
-	boolean hasTimeRestriction;
-	String startAfte;
+	
+	
 
 AppointmentType(int durationMinutes) {
 	this.durationMinutes=durationMinutes;
 	
 		}
+
+/**
+ * @return the duration in minutes
+ */
 	public int getDurationMinutes() {
 		return durationMinutes;
 		
 	}
-	
-
-
-
 	}

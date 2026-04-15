@@ -22,6 +22,7 @@ import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.service.PropertyService;
+
 /**
  * @author Tala Khraim
  * @author Sara Sawalha
@@ -66,12 +67,19 @@ class TestPropertyService {
 	void tearDown() throws Exception {
 	}
 
+	/**
+	 * @param mockCompany the company adding the property
+	 * @param mockProperty the property to add
+	 */
 	@Test
 	void testAddProperty() {
 		propertyservice.addProperty(mockCompany, mockProperty);	
 		verify(mockPropertyRepository, times(1)).save(mockProperty);
 	}
 	
+	/**
+	 * @param mockCompany the company whose properties to view
+	 */
 	@Test
     void testviewMyPropertiesNullProperty() {
 		
@@ -82,6 +90,9 @@ class TestPropertyService {
         .findByCompanyId(mockCompany.getId());
     }
 	
+	/**
+	 * @param mockCompany the company whose properties to view
+	 */
 	@Test
     void testviewMyProperties() {
 		
@@ -93,12 +104,19 @@ class TestPropertyService {
 		verify(mockPropertyRepository).findByCompanyId(mockCompany.getId());
     }
 	
+	/**
+	 * @param id the ID of the property to delete
+	 */
 	@Test
 	void testDeleteProperty() {
 		propertyservice.deleteProperty(mockCompany.getId());	
 		verify(mockPropertyRepository, times(1)).delete(mockCompany.getId());
 	}
 	
+	/**
+	 * @param id the ID of the property to retrieve
+	 * @return the property with the given ID
+	 */
 	@Test
 	void testGetPropertyById() {
 		when(mockPropertyRepository.findById("1"))
@@ -107,6 +125,10 @@ class TestPropertyService {
 		assertEquals(mockProperty, result);
 	}
 	
+	/**
+	 * @param companyId the ID of the company
+	 * @return list of properties belonging to the company
+	 */
 	@Test
 	void testGetPropertyByCompany() {
 		List<Property> list = Arrays.asList(new Property(), new Property());
@@ -116,6 +138,9 @@ class TestPropertyService {
 		assertEquals(list, result);
 	}
 	
+	/**
+	 * @return list of all properties
+	 */
 	@Test
 	void testGetAllProperty() {
 		List<Property> list = Arrays.asList(new Property(), new Property());
@@ -125,8 +150,4 @@ class TestPropertyService {
 		assertEquals(list, result);
 	}
 	
-	
-
-	
-	 
 }

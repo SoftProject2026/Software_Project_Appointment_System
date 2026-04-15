@@ -35,7 +35,10 @@ import com.appointmentsystem.service.AppointmentService;
 import com.appointmentsystem.service.CompanyService;
 import com.appointmentsystem.service.PropertyService;
 import com.appointmentsystem.service.VisitorService;
+
 /**
+ * Test class for CompanyService.
+ * 
  * @author Tala Khraim
  * @author Sara Sawalha
  * @author Masar Jabr
@@ -54,14 +57,33 @@ class TestCompanyService {
     private Property mockProperty;
     private DateTimeFormatter formatter;
 
+	/**
+	 * Set up method called once before all tests.
+	 * 
+	 * @throws Exception if an error occurs during setup
+	 * 
+	 */
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
 
+	/**
+	 * Tear down method called once after all tests.
+	 * 
+	 * @throws Exception if an error occurs during teardown
+	 */
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
 	}
 
+	/**
+	 * Set up method called before each test.
+	 * Initializes mocks and sets up default behaviors.
+	 * 
+	 * @throws Exception if an error occurs during setup
+	 * 
+	 * 
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -88,10 +110,22 @@ class TestCompanyService {
 		
 	}
 
+	/**
+	 * Tear down method called after each test.
+	 * 
+	 * @throws Exception if an error occurs during teardown
+	 * 
+	 * 
+	 */
 	@AfterEach
 	void tearDown() throws Exception {
 	}
 
+	/**
+	 * Tests signup failure when company already exists.
+	 * 
+	 * 
+	 */
 	@Test
 	void SignupCompanyNotNull() {
 	        when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(mockCompany);
@@ -101,6 +135,11 @@ class TestCompanyService {
 	    
 	}
 	
+	/**
+	 * Tests successful signup when company does not exist.
+	 * 
+	 * 
+	 */
 	@Test
     void SignupCompanyNull() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(null);
@@ -108,6 +147,11 @@ class TestCompanyService {
         verify(mockCompanyRepository, times(1)).save(mockCompany);
     }
 	
+	/**
+	 * Tests signup failure with invalid email format.
+	 * 
+	 *
+	 */
 	@Test
     void SignupCompanyInvalidEmail() {
 		
@@ -119,6 +163,11 @@ class TestCompanyService {
         verify(mockCompanyRepository, never()).save(any());
     }
 	
+	/**
+	 * Tests successful company login with correct credentials.
+	 * 
+	 *
+	 */
 	@Test
     void testLogin() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(mockCompany);
@@ -130,6 +179,11 @@ class TestCompanyService {
         assertEquals("Al-Nabaly12", result.getUsername());
     }
 	
+	/**
+	 * Tests login failure with wrong password.
+	 * 
+	 * 
+	 */
 	@Test
     void testLoginWrongPassword() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(mockCompany);
@@ -138,6 +192,11 @@ class TestCompanyService {
         assertEquals("Invalid credentials", ex.getMessage());
     }
 	
+	/**
+	 * Tests login failure when company is not found.
+	 * 
+	 *
+	 */
 	@Test
     void testLoginNullCompany() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(null);
@@ -145,6 +204,11 @@ class TestCompanyService {
         assertEquals("Invalid credentials", ex.getMessage());
     }
 	
+	/**
+	 * Tests login failure when company is not verified.
+	 * 
+	 *
+	 */
 	@Test
     void testLoginNonVerifiedCompany() {
 		when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(mockCompany);
@@ -157,6 +221,11 @@ class TestCompanyService {
         
     }
 	
+	/**
+	 * Tests approval failure when company is not found.
+	 * 
+	 *
+	 */
 	@Test
     void testApproveNullCompany() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(null);
@@ -164,6 +233,11 @@ class TestCompanyService {
         assertEquals("Not found", ex.getMessage());
     }
 	
+	/**
+	 * Tests approval failure when company is already verified.
+	 * 
+	 *
+	 */
 	@Test
     void testApproveVerifiedCompany() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(mockCompany);
@@ -172,7 +246,11 @@ class TestCompanyService {
         assertEquals("Already approved", ex.getMessage());
     }
 	
-	
+	/**
+	 * Tests successful approval of a non-verified company.
+	 * 
+	 *
+	 */
 	@Test
     void testApproveNonVerifiedCompany() {
         when(mockCompanyRepository.findByUsername("Al-Nabaly12")).thenReturn(mockCompany);
@@ -182,7 +260,10 @@ class TestCompanyService {
         verify(mockCompanyRepository, times(1)).update(mockCompany);
     }
 	
-	
+	/**
+	 * Tests printing all companies when companies exist.
+	 * 
+	 */
 	@Test
     void testPrintAllCompanys() {
 		List<Company> companies = Arrays.asList(mockCompany);
@@ -194,6 +275,11 @@ class TestCompanyService {
 	    assertTrue(result.contains("Al-Nabaly"));
     }
 	
+	/**
+	 * Tests printing all companies when no companies exist.
+	 * 
+	 *
+	 */
 	@Test
     void testPrintAllCompanysNull() {
 		when(mockCompanyRepository.findAll()).thenReturn(new ArrayList<>());
@@ -201,6 +287,11 @@ class TestCompanyService {
 	    assertEquals("No companies", result);
     }
 	
+	/**
+	 * Tests adding a time slot when no properties exist.
+	 * 
+	 *
+	 */
 	@Test
     void testaddTimeSlotToPropertyNullPropertyy() {
 		when(mockPropertyRepository.findByCompanyId(mockCompany.getId())).thenReturn(new ArrayList<>());
@@ -209,6 +300,11 @@ class TestCompanyService {
         verify(mockPropertyRepository, never()).update(any());
     }
 	
+	/**
+	 * Tests adding a time slot with a past date.
+	 * 
+	 *
+	 */
 	@Test
     void testaddTimeSlotToPropertyPastDate() {
 		String pastDate = LocalDateTime.now().minusDays(1).format(formatter);
@@ -221,8 +317,11 @@ class TestCompanyService {
         verify(mockPropertyRepository, never()).update(any());
     }
 	
-	 
-	
+	/**
+	 * Tests adding a time slot with an invalid property index.
+	 * 
+	 *
+	 */
 	@Test
     void testaddTimeSlotToPropertyInvalidIndex() {
 		List<Property> properties = Arrays.asList(mockProperty);
@@ -233,6 +332,10 @@ class TestCompanyService {
 	    verify(mockPropertyRepository, never()).update(any());
     }
 	
+	/**
+	 * Tests successfully adding a time slot to a property.
+	 * 
+	 */
 	@Test
 	void testaddTimeSlotToProperty() {
 	    Property property = mock(Property.class);
@@ -255,6 +358,7 @@ class TestCompanyService {
 	    
 	    verify(mockPropertyRepository, times(1)).update(property);
 	}
+
 	
 	@Test
     void testApproveCompany_NotFound() {
@@ -297,3 +401,4 @@ class TestCompanyService {
 	
 	   
 }
+

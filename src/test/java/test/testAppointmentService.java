@@ -125,7 +125,9 @@ class testAppointmentService {
         verify(mockAppointmentRepository, times(1)).findAll();
     }
     
+
  
+
     /**
      * Tests get appointments by visitor.
      */

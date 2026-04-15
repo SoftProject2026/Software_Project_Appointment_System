@@ -3,19 +3,23 @@ package com.appointmentsystem.service;
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
+
 import com.appointmentsystem.domain.models.Visitor;
 import com.appointmentsystem.domain.models.enums.PropertyType;
 import com.appointmentsystem.domain.models.Appointment;
+
 import com.appointmentsystem.persistence.CompanyRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
-import com.appointmentsystem.persistence.AppointmentRepository;
+
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
+
 /**
+ * Service class for managing company operations.
+ * Handles company registration, login, approval, property management, and time slot scheduling.
+ * 
  * @author Tala Khraim
  * @author Sara Sawalha
  * @author Masar Jabr
@@ -24,21 +28,37 @@ import java.util.stream.Collectors;
  */
 public class CompanyService {
     
+    /** Repository for company data access operations */
 	private CompanyRepository companyRepository;
+	
+	/** Repository for property data access operations */
     private PropertyRepository propertyRepository;
 
+    /**
+     * Default constructor that initializes repositories with new instances.
+     */
     public CompanyService() {
         this.companyRepository = new CompanyRepository();
         this.propertyRepository = new PropertyRepository();
     }
     
-	
+    /**
+     * Parameterized constructor for dependency injection (used in testing).
+     * 
+     * @param companyRepository the company repository
+     * @param propertyRepository the property repository
+     */
     public CompanyService(CompanyRepository companyRepository, PropertyRepository propertyRepository) {
         this.companyRepository = companyRepository;
         this.propertyRepository = propertyRepository;
     }
 
-
+    /**
+     * Registers a new company in the system.
+     * 
+     * @param c the company to register
+     * @throws RuntimeException if username already exists or email is invalid
+     */
 	public void signup(Company c) {
         if (companyRepository.findByUsername(c.getUsername()) != null)
             throw new RuntimeException("Username exists");
@@ -47,6 +67,14 @@ public class CompanyService {
         else throw new RuntimeException("Invalid Email");
     }
 
+    /**
+     * Authenticates a company user.
+     * 
+     * @param username the company username
+     * @param password the company password
+     * @return the authenticated Company object
+     * @throws RuntimeException if credentials are invalid or company not verified
+     */
     public Company login(String username, String password) {
         Company c = companyRepository.findByUsername(username);
 
@@ -59,6 +87,12 @@ public class CompanyService {
         return c;
     }
 	
+    /**
+     * Approves a company account by username.
+     * 
+     * @param username the username of the company to approve
+     * @throws RuntimeException if company not found or already approved
+     */
     public void approve(String username) {
         Company c = companyRepository.findByUsername(username);
 
@@ -72,7 +106,11 @@ public class CompanyService {
         companyRepository.update(c);
     }
 
-    
+    /**
+     * Returns a formatted string of all registered companies.
+     * 
+     * @return string containing all companies or "No companies" if empty
+     */
     public String printAllCompanys() {
     	List<Company> companies = companyRepository.findAll();
         if (companies.isEmpty()) {
@@ -85,7 +123,11 @@ public class CompanyService {
         return sb.toString();
     }
     
-    
+    /**
+     * Approves a company by its company name.
+     * 
+     * @param name the company name to approve
+     */
     public void approveCompany(String name) {
         Company c = companyRepository.findByCompanyName(name);
         if (c == null) {
@@ -102,7 +144,6 @@ public class CompanyService {
         System.out.println("Company approved successfully!");
     }
 
-    
     public void addTimeSlotToProperty(Company c, int propertyIndex, String startInput) {
         List<Property> properties = propertyRepository.findByCompanyId(c.getId());
 
@@ -147,7 +188,12 @@ public class CompanyService {
         }
     }
     
-    
+    /**
+     * Validates email format.
+     * 
+     * @param email the email to validate
+     * @return true if email format is valid, false otherwise
+     */
     public boolean isValidEmail(String email) {
         if (email == null || email.isEmpty()) {
             return false;
