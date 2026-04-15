@@ -142,7 +142,7 @@ public class CLI {
                     companyService.approveCompany(Cname);
                     break;
                 case 3:
-                	appointmentService.getAllAppointments();
+                	appointmentService.viewAllAppointments();
                     break;
                 case 4:
                     return;

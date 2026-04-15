@@ -207,7 +207,7 @@ public class AppointmentService {
     
     
     
-    /*public void viewAllAppointments() {
+    public void viewAllAppointments() {
         List<Appointment> apps = appointmentRepository.findAll();
 
         if (apps.isEmpty()) {
@@ -218,7 +218,7 @@ public class AppointmentService {
         for (int i = 0; i < apps.size(); i++) {
             System.out.println(i + ". " + apps.get(i));
         }
-    }*/
+    }
 
     
 }
