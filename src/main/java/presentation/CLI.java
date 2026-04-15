@@ -142,7 +142,7 @@ public class CLI {
                     companyService.approveCompany(Cname);
                     break;
                 case 3:
-                	appointmentService.viewAllAppointments();
+                	appointmentService.getAllAppointments();
                     break;
                 case 4:
                     return;
@@ -273,7 +273,7 @@ public class CLI {
 //                    System.out.println("Cancelled!");
 //                    break;
                 case 6:
-                	System.out.println("Logging out...");
+                    System.out.println("Logging out...");
                     return;
                 default:
                     System.out.println("Invalid choice");

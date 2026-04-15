@@ -35,14 +35,14 @@ public final class TimeSlot {
         this.isAvailable = available;
     }
     
-    public boolean isInFuture() {
+    /*public boolean isInFuture() {
         return startTime.isAfter(LocalDateTime.now());
     }
     
     public boolean isWithin24Hours() {
         LocalDateTime now = LocalDateTime.now();
         return startTime.isAfter(now) && startTime.isBefore(now.plusHours(24));
-    }
+    }*/
     
     @Override
     public String toString() {

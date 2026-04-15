@@ -37,9 +37,9 @@ public class VisitorRepository {
                 .orElse(null);
     }
     
-    public List<Visitor> findAll() {
+    /*public List<Visitor> findAll() {
         return new ArrayList<>(visitorStorage.values());
-    }
+    }*/
     
     
     public void update(Visitor user) {
@@ -52,7 +52,7 @@ public class VisitorRepository {
         visitorStorage.remove(id);
     }
     
-    public boolean existsByUsername(String username) {
+    /*public boolean existsByUsername(String username) {
         if (username == null) return false;
         return visitorStorage.values().stream()
                 .anyMatch(u -> username.equals(u.getUsername()));
@@ -62,7 +62,7 @@ public class VisitorRepository {
         if (email == null) return false;
         return visitorStorage.values().stream()
                 .anyMatch(u -> email.equals(u.getEmail()));
-    }
+    }*/
     
 
 }

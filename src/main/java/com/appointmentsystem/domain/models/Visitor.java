@@ -27,9 +27,9 @@ public class Visitor{
 		this.phone = phone;
     }
     
-    public Visitor() {
+    /*public Visitor() {
     	
-    }
+    }*/
     
     public String getId(){ return id; }
     public String getName(){ return name; }

@@ -53,12 +53,12 @@ public class AppointmentRepository {
                 .collect(Collectors.toList());
     }
     
-    public List<Appointment> findByPropertyId(String propertyId) {
+    /*public List<Appointment> findByPropertyId(String propertyId) {
         if (propertyId == null) return new ArrayList<>();
         return appointments.stream()
                 .filter(a -> propertyId.equals(a.getPropertyId()))
                 .collect(Collectors.toList());
-    }
+    }*/
     
 //    public List<Appointment> findByCompanyId(String companyId) {
 //        if (companyId == null) return new ArrayList<>();
@@ -73,16 +73,16 @@ public class AppointmentRepository {
         save(appointment);
     }
     
-    public boolean exists(String id) {
+    /*public boolean exists(String id) {
         if (id == null) return false;
         return appointments.stream().anyMatch(a -> id.equals(a.getId()));
-    }
+    }*/
     
     public void clear() {
         appointments.clear();
     }
     
-    public int count() {
+    /*public int count() {
         return appointments.size();
-    }
+    }*/
 }

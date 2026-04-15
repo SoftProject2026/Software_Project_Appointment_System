@@ -44,9 +44,9 @@ public class Company{
     public String getCommercialRegister() { 
         return commercialRegister; 
     }
-    public void setCommercialRegister(String commercialRegister) { 
-        this.commercialRegister = commercialRegister; 
-    }
+    //public void setCommercialRegister(String commercialRegister) { 
+       // this.commercialRegister = commercialRegister; 
+    //}
 
 
     public boolean isVerified() { 

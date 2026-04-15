@@ -69,7 +69,7 @@ public class Appointment {
      * Sets the property ID for this appointment.
      * @param propertyId the new property ID
      */
-    public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
+    //public void setPropertyId(String propertyId) { this.propertyId = propertyId; }
     
     /**
      * Returns the visitor ID who booked this appointment.
@@ -83,7 +83,7 @@ public class Appointment {
      * Sets the visitor ID for this appointment.
      * @param visitorId the new visitor ID
      */
-    public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
+   // public void setVisitorId(String visitorId) { this.visitorId = visitorId; }
     
 /**
  * Returns the type of this appointment.
@@ -103,7 +103,7 @@ public class Appointment {
      * 
      * @param status the new AppointmentStatus
      */
-    public void setStatus(AppointmentStatus status) { this.status = status; }
+    //public void setStatus(AppointmentStatus status) { this.status = status; }
     
     /**
      * Confirms the appointment by setting its status to CONFIRMED.
