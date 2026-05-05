@@ -33,4 +33,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=SoftProject2026_Software_Project_Appointment_System
+        run: mvn -B jacoco:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar  jacoco:report -Dsonar.coverage.exclusions=**/presentation/** -Dsonar.projectKey=SoftProject2026_Software_Project_Appointment_System
