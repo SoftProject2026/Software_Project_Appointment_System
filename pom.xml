@@ -8,6 +8,7 @@
 	<properties>
 	    <maven.compiler.source>17</maven.compiler.source>
 	    <maven.compiler.target>17</maven.compiler.target>
+		<sonar.organization>softproject2026</sonar.organization>
 	</properties>  
 
   <dependencies>
