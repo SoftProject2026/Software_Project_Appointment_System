@@ -25,7 +25,6 @@ public class CLI {
     private AdminService adminService = new AdminService();
     private CompanyService companyService = new CompanyService();
     
-
     public void start() {
         while (true) {
             System.out.println("\n=== Welcome ===");
