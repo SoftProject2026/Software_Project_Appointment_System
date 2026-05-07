@@ -160,7 +160,6 @@ public class CompanyService {
                     java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             LocalDateTime startTime = LocalDateTime.parse(startInput, formatter);
-            // LocalDateTime endTime = LocalDateTime.parse(endInput, formatter);
             
             LocalDateTime now = LocalDateTime.now();
             if (startTime.isBefore(now)) {
@@ -208,105 +207,6 @@ public class CompanyService {
     }
     
     
-
-    
-    /////////////////////////////////////////////
-
-//    public Company getCompanyByUsername(String username) {
-//        return companyRepository.findByUsername(username);
-//    }
-//    
-//    public Company getCompanyByCompanyName(String companyName) {
-//        return companyRepository.findByCompanyName(companyName);
-//    }
-//    
-//    public List<Company> getAllCompanies() {
-//        return companyRepository.findAll();
-//    }
-//    
-//    
-//    public void updateCompany(Company company) {
-//        companyRepository.update(company);
-//    }
-//    
-//    public void deleteCompany(String id) {
-//        companyRepository.delete(id);
-//    }
-//    
-//    
-//    
-//    public void addPropertyToCompany(String companyId, Property property) {
-//        Company company = companyRepository.findById(companyId);
-//        if (company == null || property == null) return;
-//        
-//        property.setCompanyId(companyId);
-//        propertyRepository.save(property);
-//        company.addPropertyId(property.getId());
-//        companyRepository.update(company);
-//    }
-//    
-//    public void removePropertyFromCompany(String companyId, String propertyId) {
-//        Company company = companyRepository.findById(companyId);
-//        if (company == null) return;
-//        
-//        company.removePropertyId(propertyId);
-//        propertyRepository.delete(propertyId);
-//        companyRepository.update(company);
-//    }
-//    
-//    public List<Property> getCompanyProperties(String companyId) {
-//        Company company = companyRepository.findById(companyId);
-//        if (company == null) return new ArrayList<>();
-//        
-//        return company.getPropertyIds().stream()
-//                .map(propertyRepository::findById)
-//                .filter(p -> p != null)
-//                .collect(Collectors.toList());
-//    }
-//    
-//    
-//    public Property findPropertyById(String propertyId) {
-//        return propertyRepository.findById(propertyId);
-//    }
-//    
-//    public int getPropertiesCount(String companyId) {
-//        Company company = companyRepository.findById(companyId);
-//        return company != null ? company.getPropertiesCount() : 0;
-//    }
-//    
-//
-//    
-//    public void addAppointmentToCompany(String companyId, Appointment appointment) {
-//        Company company = companyRepository.findById(companyId);
-//        if (company == null || appointment == null) return;
-//        
-//        appointmentRepository.save(appointment);
-//        company.addAppointmentId(appointment.getId());
-//        companyRepository.update(company);
-//    }
-//    
-//    public void cancelAppointment(String companyId, String appointmentId) {
-//        Company company = companyRepository.findById(companyId);
-//        if (company == null) return;
-//        
-//        Appointment appointment = appointmentRepository.findById(appointmentId);
-//        if (appointment != null) {
-//            appointment.cancel();
-//            appointmentRepository.update(appointment);
-//        }
-//    }
-//    
-//    public List<Appointment> getCompanyAppointments(String companyId) {
-//        Company company = companyRepository.findById(companyId);
-//        if (company == null) return new ArrayList<>();
-//        
-//        return company.getAppointmentIds().stream()
-//                .map(appointmentRepository::findById)
-//                .filter(a -> a != null)
-//                .collect(Collectors.toList());
-//    }
-//    
-
     
 
 }
