@@ -4,9 +4,6 @@ import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
 
-import com.appointmentsystem.domain.models.Visitor;
-import com.appointmentsystem.domain.models.enums.PropertyType;
-import com.appointmentsystem.domain.models.Appointment;
 
 import com.appointmentsystem.persistence.CompanyRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
