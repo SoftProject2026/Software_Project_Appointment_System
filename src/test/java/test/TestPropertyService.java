@@ -38,13 +38,7 @@ class TestPropertyService {
 	private Company mockCompany;
     private Property mockProperty;
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
 
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -63,9 +57,7 @@ class TestPropertyService {
 		
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
-	}
+
 
 	/**
 	 * @param mockCompany the company adding the property
