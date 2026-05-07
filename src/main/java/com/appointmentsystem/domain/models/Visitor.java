@@ -50,7 +50,6 @@ public class Visitor {
     }
     
 
-
     
     /**
      * @return the visitor ID
