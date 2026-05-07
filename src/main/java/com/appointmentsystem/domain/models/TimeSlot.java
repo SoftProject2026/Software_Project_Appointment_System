@@ -58,17 +58,11 @@ public final class TimeSlot {
     public void setAvailable(boolean available) {
         this.isAvailable = available;
     }
-    
-
-    
+        
 
     @Override
     public String toString() {
-        java.time.format.DateTimeFormatter formatter =
-                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        return startTime.format(formatter);
-
+        return startTime.format(FORMATTER);
     }
     
 
