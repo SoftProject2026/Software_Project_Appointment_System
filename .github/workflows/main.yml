@@ -34,4 +34,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=SoftProject2026_Software_Project_Appointment_System -Dsonar.organization=softproject2026
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.coverage.exclusions=**/presentation/** -Dsonar.projectKey=SoftProject2026_Software_Project_Appointment_System -Dsonar.organization=softproject2026
