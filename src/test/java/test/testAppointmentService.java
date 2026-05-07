@@ -55,13 +55,7 @@ class testAppointmentService {
     private EmailService mockEmailService;
     
 
-    @BeforeAll
-    static void setUpBeforeClass() throws Exception {
-    }
 
-    @AfterAll
-    static void tearDownAfterClass() throws Exception {
-    }
 
     @BeforeEach
     void setUp() throws Exception {
@@ -97,9 +91,7 @@ class testAppointmentService {
         when(mockAppointmentRepository.findById("app123")).thenReturn(mockAppointment);
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-    }
+
 
     /**
      * Tests get appointment by ID.
