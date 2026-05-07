@@ -25,13 +25,6 @@ class TestAdminService {
 	private AdminService adminService;
 
 
-    @BeforeAll
-    static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterAll
-    static void tearDownAfterClass() throws Exception {
-    }
 
 
 	@BeforeEach
@@ -40,9 +33,6 @@ class TestAdminService {
 	}
 
 
-    @AfterEach
-    void tearDown() throws Exception {
-    }
     
     /**
      * Tests successful admin login.
