@@ -57,24 +57,6 @@ class TestCompanyService {
     private Property mockProperty;
     private DateTimeFormatter formatter;
 
-	/**
-	 * Set up method called once before all tests.
-	 * 
-	 * @throws Exception if an error occurs during setup
-	 * 
-	 */
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * Tear down method called once after all tests.
-	 * 
-	 * @throws Exception if an error occurs during teardown
-	 */
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
 
 	/**
 	 * Set up method called before each test.
@@ -110,16 +92,7 @@ class TestCompanyService {
 		
 	}
 
-	/**
-	 * Tear down method called after each test.
-	 * 
-	 * @throws Exception if an error occurs during teardown
-	 * 
-	 * 
-	 */
-	@AfterEach
-	void tearDown() throws Exception {
-	}
+
 
 	/**
 	 * Tests signup failure when company already exists.
