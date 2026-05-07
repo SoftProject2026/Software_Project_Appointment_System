@@ -1,7 +1,6 @@
 package com.appointmentsystem.domain.models;
 
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  *  Represents a company that registers in the appointment system.
  *  
