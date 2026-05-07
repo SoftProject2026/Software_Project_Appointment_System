@@ -77,16 +77,12 @@ public class Visitor {
      */
     public String getEmail() { return email; }
     
-    /**
-     * @return the visitor name
-     */
-    public String getVisitorName() { return name; }
     
 
     @Override
     public String toString() {
 
-        return "Visitor{ name='" + getVisitorName() + "', phone='" + phone + "}";
+        return "Visitor{ name='" + getName() + "', phone='" + phone + "}";
 
     }
 }
