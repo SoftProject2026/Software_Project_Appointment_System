@@ -1,9 +1,7 @@
 package com.appointmentsystem.domain.models;
 
 import java.time.LocalDateTime;
-import java.time.Duration;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 /**
  * Represents a time slot for appointments in the system.
  * @author Tala Khraim
