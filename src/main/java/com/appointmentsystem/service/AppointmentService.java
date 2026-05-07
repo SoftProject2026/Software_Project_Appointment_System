@@ -161,7 +161,7 @@ public class AppointmentService {
         String subject = "Appointment Confirmation";
         String body = "Your appointment has been booked successfully.";
         Visitor v = visitorRepository.findById(visitorId);
-        emailService.sendEmail(v.getEmail(), subject, body);;
+        emailService.sendEmail(v.getEmail(), subject, body);
         
         return appointment;
     }
