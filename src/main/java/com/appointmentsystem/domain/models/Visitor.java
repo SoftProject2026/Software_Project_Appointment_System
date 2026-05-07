@@ -1,8 +1,6 @@
 package com.appointmentsystem.domain.models;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.appointmentsystem.domain.models.enums.AppointmentStatus;
+
 /**
  *Represents a visitor (customer) in the appointment system. 
  * 
