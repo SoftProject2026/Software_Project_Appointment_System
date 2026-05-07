@@ -106,7 +106,7 @@ public class CLI {
 	            String id = UUID.randomUUID().toString();
 	            Visitor v = new Visitor(id, name, username, email, password, phone);
 	            visitorService.signup(v);
-	            System.out.println("\nHello " + v.getVisitorName() +". Account created!");
+	            System.out.println("\nHello " + v.getName() +". Account created!");
 	            visitorMenu(v);
 	        }
 	        else{
