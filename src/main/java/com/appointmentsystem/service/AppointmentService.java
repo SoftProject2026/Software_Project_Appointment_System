@@ -127,16 +127,16 @@ public class AppointmentService {
     public void modifyAppointment(String appointmentId, TimeSlot newSlot) {
         Appointment app = appointmentRepository.findById(appointmentId);
         if (app == null) {
-            throw new RuntimeException("Appointment not found");
+            throw new IllegalArgumentException("Appointment not found");
         }
         if (!app.isFuture()) {
-            throw new RuntimeException("Past appointment");
+            throw new IllegalStateException("Past appointment");
         }
         if (!newSlot.isAvailable()) {
-            throw new RuntimeException("Slot taken");
+            throw new IllegalStateException("Slot taken");
         }
         if (app.getStatus() == AppointmentStatus.CANCELLED) {
-            throw new RuntimeException("Cannot modify cancelled appointment");
+            throw new IllegalStateException("Cannot modify cancelled appointment");
         }
         app.getSlot().setAvailable(true);
         app.setSlot(newSlot);
