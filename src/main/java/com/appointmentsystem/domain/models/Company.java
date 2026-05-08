@@ -57,8 +57,13 @@ public class Company{
     
 
     public Company() {
-		// TODO Auto-generated constructor stub
-	}
+    	this.id = "";
+		this.companyName = "";
+		this.username = "";
+		this.email = "";
+		this.password = "";
+		this.commercialRegister = "";
+		this.isVerified = false;	}
 
 	public String getId() { return id; }
 

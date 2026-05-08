@@ -39,8 +39,13 @@ public class Appointment {
      *  Default constructor for frameworks that require no-arg constructor.
      */
     public Appointment() {
-		// TODO Auto-generated constructor stub
-	}
+        this.id = UUID.randomUUID().toString();
+        this.propertyId = "";
+        this.visitorId = "";
+        this.slot = null;
+        this.type = null;
+        this.status = AppointmentStatus.CONFIRMED;
+    }
     
     
 /**
