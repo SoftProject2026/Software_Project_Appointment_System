@@ -1,8 +1,9 @@
 package com.appointmentsystem.service;
 
-public interface AppointmentStrategy {
+public abstract class AppointmentStrategy {
 
-    String getConfirmationMessage();
+	 public abstract String getConfirmationMessage();
 }
+
 
 
