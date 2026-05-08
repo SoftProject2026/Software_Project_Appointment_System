@@ -47,7 +47,7 @@ public class CompanyService {
      */
     public CompanyService(CompanyRepository companyRepository, PropertyRepository propertyRepository) {
         this.companyRepository = companyRepository;
-        this.propertyRepository = propertyRepository;
+       this.propertyRepository = propertyRepository;
     }
 
     /**
