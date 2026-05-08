@@ -17,9 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +33,7 @@ import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.service.AppointmentService;
 import com.appointmentsystem.service.EmailNotifier;
 import com.appointmentsystem.service.EmailService;
-import com.appointmentsystem.service.PropertyService;
+
 
 /**
  * Test class for AppointmentService.
@@ -49,7 +47,7 @@ class testAppointmentService {
 
     private AppointmentRepository mockAppointmentRepository;
     private PropertyRepository mockPropertyRepository;
-    private PropertyService propertyservice;
+    
     private AppointmentService appointmentService;
     private Company mockCompany;
     private Appointment mockAppointment;

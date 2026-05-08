@@ -9,32 +9,22 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.appointmentsystem.domain.models.Appointment;
+
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
-import com.appointmentsystem.domain.models.Visitor;
 import com.appointmentsystem.persistence.CompanyRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
-import com.appointmentsystem.persistence.VisitorRepository;
-import com.appointmentsystem.service.AppointmentService;
 import com.appointmentsystem.service.CompanyService;
-import com.appointmentsystem.service.PropertyService;
-import com.appointmentsystem.service.VisitorService;
 
 /**
  * Test class for CompanyService.
@@ -49,9 +39,7 @@ class TestCompanyService {
 	
 	private CompanyRepository mockCompanyRepository;
     private CompanyService companyservice;
-    private PropertyService propertyservice;
     private PropertyRepository mockPropertyRepository;
-    private AppointmentService appointmentservice;
 
     private Company mockCompany;
     private Property mockProperty;
@@ -70,9 +58,8 @@ class TestCompanyService {
 	void setUp() throws Exception {
 		
 		mockCompanyRepository = mock(CompanyRepository.class);
-		propertyservice  = mock(PropertyService.class);
+		
 		mockCompany  = mock(Company.class);
-		//companyservice = new CompanyService(mockCompanyRepository);
 		mockPropertyRepository = mock(PropertyRepository.class);
 		mockProperty = mock(Property.class);
 		companyservice = new CompanyService(mockCompanyRepository, mockPropertyRepository);

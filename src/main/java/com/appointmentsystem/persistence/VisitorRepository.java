@@ -48,28 +48,6 @@ public class VisitorRepository {
     }
     
 
-    
-    /**
-     * @param user the visitor to update
-     */
-    public void update(Visitor user) {
-        if (user == null || !visitorStorage.containsKey(user.getId())) return;
-        visitorStorage.put(user.getId(), user);
-    }
-    
-    /**
-     * @param id the visitor ID to delete
-     */
-    public void delete(String id) {
-        if (id == null) return;
-        visitorStorage.remove(id);
-    }
-    
-
-    
-
-    
-
 
 }
 

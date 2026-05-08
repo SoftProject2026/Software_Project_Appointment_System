@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 /**
  * Repository for Company CRUD operations.
@@ -68,14 +68,7 @@ public class CompanyRepository {
         return new ArrayList<>(companyStorage.values());
     }
     
-    /**
-     * @return all verified companies
-     */
-    public List<Company> findAllVerified() {
-        return companyStorage.values().stream()
-                .filter(Company::isVerified)
-                .collect(Collectors.toList());
-    }
+    
     
     /**
      * @param company the company to update
@@ -85,18 +78,9 @@ public class CompanyRepository {
         companyStorage.put(company.getId(), company);
     }
     
-    /**
-     * @param id the company ID to delete
-     */
-    public void delete(String id) {
-        if (id == null) return;
-        companyStorage.remove(id);
-    }
+    
     
 
     
-    /** Clears all companies (for testing). */
-    public void clear() {
-        companyStorage.clear();
-    }
+    
 }

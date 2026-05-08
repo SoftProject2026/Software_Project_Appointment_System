@@ -26,13 +26,7 @@ public class AppointmentRepository {
         }
     }
     
-    /**
-     * @param appointment the appointment to delete
-     */
-    public void delete(Appointment appointment) {
-        if (appointment == null) return;
-        appointments.remove(appointment);
-    }
+   
     
     /**
      * @param id the ID of the appointment to delete
@@ -85,10 +79,6 @@ public class AppointmentRepository {
     
 
     
-    /** Clears all appointments (for testing). */
-    public void clear() {
-        appointments.clear();
-    }
     
 
 }

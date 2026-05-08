@@ -12,10 +12,9 @@ import com.appointmentsystem.persistence.VisitorRepository;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.CompanyRepository;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Scanner;
 

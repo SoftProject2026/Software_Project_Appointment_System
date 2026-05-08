@@ -4,7 +4,7 @@ import com.appointmentsystem.domain.models.Appointment;
 import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
-import com.appointmentsystem.domain.models.Visitor;
+
 import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
