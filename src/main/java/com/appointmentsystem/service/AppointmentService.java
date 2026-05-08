@@ -11,7 +11,6 @@ import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.persistence.VisitorRepository;
 
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,21 +27,14 @@ public class AppointmentService {
     
     private AppointmentRepository appointmentRepository;
     private PropertyRepository propertyRepository;
-    private VisitorRepository visitorRepository;
     private List<AppointmentObserver> observers = new ArrayList<>();
      
-    private EmailService emailService;
+    
     
     public AppointmentService() {
         this.appointmentRepository = new AppointmentRepository();
         this.propertyRepository = new PropertyRepository();
-        this.visitorRepository = new VisitorRepository();
         
-        Dotenv dotenv = Dotenv.load();
-        String username = dotenv.get("EMAIL_USERNAME");
-        String password = dotenv.get("EMAIL_PASSWORD");
-        
-        this.emailService = new EmailService(username, password);
     }
     
     
@@ -52,8 +44,7 @@ public class AppointmentService {
             EmailService emailService) {
 			this.appointmentRepository = appointmentRepository;
 			this.propertyRepository = propertyRepository;
-			this.visitorRepository = visitorRepository;
-			this.emailService = emailService;
+			
     }
     
     
