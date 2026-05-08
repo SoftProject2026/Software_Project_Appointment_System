@@ -45,19 +45,6 @@ public class AppointmentService {
         this.emailService = new EmailService(username, password);
     }
     
-    /*public AppointmentService(AppointmentRepository appointmentRepository, PropertyRepository propertyRepository) {
-        this.appointmentRepository = appointmentRepository;
-        this.propertyRepository = propertyRepository;
-        this.visitorRepository = new VisitorRepository();
-        
-        Dotenv dotenv = Dotenv.load();
-        String username = dotenv.get("EMAIL_USERNAME");
-        String password = dotenv.get("EMAIL_PASSWORD");
-        
-        this.emailService = new EmailService(username, password);
-    }
-    */
-    
     
     public AppointmentService(AppointmentRepository appointmentRepository, 
             PropertyRepository propertyRepository, 
@@ -70,10 +57,6 @@ public class AppointmentService {
     }
     
     
-	//public AppointmentService(AppointmentRepository appointmentRepository) {
-		//this.appointmentRepository = appointmentRepository;
-
-	//}
 
 	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
@@ -166,14 +149,7 @@ public class AppointmentService {
         notifyObservers(appointment, "BOOKED");
         return appointment;
     }
-    
-   // public void setEmailService(EmailService emailService) {
-      //  this.emailService = emailService;
-    //}
-    
-    //public void setVisitorRepository(VisitorRepository visitorRepository) {
-       // this.visitorRepository = visitorRepository;
-   // }
+ 
     
     
     
@@ -194,9 +170,7 @@ public class AppointmentService {
         observers.add(o);
     }
 
-    //public void removeObserver(AppointmentObserver o) {
-       // observers.remove(o);
-   // }
+    
 
     private void notifyObservers(Appointment a, String eventType) {
         for (AppointmentObserver o : observers) {
