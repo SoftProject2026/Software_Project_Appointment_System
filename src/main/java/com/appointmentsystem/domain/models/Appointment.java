@@ -75,26 +75,13 @@ public class Appointment {
     
     public AppointmentType getType() { return type; }
     
-/**
- * Returns the type of this appointment.
- * @return the AppointmentType (URGENT, FOLLOW_UP, VIRTUAL, IN_PERSON, GROUP)
- */
-    //public AppointmentType getType() { return type; }
-    
     /**
      * Returns the current status of the appointment.
      * 
      * @return the AppointmentStatus (CONFIRMED, CANCELLED, COMPLETED)
      */
     public AppointmentStatus getStatus() { return status; }
-    
-    
-    /**
-     * Confirms the appointment by setting its status to CONFIRMED.
-     */
-    //public void confirm() {
-     //   this.status = AppointmentStatus.CONFIRMED;
-    //}
+   
     
     /**
      * Cancels the appointment by setting its status to CANCELLED.
@@ -103,12 +90,6 @@ public class Appointment {
         this.status = AppointmentStatus.CANCELLED;
     }
     
-    /**
-     * Marks the appointment as completed by setting its status to COMPLETED.
-     */
-    //public void complete() {
-      //  this.status = AppointmentStatus.COMPLETED;
-   // }
     
     /**
      *Checks if the appointment is scheduled for a future time.
