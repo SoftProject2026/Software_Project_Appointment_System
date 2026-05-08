@@ -283,4 +283,8 @@ public class VisitorService {
         if (email.startsWith("@") || email.endsWith("@")) return false;
         return true;
     }
+    
+    public AppointmentService getAppointmentService() {
+        return appointmentService;
+    }
 }

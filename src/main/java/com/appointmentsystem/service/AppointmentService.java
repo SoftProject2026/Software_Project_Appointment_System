@@ -15,6 +15,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.stream.Collectors;
 /**
  * @author Tala Khraim
@@ -29,7 +30,7 @@ public class AppointmentService {
     private PropertyRepository propertyRepository;
     private VisitorRepository visitorRepository;
     private List<AppointmentObserver> observers = new ArrayList<>();
-    
+     
     private EmailService emailService;
     
     public AppointmentService() {
@@ -202,5 +203,9 @@ public class AppointmentService {
         }
     }
 
+    
+    public List<AppointmentObserver> getObservers() {
+        return observers;
+    }
     
 }

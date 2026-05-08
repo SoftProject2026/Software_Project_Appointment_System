@@ -71,4 +71,6 @@ class VisitorTest {
         assertNotEquals(visitor.getEmail(), visitor2.getEmail());
         assertNotEquals(visitor.getPassword(), visitor2.getPassword());
     }
+    
+    
 }

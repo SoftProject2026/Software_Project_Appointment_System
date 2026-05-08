@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -288,4 +290,63 @@ class TestVisitorService {
         verify(appointmentservice, never()).modifyAppointment(any(), any());
         verifyNoMoreInteractions(scanner);
     }
+    
+    @Test
+    void testEmailObserverIsRegistered() {
+
+        VisitorService service = new VisitorService();
+
+        AppointmentService appointmentService =
+                service.getAppointmentService();
+
+        List<AppointmentObserver> observers =
+                appointmentService.getObservers();
+
+        assertFalse(observers.isEmpty());
+
+        assertTrue(
+            observers.get(0) instanceof EmailNotifier
+        );
+    }
+    
+    @Test
+    void testLogoutWithVisitor() {
+
+        ByteArrayOutputStream output =
+                new ByteArrayOutputStream();
+
+        System.setOut(new PrintStream(output));
+
+
+        visitorservice.logout(mockVisitor);
+
+        String result = output.toString();
+
+        assertTrue(
+            result.contains(
+                "Goodbye, Alaa! You have been logged out successfully."
+            )
+        );
+    }
+    
+    @Test
+    void testLogoutWithNullVisitor() {
+
+        ByteArrayOutputStream output =
+                new ByteArrayOutputStream();
+
+        System.setOut(new PrintStream(output));
+
+
+        visitorservice.logout(null);
+
+        String result = output.toString();
+
+        assertTrue(
+            result.contains(
+                "No user is currently logged in."
+            )
+        );
+    }
+    
 }
