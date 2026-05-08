@@ -45,7 +45,7 @@ public class AppointmentService {
         this.emailService = new EmailService(username, password);
     }
     
-    public AppointmentService(AppointmentRepository appointmentRepository, PropertyRepository propertyRepository) {
+    /*public AppointmentService(AppointmentRepository appointmentRepository, PropertyRepository propertyRepository) {
         this.appointmentRepository = appointmentRepository;
         this.propertyRepository = propertyRepository;
         this.visitorRepository = new VisitorRepository();
@@ -56,6 +56,7 @@ public class AppointmentService {
         
         this.emailService = new EmailService(username, password);
     }
+    */
     
     
     public AppointmentService(AppointmentRepository appointmentRepository, 
