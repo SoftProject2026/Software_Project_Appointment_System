@@ -11,6 +11,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +56,8 @@ class testAppointmentService {
     private TimeSlot mockSlot;
     private VisitorRepository mockVisitorRepository;
     private EmailService mockEmailService;
-    
+    private ByteArrayOutputStream outputStream;
+    private PrintStream originalOut;
 
 
 
@@ -90,6 +93,10 @@ class testAppointmentService {
         when(mockAppointment.isFuture()).thenReturn(true);
         when(mockAppointment.getSlot()).thenReturn(mockSlot);
         when(mockAppointmentRepository.findById("app123")).thenReturn(mockAppointment);
+        originalOut = System.out;
+        outputStream = new ByteArrayOutputStream();
+        
+        System.setOut(new PrintStream(outputStream));
     }
 
 
@@ -595,7 +602,39 @@ class testAppointmentService {
         }
     }
     
-    
+    @Test
+    void testViewAllAppointments_WhenNoAppointments_ShouldPrintNoAppointments() {
+        when(mockAppointmentRepository.findAll()).thenReturn(List.of());
+        
+        appointmentService.viewAllAppointments();
+        
+        String output = outputStream.toString();
+        assertTrue(output.contains("No appointments"));
+        verify(mockAppointmentRepository).findAll();
+    }
+
+    @Test
+    void testViewAllAppointments_WithAppointments_ShouldPrintAllWithIndexes() {
+        Appointment app1 = mock(Appointment.class);
+        Appointment app2 = mock(Appointment.class);
+        
+        when(app1.toString()).thenReturn("First Appointment");
+        when(app2.toString()).thenReturn("Second Appointment");
+        when(mockAppointmentRepository.findAll()).thenReturn(List.of(app1, app2));
+        
+        appointmentService.viewAllAppointments();
+        
+        String output = outputStream.toString();
+        assertTrue(output.contains("0. First Appointment"));
+        assertTrue(output.contains("1. Second Appointment"));
+    }
+
+    @Test
+    void testViewAllAppointments_ShouldNotThrowException() {
+        when(mockAppointmentRepository.findAll()).thenReturn(List.of());
+        
+        assertDoesNotThrow(() -> appointmentService.viewAllAppointments());
+    }  
 
     
     

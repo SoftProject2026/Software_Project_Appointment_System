@@ -68,10 +68,10 @@ public class AppointmentService {
     }
     
     
-	public AppointmentService(AppointmentRepository appointmentRepository) {
-		this.appointmentRepository = appointmentRepository;
+	//public AppointmentService(AppointmentRepository appointmentRepository) {
+		//this.appointmentRepository = appointmentRepository;
 
-	}
+	//}
 
 	public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
@@ -165,13 +165,13 @@ public class AppointmentService {
         return appointment;
     }
     
-    public void setEmailService(EmailService emailService) {
-        this.emailService = emailService;
-    }
+   // public void setEmailService(EmailService emailService) {
+      //  this.emailService = emailService;
+    //}
     
-    public void setVisitorRepository(VisitorRepository visitorRepository) {
-        this.visitorRepository = visitorRepository;
-    }
+    //public void setVisitorRepository(VisitorRepository visitorRepository) {
+       // this.visitorRepository = visitorRepository;
+   // }
     
     
     
@@ -192,9 +192,9 @@ public class AppointmentService {
         observers.add(o);
     }
 
-    public void removeObserver(AppointmentObserver o) {
-        observers.remove(o);
-    }
+    //public void removeObserver(AppointmentObserver o) {
+       // observers.remove(o);
+   // }
 
     private void notifyObservers(Appointment a, String eventType) {
         for (AppointmentObserver o : observers) {
