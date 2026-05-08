@@ -26,7 +26,6 @@ class PropertyTest {
         mockTimeSlot = mock(TimeSlot.class);
     }
     
-    // 1. اختبار إنشاء العقار
     @Test
     void testConstructor_ShouldCreatePropertyCorrectly() {
         assertEquals("prop-123", property.getId());
@@ -38,21 +37,18 @@ class PropertyTest {
         //assertEquals("123 Main Street", property.getAddress());
     }
     
-    // 2. اختبار إضافة وقت متاح
     @Test
     void testAddTimeSlot_ShouldAddSlotToList() {
         property.addTimeSlot(mockTimeSlot);
         assertEquals(1, property.getTimeSlots().size());
     }
     
-    // 3. اختبار إضافة وقت null لا يسبب مشكلة
     @Test
     void testAddTimeSlot_WithNull_ShouldNotAdd() {
         property.addTimeSlot(null);
         assertEquals(0, property.getTimeSlots().size());
     }
     
-    // 4. اختبار إضافة عدة مواعيد
     @Test
     void testAddMultipleTimeSlots_ShouldAddAll() {
         TimeSlot slot2 = mock(TimeSlot.class);
@@ -63,7 +59,6 @@ class PropertyTest {
         assertEquals(2, property.getTimeSlots().size());
     }
     
-    // 5. اختبار الحصول على المواعيد المتاحة فقط
     @Test
     void testGetAvailableSlots_ShouldReturnOnlyAvailableSlots() {
         TimeSlot availableSlot = mock(TimeSlot.class);
@@ -92,28 +87,24 @@ class PropertyTest {
         assertTrue(availableSlots.isEmpty());
     }
     
-    // 7. اختبار تعديل ID العقار
     @Test
     void testSetId_ShouldUpdateId() {
         property.setId("new-prop-id");
         assertEquals("new-prop-id", property.getId());
     }
     
-    // 8. اختبار تعديل Company ID
     @Test
     void testSetCompanyId_ShouldUpdateCompanyId() {
         property.setCompanyId("new-company-id");
         assertEquals("new-company-id", property.getCompanyId());
     }
     
-    // 9. اختبار تعديل نوع العقار
     @Test
     void testSetType_ShouldUpdateType() {
         property.setType(PropertyType.VILLA);
         assertEquals(PropertyType.VILLA, property.getType());
     }
     
-    // 10. اختبار نص العقار
     @Test
     void testToString_ShouldReturnFormattedString() {
         String result = property.toString();

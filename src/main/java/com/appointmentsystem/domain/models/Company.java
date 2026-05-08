@@ -57,13 +57,14 @@ public class Company{
     
 
     public Company() {
-    	this.id = "";
-		this.companyName = "";
-		this.username = "";
-		this.email = "";
-		this.password = "";
-		this.commercialRegister = "";
-		this.isVerified = false;	}
+        this.id = null;
+        this.companyName = null;
+        this.username = null;
+        this.email = null;
+        this.password = null;
+        this.commercialRegister = null;
+        this.isVerified = false;
+    }
 
 	public String getId() { return id; }
 
