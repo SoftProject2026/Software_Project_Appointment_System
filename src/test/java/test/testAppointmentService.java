@@ -31,6 +31,7 @@ import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.persistence.VisitorRepository;
 import com.appointmentsystem.service.AppointmentService;
+import com.appointmentsystem.service.EmailNotifier;
 import com.appointmentsystem.service.EmailService;
 import com.appointmentsystem.service.PropertyService;
 
@@ -242,9 +243,12 @@ class testAppointmentService {
         VisitorRepository mockVisitorRepo = mock(VisitorRepository.class);
         Visitor mockVisitor = mock(Visitor.class);
 
-        appointmentService.setEmailService(mockEmailService);
-        appointmentService.setVisitorRepository(mockVisitorRepo);
-
+        //appointmentService.setEmailService(mockEmailService);
+        //appointmentService.setVisitorRepository(mockVisitorRepo);
+        appointmentService.addObserver(
+        	    new EmailNotifier(mockEmailService, mockVisitorRepo)
+        	);
+        
         when(mockVisitor.getEmail()).thenReturn("visitor@example.com");
         when(mockVisitorRepo.findById("v1")).thenReturn(mockVisitor);
 
@@ -255,7 +259,7 @@ class testAppointmentService {
 
         
         verify(mockEmailService, times(1))
-            .sendEmail(eq("visitor@example.com"), eq("Appointment Confirmation"), any());
+            .sendEmail(eq("visitor@example.com"), eq("Appointment BOOKED"), any());
     }
     
     /////

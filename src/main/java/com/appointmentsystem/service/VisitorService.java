@@ -9,6 +9,9 @@ import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.VisitorRepository;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.CompanyRepository;
 
@@ -57,13 +60,24 @@ public class VisitorService {
 
 
 
-	public VisitorService() {
-		this.visitorRepository = new VisitorRepository();
-		this.propertyService = new PropertyService();
-		this.appointmentService = new AppointmentService();
-		this.companyRepository = new CompanyRepository();
-		this.scanner = new Scanner(System.in);
-	}
+    public VisitorService() {
+        this.visitorRepository = new VisitorRepository();
+        this.propertyService = new PropertyService();
+        this.appointmentService = new AppointmentService();
+        this.companyRepository = new CompanyRepository();
+        this.scanner = new Scanner(System.in);
+
+        Dotenv dotenv = Dotenv.load();
+
+        EmailService emailService = new EmailService(
+                dotenv.get("EMAIL_USERNAME"),
+                dotenv.get("EMAIL_PASSWORD")
+        );
+
+        this.appointmentService.addObserver(
+                new EmailNotifier(emailService, visitorRepository)
+        );
+    }
 
 	public void signup(Visitor v) {
 

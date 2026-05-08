@@ -13,7 +13,7 @@ import com.appointmentsystem.persistence.VisitorRepository;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -28,6 +28,7 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     private PropertyRepository propertyRepository;
     private VisitorRepository visitorRepository;
+    private List<AppointmentObserver> observers = new ArrayList<>();
     
     private EmailService emailService;
     
@@ -113,8 +114,9 @@ public class AppointmentService {
         appointment.cancel();
         appointment.getSlot().setAvailable(true);
         appointmentRepository.update(appointment);
+        notifyObservers(appointment, "CANCELLED");
     }
-    
+   
     
     public List<Appointment> getUpcomingAppointments() {
         return getAllAppointments().stream()
@@ -142,6 +144,7 @@ public class AppointmentService {
         app.setSlot(newSlot);
         newSlot.setAvailable(false);
         appointmentRepository.update(app);
+        notifyObservers(app, "MODIFIED");
     }
     
     
@@ -158,11 +161,7 @@ public class AppointmentService {
         slot.setAvailable(false);
         appointmentRepository.save(appointment);
         
-        String subject = "Appointment Confirmation";
-        String body = "Your appointment has been booked successfully.";
-        Visitor v = visitorRepository.findById(visitorId);
-        emailService.sendEmail(v.getEmail(), subject, body);
-        
+        notifyObservers(appointment, "BOOKED");
         return appointment;
     }
     
@@ -186,6 +185,20 @@ public class AppointmentService {
 
         for (int i = 0; i < apps.size(); i++) {
             System.out.println(i + ". " + apps.get(i));
+        }
+    }
+    
+    public void addObserver(AppointmentObserver o) {
+        observers.add(o);
+    }
+
+    public void removeObserver(AppointmentObserver o) {
+        observers.remove(o);
+    }
+
+    private void notifyObservers(Appointment a, String eventType) {
+        for (AppointmentObserver o : observers) {
+            o.update(a, eventType);
         }
     }
 

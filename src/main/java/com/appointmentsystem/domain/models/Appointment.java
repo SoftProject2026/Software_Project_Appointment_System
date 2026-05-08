@@ -73,13 +73,13 @@ public class Appointment {
      */
     public String getVisitorId() { return visitorId; }
     
-    
+    public AppointmentType getType() { return type; }
     
 /**
  * Returns the type of this appointment.
  * @return the AppointmentType (URGENT, FOLLOW_UP, VIRTUAL, IN_PERSON, GROUP)
  */
-    public AppointmentType getType() { return type; }
+    //public AppointmentType getType() { return type; }
     
     /**
      * Returns the current status of the appointment.
@@ -92,9 +92,9 @@ public class Appointment {
     /**
      * Confirms the appointment by setting its status to CONFIRMED.
      */
-    public void confirm() {
-        this.status = AppointmentStatus.CONFIRMED;
-    }
+    //public void confirm() {
+     //   this.status = AppointmentStatus.CONFIRMED;
+    //}
     
     /**
      * Cancels the appointment by setting its status to CANCELLED.
@@ -106,9 +106,9 @@ public class Appointment {
     /**
      * Marks the appointment as completed by setting its status to COMPLETED.
      */
-    public void complete() {
-        this.status = AppointmentStatus.COMPLETED;
-    }
+    //public void complete() {
+      //  this.status = AppointmentStatus.COMPLETED;
+   // }
     
     /**
      *Checks if the appointment is scheduled for a future time.
