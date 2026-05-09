@@ -1,3 +1,4 @@
+
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -286,7 +287,7 @@ class testAppointmentService {
     /**
      * Tests get appointment by ID - found
      */
-    @Test
+   /* @Test
     void testGetAppointmentById_Found() {
         when(mockAppointmentRepository.findById("app123")).thenReturn(mockAppointment);
         
@@ -295,12 +296,12 @@ class testAppointmentService {
         assertNotNull(result);
         assertEquals(mockAppointment, result);
         verify(mockAppointmentRepository).findById("app123");
-    }
+    }*/
     
     /**
      * Tests get appointment by ID - not found
      */
-    @Test
+   /* @Test
     void testGetAppointmentById_NotFound() {
         when(mockAppointmentRepository.findById("app999")).thenReturn(null);
         
@@ -308,14 +309,14 @@ class testAppointmentService {
         
         assertNull(result);
         verify(mockAppointmentRepository).findById("app999");
-    }
+    }*/
 
     
     
     /**
      * Tests get upcoming appointments - with future confirmed appointments
      */
-    @Test
+   /* @Test
     void testGetUpcomingAppointments_WithFutureAndConfirmed() {
         Appointment futureConfirmed = mock(Appointment.class);
         when(futureConfirmed.isFuture()).thenReturn(true);
@@ -337,12 +338,12 @@ class testAppointmentService {
         assertEquals(1, result.size());
         assertEquals(futureConfirmed, result.get(0));
         verify(mockAppointmentRepository).findAll();
-    }
+    }*/
     
     /**
      * Tests get upcoming appointments - empty list
      */
-    @Test
+    /*@Test
     void testGetUpcomingAppointments_EmptyList() {
         when(mockAppointmentRepository.findAll()).thenReturn(Arrays.asList());
         
@@ -350,12 +351,12 @@ class testAppointmentService {
         
         assertTrue(result.isEmpty());
         verify(mockAppointmentRepository).findAll();
-    }
+    }*/
     
     /**
      * Tests get upcoming appointments - no future appointments
      */
-    @Test
+   /* @Test
     void testGetUpcomingAppointments_NoFutureAppointments() {
         Appointment pastAppointment = mock(Appointment.class);
         when(pastAppointment.isFuture()).thenReturn(false);
@@ -366,7 +367,7 @@ class testAppointmentService {
         List<Appointment> result = appointmentService.getUpcomingAppointments();
         
         assertTrue(result.isEmpty());
-    }
+    }*/
 
     
     
@@ -736,6 +737,7 @@ class testAppointmentService {
         appointmentService.bookAppointment("p1", "v1", slot, AppointmentType.IN_PERSON)
         );
     }
+    
     
     
    

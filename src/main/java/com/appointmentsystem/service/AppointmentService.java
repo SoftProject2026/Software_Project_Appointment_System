@@ -47,9 +47,9 @@ public class AppointmentService {
     
     
 
-	public Appointment getAppointmentById(String id) {
+	/*public Appointment getAppointmentById(String id) {
         return appointmentRepository.findById(id);
-    }
+    }*/
     
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
@@ -92,11 +92,11 @@ public class AppointmentService {
     }
    
     
-    public List<Appointment> getUpcomingAppointments() {
+    /*public List<Appointment> getUpcomingAppointments() {
         return getAllAppointments().stream()
                 .filter(a -> a.isFuture() && a.getStatus() == AppointmentStatus.CONFIRMED)
                 .collect(Collectors.toList());
-    }
+    }*/
     
     
     
