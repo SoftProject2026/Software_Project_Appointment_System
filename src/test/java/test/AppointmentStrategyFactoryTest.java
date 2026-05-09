@@ -62,6 +62,19 @@ public class AppointmentStrategyFactoryTest {
 
         assertTrue(strategy instanceof GroupStrategy);
     }
+    @Test
+    void testInvalidTypeThrowsException() {
+        assertThrows(NullPointerException.class, () ->
+            AppointmentStrategyFactory.getStrategy(null)
+        );
+    }
     
+    @Test
+    void testAllTypesNotNull() {
+        for (AppointmentType type : AppointmentType.values()) {
+            AppointmentStrategy strategy = AppointmentStrategyFactory.getStrategy(type);
+            assertNotNull(strategy);
+        }
+    }
    
 }
