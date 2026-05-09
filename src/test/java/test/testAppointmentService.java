@@ -53,7 +53,7 @@ class AppointmentServiceTest {
         System.setOut(System.out);
     }
 
-    // ================= BOOK =================
+   
 
     @Test
     void testBookAppointment_success() {
@@ -80,7 +80,6 @@ class AppointmentServiceTest {
             () -> service.bookAppointment("p1", "v1", slot, AppointmentType.IN_PERSON));
     }
 
-    // ================= CANCEL =================
 
     @Test
     void testCancelAppointment_success() {
@@ -115,7 +114,6 @@ class AppointmentServiceTest {
             () -> service.cancelAppointment("1"));
     }
 
-    // ================= MODIFY =================
 
     @Test
     void testModify_success() {
@@ -158,7 +156,6 @@ class AppointmentServiceTest {
             () -> service.modifyAppointment("1", slot));
     }
 
-    // ================= VIEW COMPANY =================
 
     @Test
     void testViewCompanyAppointments_found() {
@@ -201,7 +198,6 @@ class AppointmentServiceTest {
         assertTrue(out.toString().contains("0. A1"));
     }
 
-    // ================= OBSERVER =================
 
     @Test
     void testObserver_added() {
