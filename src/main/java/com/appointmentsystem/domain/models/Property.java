@@ -105,7 +105,6 @@ public class Property {
     public void setType(PropertyType type) { this.type = type; }
     
 
-   // public void setAddress(String address) { this.address = address; }
 
     @Override
     public String toString() {
