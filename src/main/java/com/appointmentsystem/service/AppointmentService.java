@@ -39,9 +39,7 @@ public class AppointmentService {
     
     
     public AppointmentService(AppointmentRepository appointmentRepository, 
-            PropertyRepository propertyRepository, 
-            VisitorRepository visitorRepository,
-            EmailService emailService) {
+            PropertyRepository propertyRepository) {
 			this.appointmentRepository = appointmentRepository;
 			this.propertyRepository = propertyRepository;
 			

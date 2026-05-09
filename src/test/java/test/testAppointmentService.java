@@ -79,9 +79,7 @@ class testAppointmentService {
         
         appointmentService = new AppointmentService(
             mockAppointmentRepository,
-            mockPropertyRepository, 
-            mockVisitorRepository,
-            mockEmailService
+            mockPropertyRepository
         );
         
        
