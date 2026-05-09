@@ -739,6 +739,12 @@ class testAppointmentService {
     }
     
     
-    
+    @Test
+    void testDefaultConstructor_Initialization() {
+        AppointmentService service = new AppointmentService();
+
+        assertNotNull(service);
+
+    } 
    
 }
