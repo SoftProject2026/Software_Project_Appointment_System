@@ -3,6 +3,10 @@ package com.appointmentsystem.service;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 
 public class AppointmentStrategyFactory {
+	
+	private AppointmentStrategyFactory() {
+        throw new UnsupportedOperationException("Utility class");
+    }
 
     public static AppointmentStrategy
     getStrategy(AppointmentType type) {

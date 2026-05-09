@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -105,7 +105,11 @@ class testAppointmentService {
         when(mockAppointment.getType())
         .thenReturn(AppointmentType.IN_PERSON);
     }
-
+    
+    @AfterEach
+    void tearDown() {
+        System.setOut(originalOut);
+    }
 
 
     /**
