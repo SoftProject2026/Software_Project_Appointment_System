@@ -739,6 +739,18 @@ class testAppointmentService {
         );
     }
     
-    
+    @Test
+    void testGetAppointmentById_NullId() {
+        Exception ex = assertThrows(IllegalArgumentException.class, () ->
+            appointmentService.getAppointmentById(null));
+        assertEquals("ID cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testGetAppointmentById_EmptyId() {
+        Exception ex = assertThrows(IllegalArgumentException.class, () ->
+            appointmentService.getAppointmentById(""));
+        assertEquals("ID cannot be null or empty", ex.getMessage());
+    }
    
 }
