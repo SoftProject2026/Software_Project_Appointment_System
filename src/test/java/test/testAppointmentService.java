@@ -719,12 +719,28 @@ class testAppointmentService {
     }
     
     @Test
-    void testInvalidStrategy() {
-
-        Exception ex = assertThrows(
-            NullPointerException.class,
-            () -> AppointmentStrategyFactory.getStrategy(null)
+    void testInvalidTypeThrowsException() {
+        assertThrows(NullPointerException.class, () ->
+            AppointmentStrategyFactory.getStrategy(null)
         );
     }
+    
+    @Test
+    void testBookAppointment_nullSlot() {
+        assertThrows(IllegalArgumentException.class, () ->
+        appointmentService.bookAppointment("p1", "v1", null, AppointmentType.IN_PERSON)
+        );
+    }
+
+    @Test
+    void testBookAppointment_slotNotAvailable() {
+        when(mockSlot.isAvailable()).thenReturn(false);
+
+        assertThrows(IllegalStateException.class, () ->
+        appointmentService.bookAppointment("p1", "v1", mockSlot, AppointmentType.IN_PERSON)
+        );
+    }
+    
+    
    
 }
