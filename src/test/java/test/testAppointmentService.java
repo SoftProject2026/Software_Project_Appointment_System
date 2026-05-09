@@ -30,7 +30,9 @@ import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
 import com.appointmentsystem.persistence.VisitorRepository;
+import com.appointmentsystem.service.AppointmentObserver;
 import com.appointmentsystem.service.AppointmentService;
+import com.appointmentsystem.service.AppointmentStrategyFactory;
 import com.appointmentsystem.service.EmailNotifier;
 import com.appointmentsystem.service.EmailService;
 
@@ -56,6 +58,8 @@ class testAppointmentService {
     private EmailService mockEmailService;
     private ByteArrayOutputStream outputStream;
     private PrintStream originalOut;
+    private AppointmentObserver observer;
+    private EmailNotifier notifier;
 
 
 
@@ -69,6 +73,8 @@ class testAppointmentService {
         mockEmailService = mock(EmailService.class);
         mockAppointment = mock(Appointment.class);
         mockSlot = mock(TimeSlot.class);
+        observer = mock(AppointmentObserver.class);
+        notifier = new EmailNotifier(mockEmailService, mockVisitorRepository);
         
         
         appointmentService = new AppointmentService(
@@ -95,6 +101,9 @@ class testAppointmentService {
         outputStream = new ByteArrayOutputStream();
         
         System.setOut(new PrintStream(outputStream));
+        when(mockSlot.isAvailable()).thenReturn(true);
+        when(mockAppointment.getType())
+        .thenReturn(AppointmentType.IN_PERSON);
     }
 
 
@@ -634,33 +643,84 @@ class testAppointmentService {
         assertDoesNotThrow(() -> appointmentService.viewAllAppointments());
     }  
 
+    @Test
+    void testDefaultConstructor() {
+        AppointmentService service = new AppointmentService();
+        assertNotNull(service);
+    }
     
+    @Test
+    void testAddObserver() {
+        
+
+        appointmentService.addObserver(observer);
+
+        assertEquals(1, appointmentService.getObservers().size());
+    }
     
-   /* @Test
-    void testViewCompanyAppointments_WithAppointments() {
-        // Arrange
-        Appointment appointment1 = createAppointment("app1", "property1");
-        Appointment appointment2 = createAppointment("app2", "property2");
-        List<Appointment> allAppointments = Arrays.asList(appointment1, appointment2);
+    @Test
+    void testNotifyObserverOnBooking() {
+       
+
+        appointmentService.addObserver(observer);
+
         
-        Property property1 = createProperty("property1", "company123");
-        Property property2 = createProperty("property2", "company123");
+        appointmentService.bookAppointment(
+            "p1",
+            "v1",
+            mockSlot,
+            AppointmentType.IN_PERSON
+        );
+
+        verify(observer).update(any(), eq("BOOKED"));
+    }
+    @Test
+    void testUpdateVisitorNull() {
+       
+
+        when(mockAppointment.getVisitorId()).thenReturn("v1");
+        when(mockVisitorRepository.findById("v1")).thenReturn(null);
+
+        notifier.update(mockAppointment, "BOOKED");
+
+        verify(mockEmailService, never())
+            .sendEmail(any(), any(), any());
+    }
+    @Test
+    void testTimeSlotToString() {
+    	TimeSlot slot = new TimeSlot(LocalDateTime.now());
         
-        when(mockAppointmentRepository.findAll()).thenReturn(allAppointments);
-        when(mockPropertyRepository.findById("property1")).thenReturn(property1);
-        when(mockPropertyRepository.findById("property2")).thenReturn(property2);
-        
-        // Act
-        appointmentService.viewCompanyAppointments(mockCompany);
-        
-        // Assert
-        String output = outputStream.toString();
-        assertTrue(output.contains(appointment1.toString()));
-        assertTrue(output.contains(appointment2.toString()));
-        assertFalse(output.contains("No appointments"));
-        
-        verify(mockAppointmentRepository).findAll();
-        verify(mockPropertyRepository).findById("property1");
-        verify(mockPropertyRepository).findById("property2");
-    }*/
+        assertNotNull(slot.toString());
+    }
+    @Test
+    void testSetAvailable() {
+    	 TimeSlot slot = new TimeSlot(LocalDateTime.now());
+    	    slot.setAvailable(false);
+    	    assertFalse(slot.isAvailable());
+    }
+    
+    @Test
+    void testBookAppointmentWithoutObservers() {
+
+        TimeSlot slot = new TimeSlot(LocalDateTime.now().plusDays(1));
+
+        assertDoesNotThrow(() ->
+            appointmentService.bookAppointment(
+                "p1",
+                "v1",
+                slot,
+                AppointmentType.IN_PERSON
+            )
+        );
+    }
+    
+    @Test
+    void testInvalidStrategy() {
+
+        Exception ex = assertThrows(
+            NullPointerException.class,
+            () -> AppointmentStrategyFactory.getStrategy(null)
+        );
+    }
+   
 }
