@@ -44,4 +44,18 @@ public class TimeSlotTest {
 
         assertFalse(slot.isAvailable());
     }
+    
+    @Test
+    void testToString() {
+
+        LocalDateTime time =
+                LocalDateTime.of(2026, 5, 10, 14, 30);
+
+        TimeSlot slot = new TimeSlot(time);
+
+        assertEquals(
+            "2026-05-10 14:30",
+            slot.toString()
+        );
+    }
 }
