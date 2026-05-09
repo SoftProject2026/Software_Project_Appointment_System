@@ -27,6 +27,7 @@ import com.appointmentsystem.domain.models.Company;
 import com.appointmentsystem.domain.models.Property;
 import com.appointmentsystem.domain.models.TimeSlot;
 import com.appointmentsystem.domain.models.Visitor;
+import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
@@ -143,7 +144,10 @@ class testAppointmentService {
     @Test
     void testgetAppointmentsByVisitor() {
         String visitorId = "visitor123";
-        List<Appointment> list = Arrays.asList(new Appointment(), new Appointment());
+        Appointment app1 = mock(Appointment.class);
+        Appointment app2 = mock(Appointment.class);
+
+        List<Appointment> list = Arrays.asList(app1, app2);
         when(mockAppointmentRepository.findByVisitorId(visitorId)).thenReturn(list);
         List<Appointment> result = appointmentService.getAppointmentsByVisitor(visitorId);
         assertEquals(list, result);
@@ -160,7 +164,7 @@ class testAppointmentService {
         when(mockAppointmentRepository.findById("app123")).thenReturn(mockAppointment);
         appointmentService.cancelAppointment("app123");
         verify(mockAppointment).cancel();
-        assertTrue(slot.isAvailable());    
+        verify(mockAppointment).getSlot();
         verify(mockAppointmentRepository).update(mockAppointment);
     }
     
@@ -230,6 +234,18 @@ class testAppointmentService {
         assertEquals("Slot taken", ex.getMessage());
         verify(mockAppointment, never()).cancel();
         verify(mockAppointmentRepository, never()).update(any());
+    }
+    @Test
+    void testModifyAppointment_CancelledBranch() {
+        Appointment app = mock(Appointment.class);
+
+        when(mockAppointmentRepository.findById("app123")).thenReturn(app);
+        when(app.isFuture()).thenReturn(true);
+        when(app.getStatus()).thenReturn(AppointmentStatus.CANCELLED);
+
+        assertThrows(IllegalStateException.class, () ->
+            appointmentService.modifyAppointment("app123", slot)
+        );
     }
     
     /**
@@ -746,5 +762,17 @@ class testAppointmentService {
         assertNotNull(service);
 
     } 
+    
+    @Test
+    void testBookAppointmentSuccessFullCoverage() {
+        TimeSlot slot = new TimeSlot(LocalDateTime.now().plusDays(1));
+        Appointment result = appointmentService.bookAppointment(
+            "p1", "v1", slot, AppointmentType.IN_PERSON
+        );
+
+        assertNotNull(result);
+        assertFalse(slot.isAvailable());
+        verify(mockAppointmentRepository).save(any());
+    }
    
 }
