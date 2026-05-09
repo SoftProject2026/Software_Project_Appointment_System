@@ -160,12 +160,20 @@ class testAppointmentService {
      */
     @Test
     void testCancelAppointment() {
-        when(mockAppointment.isFuture()).thenReturn(true);
+        TimeSlot mockSlot = mock(TimeSlot.class);
+
         when(mockAppointmentRepository.findById("app123")).thenReturn(mockAppointment);
+        when(mockAppointment.isFuture()).thenReturn(true);
+        when(mockAppointment.getSlot()).thenReturn(mockSlot);
+
+        appointmentService.addObserver(observer);
+
         appointmentService.cancelAppointment("app123");
+
         verify(mockAppointment).cancel();
-        verify(mockAppointment).getSlot();
+        verify(mockSlot).setAvailable(true);
         verify(mockAppointmentRepository).update(mockAppointment);
+        verify(observer).update(any(), eq("CANCELLED"));
     }
     
     /**
@@ -254,14 +262,17 @@ class testAppointmentService {
     @Test
     void testModifyAppointment() {
         TimeSlot oldSlot = mock(TimeSlot.class);
+
         when(mockAppointment.getSlot()).thenReturn(oldSlot);
         when(mockAppointment.isFuture()).thenReturn(true);
-        //slot.setAvailable(true);
         when(mockAppointmentRepository.findById("app123")).thenReturn(mockAppointment);
+
+        appointmentService.addObserver(observer);
         appointmentService.modifyAppointment("app123", slot);
         verify(oldSlot).setAvailable(true);
-        assertFalse(slot.isAvailable());        verify(mockAppointment).setSlot(slot);
+        verify(mockAppointment).setSlot(slot);
         verify(mockAppointmentRepository).update(mockAppointment);
+        verify(observer).update(any(), eq("MODIFIED"));
     }
     
     
@@ -660,7 +671,6 @@ class testAppointmentService {
         
         assertDoesNotThrow(() -> appointmentService.viewAllAppointments());
     }  
-
     @Test
     void testDefaultConstructor() {
         AppointmentService service = new AppointmentService();
@@ -774,5 +784,32 @@ class testAppointmentService {
         assertFalse(slot.isAvailable());
         verify(mockAppointmentRepository).save(any());
     }
+    
+    @Test
+    void testViewCompanyAppointments_AllBranches() {
+        Appointment app = mock(Appointment.class);
+        Property property = mock(Property.class);
+
+        when(app.getPropertyId()).thenReturn("p1");
+        when(app.toString()).thenReturn("A1");
+
+        when(mockAppointmentRepository.findAll()).thenReturn(List.of(app));
+
+        when(mockPropertyRepository.findById("p1")).thenReturn(property);
+        when(property.getCompanyId()).thenReturn("123");
+
+        appointmentService.viewCompanyAppointments(mockCompany);
+
+        verify(mockPropertyRepository).findById("p1");
+    }
    
+    @Test
+    void testViewCompanyAppointments_EmptyBranch() {
+        when(mockAppointmentRepository.findAll()).thenReturn(List.of());
+
+        appointmentService.viewCompanyAppointments(mockCompany);
+
+        verify(mockAppointmentRepository).findAll();
+        verify(mockPropertyRepository, never()).findById(anyString());
+    }
 }

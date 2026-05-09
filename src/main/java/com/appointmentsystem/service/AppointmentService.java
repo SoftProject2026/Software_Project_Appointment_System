@@ -9,13 +9,11 @@ import com.appointmentsystem.domain.models.enums.AppointmentStatus;
 import com.appointmentsystem.domain.models.enums.AppointmentType;
 import com.appointmentsystem.persistence.AppointmentRepository;
 import com.appointmentsystem.persistence.PropertyRepository;
-import com.appointmentsystem.persistence.VisitorRepository;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.stream.Collectors;
 /**
  * @author Tala Khraim
  * @author Sara Sawalha
