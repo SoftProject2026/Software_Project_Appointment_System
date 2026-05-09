@@ -88,11 +88,7 @@ public class AppointmentService {
     }
    
     
-    /*public List<Appointment> getUpcomingAppointments() {
-        return getAllAppointments().stream()
-                .filter(a -> a.isFuture() && a.getStatus() == AppointmentStatus.CONFIRMED)
-                .collect(Collectors.toList());
-    }*/
+
     
     
     
