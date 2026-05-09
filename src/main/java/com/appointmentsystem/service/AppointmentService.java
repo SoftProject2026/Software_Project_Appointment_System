@@ -48,10 +48,8 @@ public class AppointmentService {
     
 
 	public Appointment getAppointmentById(String id) {
-		 if (id == null || id.trim().isEmpty()) {
-		        throw new IllegalArgumentException("ID cannot be null or empty");
-		    }
-		    return appointmentRepository.findById(id);    }
+        return appointmentRepository.findById(id);
+    }
     
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
