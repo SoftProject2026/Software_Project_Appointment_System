@@ -64,15 +64,7 @@ class TestAdminService {
 
 	
 	}
-	
-/*
-	@Test
-	void testLogout() {
-		when(adminRepository.getAdmin()).thenReturn(mockAdmin);
-		adminService.logout();
-		verify(mockAdmin).logout();
-		verify(adminRepository).update(mockAdmin);
-*/
+
 	
 
 }
