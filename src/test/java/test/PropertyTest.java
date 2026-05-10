@@ -31,10 +31,6 @@ class PropertyTest {
         assertEquals("prop-123", property.getId());
         assertEquals("comp-456", property.getCompanyId());
         assertEquals(PropertyType.APARTMENT, property.getType());
-        //assertEquals(500.0, property.getPrice());
-        //assertEquals(120.5, property.getArea());
-        //assertEquals(3, property.getRoomsNumber());
-        //assertEquals("123 Main Street", property.getAddress());
     }
     
     @Test
@@ -76,7 +72,6 @@ class PropertyTest {
         assertEquals(availableSlot, availableSlots.get(0));
     }
     
-    // 6. اختبار عدم وجود مواعيد متاحة
     @Test
     void testGetAvailableSlots_WhenNoAvailableSlots_ShouldReturnEmpty() {
         when(mockTimeSlot.isAvailable()).thenReturn(false);
