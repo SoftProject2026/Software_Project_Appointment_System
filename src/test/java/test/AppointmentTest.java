@@ -1,7 +1,5 @@
 package test;
 
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -36,7 +34,6 @@ class AppointmentTest {
         assertEquals(mockTimeSlot, appointment.getSlot());
     }
     
-    // 2. اختبار تعديل الوقت
     @Test
     void testSetSlot_ShouldUpdateTimeSlot() {
         TimeSlot newSlot = mock(TimeSlot.class);
