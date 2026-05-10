@@ -184,7 +184,6 @@ class AppointmentServiceTest {
         assertTrue(out.toString().contains("No appointments"));
     }
 
-    // ================= VIEW ALL =================
 
     @Test
     void testViewAllAppointments() {
